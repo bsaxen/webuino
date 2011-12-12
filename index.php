@@ -8,6 +8,7 @@
 </head> 
 <body>
 <?
+include("webuino_lib.php");
 include("webuino.php");
 
 ?>
