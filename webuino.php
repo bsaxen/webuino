@@ -1,56 +1,156 @@
 <?
+session_start();
 
 define('T_UPLOAD_SKETCH','Upload Sketch');
+define('T_CONFIG','Configuration');
+define('T_RUN_TARGET','Run to');
 
+$curSimLen = $_SESSION['cur_sim_len'];
+$curSketch = $_SESSION['cur_sketch'];
+$curStep   = $_SESSION['cur_step'];
 
-
-
+$file = $servuino.'data.su';
+readSimulation($file);
 
 // Open database
 //$pswd  = MYSQL_PSWD;
 //$dbCon = openDatabase('proj3','root',$pswd);
 // GET ==============================================
 
-$temp = $_GET['a4_object_id'];
-if($temp)
-  {
-    $sel_object = $temp;
-    $sel_name   = getObjectName($sel_db,$sel_object);
-  }
+$action    = $_GET['ac'];
 
+if($action == 'load')
+{
+   $file = $upload.$curSketch;
+   copySketch($file);
+   compileSketch();
+}
 
+if($action == 'run' && $curSimLen > 0)
+{
+   execSketch($curSimLen,0);
+   $file = $servuino.'data.su';
+   readSimulation($file);
+}
+
+if($action == 'step')
+{
+   $target = $_GET['x'];
+   if($target == 0) $curStep++;
+}
+
+if($action == 'reset')
+{
+   $curStep = 0;
+}
+
+//==================================================
+function copySketch($sketch)
+{
+  global $upload;
+  if (!copy($sketch,"servuino/sketch.pde")) {
+    echo "failed to copy ($sketch)...<br>";
+}
+}
+
+function compileSketch()
+{
+  system("cd servuino;g++ -o servuino servuino.c > g++.error 2>&1;");
+}
+
+function execSketch($steps,$source)
+{
+ system("cd servuino;./servuino $steps $source >exec.error 2>&1;");
+}
 // POST =============================================
 if ($_SERVER['REQUEST_METHOD'] == "POST")
   {
     $action = $_POST['action'];
     
-    if($action == 'upload_sketch' )
+    if($action == 'all_sketch' )
       {
-	$steps = $_POST['steps'];
-	//echo("Uploading $sketchFile<br>");
 	$fil = uploadFile();
-	//echo("fil = $fil <br>");
-	system("pwd;cp $fil servuino/sketch.pde;");
-	system("cd servuino;g++ -o servuino servuino.c;");
-	system("cd servuino;./servuino $steps 0;");
+        copySketch($fil);
+        compileSketch();
+        execSketch($curSimLen,0);
       }
+    if($action == 'upload_sketch' )
+       {
+         $fil = uploadFile();
+       }
+
+    if($action == 'set_configuration' )
+      {
+        $curSimLen = $_POST['sim_len'];
+        $curSketch = $_POST['sketch'];
+      }
+
+    if($action == 'run_target' )
+      {
+        $targetStep = $_POST['target_step'];
+        runTarget($targetStep);
+      }
+
+
   }
 
+        $_SESSION['cur_step'] = $curStep;
+        $_SESSION['cur_sim_len'] = $curSimLen;
+        $_SESSION['cur_sketch'] = $curSketch;
+
 //====================================================================
-// Upload Sketch
+// Presentation 
 //====================================================================
+echo("<div id=\"main\"  style=\"background-color:#009900\">");
+
+echo("<div id=error style=\" background:cornsilk; float:left; width:100%\">");
+$file = $servuino.'g++.error';
+showFile("g++ error",$file);
+$file = $servuino.'exec.error';
+showFile("Execution error",$file);
+echo("</div>"); // Error window
+
+// Status
+echo("<div id=status style=\" background:grey; float:left; width:50%\">");
+//echo("<img src=\"arduino_uno.jpg\" height=\"300\">");
+echo("<a href=\"index.php\"><img src=\"uno.jpg\" height=\"300\" style=\"border: none;\" alt=\"Shapes\" ismap=\"ismap\"/></a>");
+echo("</div>"); // status window
+
+echo("<div id=command style=\" background:blue; float:left; width:50%\">");
+echo("Sketch: $curSketch    Simulation: $curSimLen steps  Step: $curStep  Event: $simulation[$curStep]<br><br>");
+
 echo("<form name=\"upload_sketch\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\"> ");
 echo("<input type=\"hidden\" name=\"action\" value=\"upload_sketch\">");
-echo("Steps<input type=\"text\" name=\"steps\" value=\"\">");
 echo("<input type=\"file\" name=\"import_file\" value=\"\">"); 
 echo("<input type =\"submit\" name=\"submit_file\" value=\"".T_UPLOAD_SKETCH."\">");
 echo("</form>");
 
-showFile("data.su");
+echo("<form name=\"configuration\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\"> ");
+echo("<input type=\"hidden\" name=\"action\" value=\"set_configuration\">");
+echo("Simulation Length<input type=\"text\" name=\"sim_len\" value=\"$curSimLen\"><br>");
+system("ls upload > list.txt");
+formSelectFile("Sketch","sketch","list.txt");
+echo("<br><input type =\"submit\" name=\"submit_file\" value=\"".T_CONFIG."\">");
+echo("</form>");
 
-selectSketch();
+echo("<form name=\"target\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\"> ");
+echo("<input type=\"hidden\" name=\"action\" value=\"run_target\">");
+echo("<input type=\"text\" name=\"target_step\" value=\"$targetStep\"><br>");
+echo("<br><input type =\"submit\" name=\"submit_file\" value=\"".T_RUN_TARGET."\">");
+echo("</form>");
+
+echo("</div>"); // Command
+
+//echo("<div id=eventList align=\"right\" style=\" background:red; float:right; width:50%\">");
+echo("<div id=eventList style=\"float:right; border : solid 2px #ff0000; background : #000000; color : #ffffff; padding : 4px; width : 400px; height : 500px; overflow : auto; \">");
+runTarget($curSimLen);
+echo("</div>"); // eventList
 
 
+echo("<a href=index.php?ac=load>Load</a><br>");
+echo("<a href=index.php?ac=run>Run</a><br>");
+echo("<a href=index.php?ac=step&x=0>step</a><br>");
+echo("<a href=index.php?ac=reset>reset</a><br>");
 
-
+echo("</div>"); // Main
 ?>
