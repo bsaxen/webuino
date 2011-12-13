@@ -23,7 +23,7 @@ function runTarget($target)
      //show($ii);
      echo("<a href=index.php>$simulation[$ii]</a><br />");
   }
-  $curStep = $ii;
+  //$curStep = $ii;
 //echo("</div>");
 }
 function readSimulation($file)
@@ -133,7 +133,7 @@ function closeDatabase($link)
 function showFile($title,$file)
 //=======================================
 {
-  echo("===== $title ======<br>");
+  //echo("===== $title ======<br>");
   $in = fopen($file,"r");
   if($in)
   {
