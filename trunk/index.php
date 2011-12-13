@@ -6,7 +6,6 @@
 <title>Webuino</title>
 <script type="text/javascript" src="prototype.js"></script>
 </head> 
-<body>
 <?
 include("webuino_lib.php");
 include("webuino.php");

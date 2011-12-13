@@ -1,4 +1,76 @@
 <?
+$upload = 'upload/';
+$servuino = 'servuino/';
+
+$simulation = array();
+
+function show($step)
+{
+  global $simulation;
+  echo("$simulation[$step]<br>");
+}
+
+function runTarget($target)
+{
+  global $curStep;
+  global $simulation;
+
+
+//echo("<div style=\"border : solid 2px #ff0000; background : #000000; color : #ffffff; padding : 4px; width : 400px; height : 500px; overflow : auto; \">");
+
+  for($ii=$curStep;$ii<=$target;$ii++)
+  {
+     //show($ii);
+     echo("<a href=index.php>$simulation[$ii]</a><br />");
+  }
+  $curStep = $ii;
+//echo("</div>");
+}
+function readSimulation($file)
+{
+  global $simulation;
+
+  $step = 0;
+  $in = fopen($file,"r");
+  if($in)
+  {
+  while (!feof($in))
+    {
+      $row = fgets($in);
+     $row = trim($row);
+      if($row[0]=='+')
+       {
+          $step++;
+          $simulation[$step] = $row;
+          //echo("($step: $row) <-> $simulation[$step]<br>");
+       }
+    }
+  //echo("Total steps: $step<br>");
+  fclose($in);
+  }
+  else
+     echo("Fail to open $file<br>");
+}
+
+
+function formSelectFile($name,$fname,$file)
+{
+  $in = fopen($file,"r");
+  if($in)
+  {
+  echo("$name<select name=\"$fname\">");
+  while (!feof($in))
+    {
+      $row = fgets($in);
+      $row = trim($row);
+      echo("<option value=\"$row\">$row</option>");
+    }
+    echo("</select>");
+  fclose($in);
+  }
+  else
+    echo("Fail to open $file <br>");
+}
 
 function safeText($text)
 {
@@ -46,7 +118,7 @@ function openDatabase($db,$user,$secret)
     }
   else
     {
-      necho("Error openDatabase($db,$secret)<br>");
+      echo("Error openDatabase($db,$secret)<br>");
       return(0);
     }
 }
@@ -58,20 +130,24 @@ function closeDatabase($link)
   mysql_close($link);
 }
 //=======================================
-function showFile($fn)
+function showFile($title,$file)
 //=======================================
 {
-  $file = 'servuino/'.$fn;
-
-  $in = fopen($file,"r") or die("can't open file r: $file");
-  while (!feof($in)) 
+  echo("===== $title ======<br>");
+  $in = fopen($file,"r");
+  if($in)
+  {
+   while (!feof($in)) 
     {
       $row = fgets($in);
       echo($row);
       echo("<br>");
     }
-  fclose($in);
-
+   fclose($in);
+  }
+  else
+    echo("Fail to open $file<br>");
+  return;
 }
 //=======================================
 function uploadFile()
