@@ -102,22 +102,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 // Presentation 
 //====================================================================
 echo("<div id=\"main\"  style=\"background-color:#009900\">");
+echo("<div id=\"left\"  style=\"background-color:brown; float:left; width:50%\">");
 
-echo("<div id=error style=\" background:cornsilk; float:left; width:100%\">");
-$file = $servuino.'g++.error';
-showFile("g++ error",$file);
-$file = $servuino.'exec.error';
-showFile("Execution error",$file);
-echo("</div>"); // Error window
-
-// Status
-echo("<div id=status style=\" background:grey; float:left; width:50%\">");
+// Status start
+echo("<div id=status style=\" background:grey; float:left; width:100%\">");
 //echo("<img src=\"arduino_uno.jpg\" height=\"300\">");
-echo("<a href=\"index.php\"><img src=\"uno.jpg\" height=\"300\" style=\"border: none;\" alt=\"Shapes\" ismap=\"ismap\"/></a>");
-echo("</div>"); // status window
+echo("<a href=\"index.php\"><img src=\"arduino_uno.jpg\" height=\"300\" style=\"border: none;\" alt=\"Shapes\" ismap=\"ismap\"/></a>");
+echo("</div>"); // Status end
 
-echo("<div id=command style=\" background:blue; float:left; width:50%\">");
-echo("Sketch: $curSketch    Simulation: $curSimLen steps  Step: $curStep  Event: $simulation[$curStep]<br><br>");
+// Command start
+echo("<div id=command style=\" background:blue; float:left; width:100%\">");
+
 
 echo("<form name=\"upload_sketch\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\"> ");
 echo("<input type=\"hidden\" name=\"action\" value=\"upload_sketch\">");
@@ -139,18 +134,42 @@ echo("<input type=\"text\" name=\"target_step\" value=\"$targetStep\"><br>");
 echo("<br><input type =\"submit\" name=\"submit_file\" value=\"".T_RUN_TARGET."\">");
 echo("</form>");
 
-echo("</div>"); // Command
-
-//echo("<div id=eventList align=\"right\" style=\" background:red; float:right; width:50%\">");
-echo("<div id=eventList style=\"float:right; border : solid 2px #ff0000; background : #000000; color : #ffffff; padding : 4px; width : 400px; height : 500px; overflow : auto; \">");
-runTarget($curSimLen);
-echo("</div>"); // eventList
-
-
 echo("<a href=index.php?ac=load>Load</a><br>");
 echo("<a href=index.php?ac=run>Run</a><br>");
 echo("<a href=index.php?ac=step&x=0>step</a><br>");
 echo("<a href=index.php?ac=reset>reset</a><br>");
+
+echo("</div>"); // Command end
+echo("</div>"); // Left end
+
+// Middle start
+echo("<div id=\"middle\"  style=\"background-color:brown; float:left; width:20%\">");
+echo("Sketch: $curSketch<br>");
+echo("Simulation Length: $curSimLen<br>");
+echo("Step: $curStep<br>");
+echo("Event: $simulation[$curStep]<br>");
+echo("</div>"); // Middle end
+
+// Right start
+echo("<div id=\"right\"  style=\"background-color:brown; float:left; width:30%\">");
+
+echo("<div id=eventList style=\"float:right; border : solid 2px #ff0000; background : #000000; color : #ffffff; padding : 4px; width : 100%; height:500px; overflow : auto; \">");
+runTarget($curSimLen);
+echo("</div>"); // eventList
+
+// Current start
+echo("<div id=\"current\"  style=\"background-color:brown; float:left; width:100%\">");
+echo("Event: $simulation[$curStep] $curStep<br>");
+echo("</div>"); // Current end
+
+echo("</div>"); // Right end
+
+echo("<div id=error style=\" background:cornsilk; float:left; width:100%\">");
+$file = $servuino.'g++.error';
+showFile("g++ error",$file);
+$file = $servuino.'exec.error';
+showFile("Execution error",$file);
+echo("</div>"); // Error window
 
 echo("</div>"); // Main
 ?>
