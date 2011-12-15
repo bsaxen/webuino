@@ -26,7 +26,7 @@ function runTarget($target)
   //$curStep = $ii;
 //echo("</div>");
 }
-function readSimulation($file)
+function readSimSu($file)
 {
   global $simulation;
 
@@ -52,6 +52,27 @@ function readSimulation($file)
      echo("Fail to open $file<br>");
 }
 
+function readSimSi($file)
+{
+  global $simulation;
+
+  $step = 0;
+  $in = fopen($file,"r");
+  if($in)
+  {
+  while (!feof($in))
+    {
+     $row = fgets($in);
+     $row = trim($row);
+     $step++;
+     $simulation[$step] = $row;
+    }
+  //echo("Total steps: $step<br>");
+  fclose($in);
+  }
+  else
+     echo("Fail to open $file<br>");
+}
 
 function formSelectFile($name,$fname,$file)
 {
