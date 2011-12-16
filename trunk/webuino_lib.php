@@ -1,108 +1,249 @@
 <?
-$upload = 'upload/';
+$upload   = 'upload/';
 $servuino = 'servuino/';
 
 $simulation = array();
+$content    = array();
+$status     = array();
 
+$pinValueA  = array();
+$pinValueD  = array();
+$pinStatusA = array();
+$pinStatusD = array();
+$pinModeD   = array();
+
+function decodeStatus($code)
+{
+  global $curStep,$pinValueA,$pinValueD,$pinStatusA,$pinStatusD,$pinModeD;
+
+  $par = array();
+  $tok = strtok($code, ",");
+  $par[0] = $tok;
+  if($tok != $curStep)
+    {
+      echo("Sync Error Step: $step - $currentStep<br>");
+      return;
+    }
+  $ix = 0;
+  while ($tok !== false) {
+    $ix++;
+    //echo "Word=$tok<br />";
+    $tok = strtok(",");
+    $par[$ix] = $tok;
+  }
+
+  // Mode Digital Pin
+  $temp = $par[1];
+  $bb = strlen($temp);
+  for($ii=0;$ii<strlen($temp);$ii++)
+    {
+      if($temp[$ii]=='-')$pinModeD[$ii] = BLACK;
+      if($temp[$ii]=='O')$pinModeD[$ii] = YELLOW;
+      if($temp[$ii]=='I')$pinModeD[$ii] = WHITE;
+      if($temp[$ii]=='R')$pinModeD[$ii] = RED;
+      if($temp[$ii]=='T')$pinModeD[$ii] = GREEN;
+    }
+
+  // Status Digital Pin
+  $temp = $par[2];
+
+  $ii = 0;
+  $values = array(1,2,4,8,16,32,64,128,256,512,1024,2048);
+  foreach ($values as $value) 
+    {
+      $result = $value & $temp;
+      //print("$result, $value, '&', $temp<br>");
+      if($result != 0) 
+	$pinStatusD[$ii] = YELLOW;
+      else
+	$pinStatusD[$ii] = BLACK;
+      $ii++;	   
+    }
+
+  // Status Analog Pin
+  $tempA = $par[3]; // Number of Analog Values
+  if($tempA > 0)
+    {
+      for($ii=0;$ii<$tempA;$ii++)
+	{
+	  $ix = 5+$ii*2;
+	  $pinValueA[$par[$ix]] = $par[$ix+1];
+	  $aw = $par[$ix]; 
+          $qq = $par[$ix+1];
+	  if($pinValueA[$par[$ix]]> 0)$pinStatusA[$par[$ix]] = YELLOW;
+	  echo("$tempA Analog $ii $aw $qq<br>");
+	}
+    }
+  $tempD = $par[4]; // Number of Digital Values
+  if($tempD > 0)
+    {
+      for($ii=0;$ii<$tempD;$ii++)
+	{
+	  $ix = 5+$ii*2+2*$tempA;
+	  $pinValuesD[$par[$ix]] = $par[$ix+1];
+	  $aw = $par[$ix]; 
+          $qq = $par[$ix+1];
+	  if($pinValueA[$par[$ix]]> 0)$pinStatusD[$ix] = RED;
+	  //echo("$tempD Digital $ii $aw $qq<br>");
+	}
+    }
+}
 function show($step)
 {
   global $simulation;
   echo("$simulation[$step]<br>");
 }
 
-function runTarget($target)
+function init($steps)
+{
+  for($ii=0;$ii<=$steps;$ii++)$simulation[$ii] = "";
+}
+
+function showSimulation($target)
 {
   global $curStep;
   global $simulation;
 
-
-//echo("<div style=\"border : solid 2px #ff0000; background : #000000; color : #ffffff; padding : 4px; width : 400px; height : 500px; overflow : auto; \">");
-
-  for($ii=$curStep;$ii<=$target;$ii++)
-  {
-     //show($ii);
-     echo("<a href=index.php>$simulation[$ii]</a><br />");
-  }
-  //$curStep = $ii;
-//echo("</div>");
+  for($ii=$target;$ii>0;$ii--)
+    {
+      echo("<a href=\"index.php?ac=step&x=$ii\">$ii $simulation[$ii]</a><br>");
+    }
 }
-function readSimSu($file)
+
+function showAnyFile($target)
 {
+  global $curStep;
+  global $content;
+
+  for($ii=1;$ii<=$target;$ii++)
+    {
+      //echo("<a href=\"index.php\">$ii $content[$ii]</a><br>");
+      echo("$content[$ii]<br>");
+    }
+}
+
+
+function showSerial($target)
+{
+  global $curStep;
   global $simulation;
 
+  for($ii=0;$ii<=$target;$ii++)
+    {
+      echo("<a href=\"index.php\">$serial[$ii]</a><br>");
+    }
+}
+
+
+
+function readSimulation($file)
+{
+  global $simulation,$servuino;
+
+  $file = $servuino.$file;
   $step = 0;
   $in = fopen($file,"r");
   if($in)
-  {
-  while (!feof($in))
+    {
+      while (!feof($in))
+	{
+	  $row = fgets($in);
+	  $row = trim($row);
+	  $row = safeText($row);
+	  if($row[0]=='+')
+	    {
+	      $step++;
+	      $simulation[$step] = $row;
+	    }
+	}
+      fclose($in);
+    }
+  else
+    echo("Fail to open $file<br>");
+  return($step);
+}
+
+function readStatus()
+{
+  global $status,$servuino;
+
+  $file = $servuino.'data.status';
+  $step = 0;
+  $in = fopen($file,"r");
+  if($in)
     {
       $row = fgets($in);
-     $row = trim($row);
-      if($row[0]=='+')
-       {
-          $step++;
-          $simulation[$step] = $row;
-          //echo("($step: $row) <-> $simulation[$step]<br>");
-       }
+      $row = fgets($in);
+      while (!feof($in))
+	{
+	  $step++;
+	  $row = fgets($in);
+	  $row = trim($row);
+	  $row = safeText($row);
+	  $status[$step] = $row;
+	}
+      fclose($in);
     }
-  //echo("Total steps: $step<br>");
-  fclose($in);
-  }
   else
-     echo("Fail to open $file<br>");
+    echo("Fail to open data.status<br>");
+  return($step);
 }
 
-function readSimSi($file)
+function readAnyFile($file)
 {
-  global $simulation;
+  global $content,$servuino;
 
+  $file = $servuino.$file;
   $step = 0;
   $in = fopen($file,"r");
   if($in)
-  {
-  while (!feof($in))
     {
-     $row = fgets($in);
-     $row = trim($row);
-     $step++;
-     $simulation[$step] = $row;
+      while (!feof($in))
+	{
+	  $row = fgets($in);
+	  $row = trim($row);
+	  $row = safeText($row);
+	  $step++;
+	  $content[$step] = $row;
+	}
+      fclose($in);
     }
-  //echo("Total steps: $step<br>");
-  fclose($in);
-  }
   else
-     echo("Fail to open $file<br>");
+    echo("Fail to open $file<br>");
+  return($step);
 }
 
 function formSelectFile($name,$fname,$file)
 {
   $in = fopen($file,"r");
   if($in)
-  {
-  echo("$name<select name=\"$fname\">");
-  while (!feof($in))
     {
-      $row = fgets($in);
-      $row = trim($row);
-      echo("<option value=\"$row\">$row</option>");
+      echo("$name<select name=\"$fname\">");
+      while (!feof($in))
+	{
+	  $row = fgets($in);
+	  $row = trim($row);
+	  echo("<option value=\"$row\">$row</option>");
+	}
+      echo("</select>");
+      fclose($in);
     }
-    echo("</select>");
-  fclose($in);
-  }
   else
     echo("Fail to open $file <br>");
 }
 
 function safeText($text)
 {
-   $text = str_replace("#", "No.", $text); 
-   $text = str_replace("$", "Dollar", $text); 
-   $text = str_replace("%", "Percent", $text); 
-   $text = str_replace("^", "", $text); 
-   $text = str_replace("&", "and", $text); 
-   $text = str_replace("*", "", $text); 
-   $text = str_replace("?", "", $text); 
-   return($text);
+  $text = str_replace("#", "No.", $text); 
+  $text = str_replace("$", "Dollar", $text); 
+  $text = str_replace("%", "Percent", $text); 
+  $text = str_replace("^", "", $text); 
+  $text = str_replace("&", "and", $text); 
+  $text = str_replace("*", "", $text); 
+  $text = str_replace("?", "", $text); 
+  $text = str_replace("<", "R", $text); 
+  $text = str_replace(">", "T", $text); 
+  return($text);
 }
 //=======================================
 function getExtension($str)
@@ -157,15 +298,15 @@ function showFile($title,$file)
   //echo("===== $title ======<br>");
   $in = fopen($file,"r");
   if($in)
-  {
-   while (!feof($in)) 
     {
-      $row = fgets($in);
-      echo($row);
-      echo("<br>");
+      while (!feof($in)) 
+	{
+	  $row = fgets($in);
+	  echo($row);
+	  echo("<br>");
+	}
+      fclose($in);
     }
-   fclose($in);
-  }
   else
     echo("Fail to open $file<br>");
   return;
@@ -218,7 +359,7 @@ function uploadFile()
     {
       chmod($newname,0666);
       return($newname);
-     // echo "<h1>File Uploaded Successfully! $size</h1>";
+      // echo "<h1>File Uploaded Successfully! $size</h1>";
     }
   return($newname);
 }

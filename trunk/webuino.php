@@ -1,16 +1,30 @@
 <?
 session_start();
 
+
 define('T_UPLOAD_SKETCH','Upload Sketch');
 define('T_CONFIG','Configuration');
-define('T_RUN_TARGET','Run to');
+define('T_LOOP_F','Next Loop');
+define('T_LOOP_B','Prev Loop');
+define('T_STEP_F','Next Step');
+define('T_STEP_B','Prev Step');
+
+define('BLACK', '0');
+define('YELLOW','1');
+define('WHITE', '2');
+define('RED',   '3');
+define('GREEN', '4');
 
 $curSimLen = $_SESSION['cur_sim_len'];
 $curSketch = $_SESSION['cur_sketch'];
 $curStep   = $_SESSION['cur_step'];
+$curLoop   = $_SESSION['cur_loop'];
+$curLog    = $_SESSION['cur_log'];
 
-$file = $servuino.'data.si';
-readSimSi($file);
+init($curSimLen);
+readSimulation('data.arduino');
+readStatus();
+$logLen = readAnyFile($curLog);
 
 // GET ==============================================
 $input  = array_keys($_GET); 
@@ -20,29 +34,42 @@ $coords = explode(',', $input[0]);
 $action    = $_GET['ac'];
 
 if($action == 'load')
-{
-   $file = $upload.$curSketch;
-   copySketch($file);
-   compileSketch();
-}
+  {
+    $file = $upload.$curSketch;
+    copySketch($file);
+    compileSketch();
+  }
 
 if($action == 'run' && $curSimLen > 0)
-{
-   execSketch($curSimLen,0);
-   $file = $servuino.'data.si';
-   readSimSi($file);
-}
+  {
+    execSketch($curSimLen,0);
+    //$file = $servuino.'data.custom';
+    //readSimSi($file);
+  }
 
 if($action == 'step')
-{
-   $target = $_GET['x'];
-   if($target == 0) $curStep++;
-}
+  {
+    $target = $_GET['x'];
+    if($target == 0) $curStep++;
+  }
 
 if($action == 'reset')
-{
-   $curStep = 0;
-}
+  {
+    $curStep = 1;
+  }
+
+if($action == 'log')
+  {
+    $source = $_GET['x'];
+    if($source == 'code')   $curLog = 'data.code';
+    if($source == 'error')  $curLog = 'data.error';
+    if($source == 'custom') $curLog = 'data.custom';
+    if($source == 'arduino')$curLog = 'data.arduino';
+    if($source == 'scen')   $curLog = 'data.scen';
+    if($source == 'status') $curLog = 'data.status';
+    $_SESSION['cur_log'] = $curLog;
+    $logLen = readAnyFile($curLog);
+  }
 
 //==================================================
 function copySketch($sketch)
@@ -50,7 +77,7 @@ function copySketch($sketch)
   global $upload;
   if (!copy($sketch,"servuino/sketch.pde")) {
     echo "failed to copy ($sketch)...<br>";
-}
+  }
 }
 
 function compileSketch()
@@ -60,7 +87,7 @@ function compileSketch()
 
 function execSketch($steps,$source)
 {
- system("cd servuino;./servuino $steps $source >exec.error 2>&1;");
+  system("cd servuino;./servuino $steps $source >exec.error 2>&1;");
 }
 // POST =============================================
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -75,9 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         execSketch($curSimLen,0);
       }
     if($action == 'upload_sketch' )
-       {
-         $fil = uploadFile();
-       }
+      {
+	$fil = uploadFile();
+      }
 
     if($action == 'set_configuration' )
       {
@@ -94,9 +121,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
   }
 
-        $_SESSION['cur_step'] = $curStep;
-        $_SESSION['cur_sim_len'] = $curSimLen;
-        $_SESSION['cur_sketch'] = $curSketch;
+$_SESSION['cur_step']    = $curStep;
+$_SESSION['cur_sim_len'] = $curSimLen;
+$_SESSION['cur_sketch']  = $curSketch;
+$_SESSION['cur_log']     = $curLog;
+
+
 
 //====================================================================
 // Presentation 
@@ -110,23 +140,23 @@ $bb = $coords[0]; $aa=$coords[1];
 // Digital Pin Positions
 $yy = 220;
 for($ii=0; $ii<14; $ii++)
-{
-  $xx = 17; $yy = $yy+17;
-  if($ii == 6) $yy = $yy+10;
-  $digX[$ii] = $xx;
-  $digY[$ii] = $yy;
-  $pinModeD[$ii] = 2;
-}
+  {
+    $xx = 17; $yy = $yy+17;
+    if($ii == 6) $yy = $yy+10;
+    $digX[13-$ii] = $xx;
+    $digY[13-$ii] = $yy;
+    $pinModeD[$ii] = 0;
+  }
 
 // Analog Pin Positions
 $yy = 363;
 for($ii=0; $ii<6; $ii++)
-{
-  $xx = 288; $yy = $yy+17;
-  $anaX[$ii] = $xx;
-  $anaY[$ii] = $yy;
-  $pinModeA[$ii] = 0;
-}
+  {
+    $xx = 288; $yy = $yy+17;
+    $anaX[$ii] = $xx;
+    $anaY[$ii] = $yy;
+    $pinModeA[$ii] = 0;
+  }
 
 // Step + - positions
 $stepForwardY  = 312;
@@ -160,207 +190,243 @@ $sens = 5;
 
 //===========================================
 for($ii=0; $ii<14; $ii++)
-{
-  $xx = $digX[$ii];
-  $yy = $digY[$ii];
-  if($aa > $xx-$sens && $aa < $xx+$sens && $bb > $yy-$sens && $bb < $yy+$sens)
-    $pinModeD[$ii] = 1;
-}
+  {
+    $xx = $digX[$ii];
+    $yy = $digY[$ii];
+    if($aa > $xx-$sens && $aa < $xx+$sens && $bb > $yy-$sens && $bb < $yy+$sens)
+      $pinModeD[$ii] = 1;
+  }
 for($ii=0; $ii<6; $ii++)
-{
-  $xx = $anaX[$ii];
-  $yy = $anaY[$ii];
-  if($aa > $xx-$sens && $aa < $xx+$sens && $bb > $yy-$sens && $bb < $yy+$sens)
-    $pinModeA[$ii] = 3;
-}
-
-  if($aa > $stepForwardX-$sens && $aa < $stepForwardX+$sens && $bb > $stepForwardY-$sens && $bb < $stepForwardY+$sens)
   {
-        $curStep++;
-        $_SESSION['cur_step'] = $curStep;
-	$pinModeD[1] = 3;
-  }
-  if($aa > $stepBackwardX-$sens && $aa < $stepBackwardX+$sens && $bb > $stepBackwardY-$sens && $bb < $stepBackwardY+$sens)
-  {
-        $curStep--;
-        $_SESSION['cur_step'] = $curStep;
-        $pinModeD[1] = 1;
+    $xx = $anaX[$ii];
+    $yy = $anaY[$ii];
+    if($aa > $xx-$sens && $aa < $xx+$sens && $bb > $yy-$sens && $bb < $yy+$sens)
+      $pinModeA[$ii] = 3;
   }
 
-  if($aa > $resetX-$sens && $aa < $resetX+$sens && $bb > $resetY-$sens && $bb < $resetY+$sens)
+if($aa > $stepForwardX-$sens && $aa < $stepForwardX+$sens && $bb > $stepForwardY-$sens && $bb < $stepForwardY+$sens)
   {
-        $curStep = 0;
-        $_SESSION['cur_step'] = $curStep;
+    $curStep++;
+    $_SESSION['cur_step'] = $curStep;
+    $pinModeD[1] = 3;
+  }
+if($aa > $stepBackwardX-$sens && $aa < $stepBackwardX+$sens && $bb > $stepBackwardY-$sens && $bb < $stepBackwardY+$sens)
+  {
+    $curStep--;
+    $_SESSION['cur_step'] = $curStep;
+    $pinModeD[1] = 1;
   }
 
-  $doUpload = 0;
-  if($aa > $uploadX-$sens && $aa < $uploadX+$sens && $bb > $uploadY-$sens && $bb < $uploadY+$sens)
+if($aa > $resetX-$sens && $aa < $resetX+$sens && $bb > $resetY-$sens && $bb < $resetY+$sens)
   {
-        $doUpload = 1;
+    $curStep = 0;
+    $_SESSION['cur_step'] = $curStep;
   }
 
-  $doConfig = 0;
-  if($aa > $configX-$sens && $aa < $configX+$sens && $bb > $configY-$sens && $bb < $configY+$sens)
+$doUpload = 0;
+if($aa > $uploadX-$sens && $aa < $uploadX+$sens && $bb > $uploadY-$sens && $bb < $uploadY+$sens)
   {
-        $doConfig = 1;
+    $doUpload = 1;
+  }
+
+$doConfig = 0;
+if($aa > $configX-$sens && $aa < $configX+$sens && $bb > $configY-$sens && $bb < $configY+$sens)
+  {
+    $doConfig = 1;
   }
  
+decodeStatus($status[$curStep]);
 //===========================================
 ?>
 <html>
-  <head>
-    <title>Canvas tutorial</title>
-    <script type="text/javascript">
+<head>
+<title>Canvas tutorial</title>
+<script type="text/javascript">
 
-       function pause(milliseconds) {
-        var dt = new Date();
-        while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
-       }
+  function pause(milliseconds) {
+  var dt = new Date();
+  while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
+}
 
-      function draw(){
-        var canvas = document.getElementById('tutorial');
-        if (canvas.getContext){
-          var ctx = canvas.getContext('2d');
-          var imageObj = new Image();
-          imageObj.src = "arduino_uno.jpg";
-          ctx.drawImage(imageObj, 0, 0,500,300);
+function draw(){
+  var canvas = document.getElementById('tutorial');
+  if (canvas.getContext){
+    var ctx = canvas.getContext('2d');
+    var imageObj = new Image();
+    imageObj.src = "arduino_uno.jpg";
+    ctx.drawImage(imageObj, 0, 0,500,300);
 
-<?
-           // On OFF led
-           print("ctx.fillStyle = \"#FFFF00\";");
-           print("ctx.beginPath();");
-           print("ctx.rect($onOffY, $onOffX,8, 5);");
-           //print("ctx.arc($onOffY, $onOffX, 4, 0, Math.PI*2, true);");
-           print("ctx.closePath();");
-           print("ctx.fill();");
+    <?
+      // On OFF led
+      print("ctx.fillStyle = \"#FFFF00\";");
+      print("ctx.beginPath();");
+      print("ctx.rect($onOffY, $onOffX,8, 5);");
+      //print("ctx.arc($onOffY, $onOffX, 4, 0, Math.PI*2, true);");
+      print("ctx.closePath();");
+      print("ctx.fill();");
 
-          for($ii=0; $ii<14; $ii++)
-          {
-           if($pinModeD[$ii]==0)print("ctx.fillStyle = \"#000000\";");
-           if($pinModeD[$ii]==1)print("ctx.fillStyle = \"#FFFF00\";");
-           if($pinModeD[$ii]==2)print("ctx.fillStyle = \"#FFFFFF\";");
-           if($pinModeD[$ii]==3)print("ctx.fillStyle = \"#FF0000\";");
-           print("ctx.beginPath();");
-           print("ctx.arc($digY[$ii], $digX[$ii], 5, 0, Math.PI*2, true);");
-           print("ctx.rect($digY[$ii]-4, $digX[$ii]-12,8, 5);");
-           print("ctx.closePath();");
-           print("ctx.fill();");
-          }
-          for($ii=0; $ii<6; $ii++)
-          {
-           if($pinModeA[$ii]==0)print("ctx.fillStyle = \"#000000\";");
-           if($pinModeA[$ii]==1)print("ctx.fillStyle = \"#FFFF00\";");
-           if($pinModeA[$ii]==2)print("ctx.fillStyle = \"#FFFFFF\";");
-           if($pinModeA[$ii]==3)print("ctx.fillStyle = \"#FF0000\";");
-           print("ctx.beginPath();");
-           print("ctx.arc($anaY[$ii], $anaX[$ii], 5, 0, Math.PI*2, true);");
-           print("ctx.closePath();");
-           print("ctx.fill();");
-          }
+      for($ii=0; $ii<14; $ii++)
+	{
+	  if($pinModeD[$ii]==0)print("ctx.fillStyle = \"#000000\";");// black
+	  if($pinModeD[$ii]==1)print("ctx.fillStyle = \"#FFFF00\";");// yellow
+	  if($pinModeD[$ii]==2)print("ctx.fillStyle = \"#FFFFFF\";");// white
+	  if($pinModeD[$ii]==3)print("ctx.fillStyle = \"#FF0000\";");// red
+	  if($pinModeD[$ii]==4)print("ctx.fillStyle = \"#00FF00\";");// green
+	  print("ctx.beginPath();");
+	  //print("ctx.arc($digY[$ii], $digX[$ii], 5, 0, Math.PI*2, true);");
+	  print("ctx.rect($digY[$ii]-4, $digX[$ii]-12,8, 5);");
+	  print("ctx.closePath();");
+	  print("ctx.fill();");
+	}
+      for($ii=0; $ii<14; $ii++)
+	{
+	  if($pinStatusD[$ii]==0)print("ctx.fillStyle = \"#000000\";");// black
+	  if($pinStatusD[$ii]==1)print("ctx.fillStyle = \"#FFFF00\";");// yellow
+	  if($pinStatusD[$ii]==2)print("ctx.fillStyle = \"#FFFFFF\";");// white
+	  if($pinStatusD[$ii]==3)print("ctx.fillStyle = \"#FF0000\";");// red
+	  if($pinStatusD[$ii]==4)print("ctx.fillStyle = \"#00FF00\";");// green
+	  print("ctx.beginPath();");
+	  print("ctx.arc($digY[$ii], $digX[$ii], 5, 0, Math.PI*2, true);");
+	  //print("ctx.rect($digY[$ii]-4, $digX[$ii]-12,8, 5);");
+	  print("ctx.closePath();");
+	  print("ctx.fill();");
+	}
+      for($ii=0; $ii<6; $ii++)
+	{
+	  if($pinStatusA[$ii]==0)print("ctx.fillStyle = \"#000000\";");// black
+	  if($pinStatusA[$ii]==1)print("ctx.fillStyle = \"#FFFF00\";");// yellow
+	  if($pinStatusA[$ii]==2)print("ctx.fillStyle = \"#FFFFFF\";");// white
+	  if($pinStatusA[$ii]==3)print("ctx.fillStyle = \"#FF0000\";");// red
+	  if($pinStatusA[$ii]==4)print("ctx.fillStyle = \"#00FF00\";");// green
+	  print("ctx.beginPath();");
+	  print("ctx.arc($anaY[$ii], $anaX[$ii], 5, 0, Math.PI*2, true);");
+	  print("ctx.closePath();");
+	  print("ctx.fill();");
+	}
 
-           print("ctx.font = \"15pt Calibri\";");
-           print("ctx.fillStyle = \"#FFFFFF\";");
-           print("ctx.fillText(\"Heater Control\",$sketchNameY,$sketchNameX);");
+      print("ctx.font = \"15pt Calibri\";");
+      print("ctx.fillStyle = \"#FFFFFF\";");
+      print("ctx.fillText(\"Heater Control\",$sketchNameY,$sketchNameX);");
 
 
-?>
+      ?>
         }
-      }
-    </script>
-    <style type="text/css">
-      canvas { border: 0px solid black; }
-    </style>
-  </head>
+}
+</script>
+<style type="text/css">
+  canvas { border: 0px solid black; }
+</style>
+</head>
 <?
-print("<body onload=\"draw();\">");
+//==================================================================
+print("<body onload=\"draw();\" link=\"black\" alink=\"black\" vlink=\"black\">\n");
 ?>
- <div id="main" style=" background:grey; float:left; width:100%">
-    <div id="left" style=" background:white; float:left; width:50%">
-    <div id="above" style=" background:white; float:left; width:100%">
+<div id="main" style=" background:white; float:left; width:100%">
+  <div id="left" style=" background:white; float:left; width:100%; height: 30px;">
+<?
+echo("<a href=index.php?ac=load>Load</a>\n");
+echo("<a href=index.php?ac=run>Run</a>\n");
+echo("<a href=index.php?ac=step&x=0>step</a>\n");
+echo("<a href=index.php?ac=reset>reset</a>\n");
 
-<?     print("<canvas id=\"tutorial\" width=\"$wBoard\" height=\"$hBoard\">"); ?>
-     </canvas>
-    </div> 
-    <div id="below" style=" background:white; float:left; width:100%">
-<?     print("<a href=\"index.php\"><img src=\"arduino_uno.jpg\" height=\"$hBoard\" width=\"$wBoard\" style=\"border: none;\" alt=\"Shapes\" ismap=\"ismap\"></a>"); ?>
+echo("<a href=index.php?ac=sketch>Sketch</a>\n");
+
+echo("<a href=index.php?ac=log&x=status>Status</a>\n");
+echo("<a href=index.php?ac=log&x=error>Error</a>\n");
+echo("<a href=index.php?ac=log&x=code>Code</a>\n");
+echo("<a href=index.php?ac=log&x=scen>Scen</a>\n");
+echo("<a href=index.php?ac=log&x=arduino>Arduino</a>\n");
+echo("<a href=index.php?ac=log&x=custom>Custom</a>\n");
+?>
+  </div>
+  <div id="left" style=" background:white; float:left; width:50%">
+    <div id="above" style=" background:white; float:left; width:100%">
+       <? print("<canvas id=\"tutorial\" width=\"$wBoard\" height=\"$hBoard\"></canvas>\n"); ?>
     </div>
- >
+ 
+    <div id="below" style=" background:white; float:left; width:100%">
+  <?     print("<a href=\"index.php\"><img src=\"arduino_uno.jpg\" height=\"$hBoard\" width=\"$wBoard\" style=\"border: none;\" alt=\"Shapes\" ismap=\"ismap\"></a>\n"); ?>
+    </div>
 
 <?
-//echo("<div id=\"xmain\"  style=\"background-color:#009900\">");
-echo("<div id=\"right\"  style=\"background-color:brown; float:left; width:50%\">");
+  //echo("<div id=\"xmain\"  style=\"background-color:#009900\">");
+echo("</div><div id=\"right\"  style=\"background-color:white; float:left; width:50%\">\n");
+// Command start
+echo("<div id=command style=\" padding: 5px; background:white; float:left; width:100%\">\n");
+print("Sketch: $curSketch Step: $curStep Loop: $curLoop  Simulation length: $curSimLen");
+
+// Log window
+echo("<form name=\"f_sel_win\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">\n ");
+echo("<input type=\"hidden\" name=\"action\" value=\"select_window2\">\n");
+echo("$name<select name=\"$fname\">");
+echo("<option value=\"log\">Log</option>");
+echo("<option value=\"serial\">Serial Output</option>");
+echo("<option value=\"status\">Status</option>");
+echo("<option value=\"error\">Error</option>");
+echo("<option value=\"status\">Status</option>");
+echo("<option value=\"error\">Error</option>");
+echo("</select>");
+echo("<input type =\"submit\" name=\"submit_file\" value=\"".T_SEL_WIN."\">\n");
+echo("</form>");
+echo("</div><div id=\"simList\" style=\"float:left; border : solid 1px #000000; background : #ffffff; color : #000000; padding : 4px; width : 48%; height:550px; overflow : auto; \">\n");
+showAnyFile($logLen);
+echo("</div>\n");
+
+// Serial Output window
+
+echo("<div id=\"serLis\"t style=\"float:right; border : solid 1px #000000; background : #ffffff; color : #000000; padding : 4px; width : 48%; height:550px; overflow : auto; \">\n");
+showSimulation($curStep);
+echo("</div>\n"); 
 
 // Command start
-echo("<div id=command style=\" background:blue; float:left; width:100%\">");
+echo("<div id=command style=\" padding: 5px; background:white; float:left; width:100%\">\n");
 
 if($doUpload == 1)
-{
-echo("<form name=\"upload_sketch\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\"> ");
-echo("<input type=\"hidden\" name=\"action\" value=\"upload_sketch\">");
-echo("<input type=\"file\" name=\"import_file\" value=\"\">");
-echo("<input type =\"submit\" name=\"submit_file\" value=\"".T_UPLOAD_SKETCH."\">");
-echo("</form>");
-}
+  {
+    echo("<form name=\"upload_sketch\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">\n ");
+    echo("<input type=\"hidden\" name=\"action\" value=\"upload_sketch\">\n");
+    echo("<input type=\"file\" name=\"import_file\" value=\"\">\n");
+    echo("<input type =\"submit\" name=\"submit_file\" value=\"".T_UPLOAD_SKETCH."\">\n");
+    echo("</form>");
+  }
 
 if($doConfig == 1)
-{
-echo("<form name=\"configuration\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\"> ");
-echo("<input type=\"hidden\" name=\"action\" value=\"set_configuration\">");
-echo("Simulation Length<input type=\"text\" name=\"sim_len\" value=\"$curSimLen\"><br>");
-system("ls upload > list.txt");
-formSelectFile("Sketch","sketch","list.txt");
-echo("<br><input type =\"submit\" name=\"submit_file\" value=\"".T_CONFIG."\">");
-echo("</form>");
-}
-echo("<form name=\"target\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\"> ");
-echo("<input type=\"hidden\" name=\"action\" value=\"run_target\">");
-echo("<input type=\"text\" name=\"target_step\" value=\"$targetStep\"><br>");
-echo("<br><input type =\"submit\" name=\"submit_file\" value=\"".T_RUN_TARGET."\">");
-echo("</form>");
+  {
+    echo("<form name=\"configuration\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">\n ");
+    echo("<input type=\"hidden\" name=\"action\" value=\"set_configuration\">\n");
+    echo("Simulation Length<input type=\"text\" name=\"sim_len\" value=\"$curSimLen\"><br>\n");
+    system("ls upload > list.txt");
+    formSelectFile("Sketch","sketch","list.txt");
+    echo("<br><input type =\"submit\" name=\"submit_file\" value=\"".T_CONFIG."\">\n");
+    echo("</form>\n");
+  }
 
-echo("<a href=index.php?ac=load>Load</a><br>");
-echo("<a href=index.php?ac=run>Run</a><br>");
-echo("<a href=index.php?ac=step&x=0>step</a><br>");
-echo("<a href=index.php?ac=reset>reset</a><br>");
+$xx  = $curStep-1;
+echo("  Step <a href=index.php?ac=step&x=$xx> - </a>\n");
+$xx  = $curStep+1;
+echo("<a href=index.php?ac=step&x=$xx> + </a>\n");
 
-echo("</div>"); // Command end
-echo("</div>"); // Right end
+$xx  = $curLoop-1;
+echo("  Loop <a href=index.php?ac=step&x=$xx> - </a>\n");
+$xx  = $curLoop+1;
+echo("<a href=index.php?ac=step&x=$xx> + </a>\n");
 
-// Middle start
-//echo("<div id=\"middle\"  style=\"background-color:brown; float:left; width:20%\">");
-//echo("Sketch: $curSketch<br>");
-//echo("Simulation Length: $curSimLen<br>");
-//echo("Step: $curStep<br>");
-//echo("Event: $simulation[$curStep]<br>");
-//echo("</div>"); // Middle end
 
-// Right start
-echo("<div id=\"right\"  style=\"background-color:brown; float:left; width:30%\">");
+   echo("</div>\n"); // Command end
 
-echo("<div id=eventList style=\"float:right; border : solid 2px #ff0000; background : #000000; color : #ffffff; padding : 4px; width : 100%; height:500px; overflow : auto; \">");
-runTarget($curSimLen);
-echo("</div>"); // eventList
+echo("</div>\n"); // Right end
 
-// Current start
-//echo("<div id=\"current\"  style=\"background-color:brown; float:left; width:100%\">");
-//echo("Event: $simulation[$curStep] $curStep<br>");
-//echo("</div>"); // Current end
 
-//echo("<canvas id=\"myDrawing\" width=\"200\" height=\"200\">");
-//echo("<p>Your browser doesnt support canvas.</p>");
-//echo("</canvas>");
 
-echo("</div>"); // Right end
-
-echo("<div id=error style=\" background:cornsilk; float:left; width:100%\">");
+echo("<div id=error style=\" background:yellow; float:left; width:100%\">\n");
 $file = $servuino.'g++.error';
-showFile("g++ error",$file);
+showAnyFile($file);
 $file = $servuino.'exec.error';
-showFile("Execution error",$file);
-echo("</div>"); // Error window
+showAnyFile($file);
+$file = $servuino.'data.error';
+showAnyFile($file);
+echo("</div>\n"); // Error window
 
-echo("</div>"); // Main
+echo("</div>\n"); // Main
 ?>
-  </body>
-</html>
 
