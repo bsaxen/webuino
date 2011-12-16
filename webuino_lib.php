@@ -75,7 +75,7 @@ function decodeStatus($code)
   $temp = $par[2];
 
   $ii = 0;
-  $values = array(1,2,4,8,16,32,64,128,256,512,1024,2048);
+  $values = array(1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192);
   foreach ($values as $value) 
     {
       $result = $value & $temp;
