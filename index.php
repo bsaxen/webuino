@@ -2,11 +2,15 @@
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<style type="text/css">
+a { text-decoration:none }
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Webuino</title>
-<script type="text/javascript" src="prototype.js"></script>
+
 </head> 
 <?
+
 include("webuino_lib.php");
 include("webuino.php");
 
