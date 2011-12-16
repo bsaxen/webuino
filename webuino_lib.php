@@ -12,7 +12,34 @@ $pinStatusA = array();
 $pinStatusD = array();
 $pinModeD   = array();
 
+//==========================================
+function copySketch($sketch)
+//==========================================
+{
+  global $upload;
+  $sketch = $upload.$sketch;
+  if (!copy($sketch,"servuino/sketch.pde")) {
+    echo "failed to copy ($sketch)...<br>";
+  }
+}
+
+//==========================================
+function compileSketch()
+//==========================================
+{
+  system("cd servuino;g++ -o servuino servuino.c > g++.error 2>&1;");
+}
+
+//==========================================
+function execSketch($steps,$source)
+//==========================================
+{
+  system("cd servuino;./servuino $steps $source >exec.error 2>&1;");
+}
+
+//==========================================
 function decodeStatus($code)
+//==========================================
 {
   global $curStep,$pinValueA,$pinValueD,$pinStatusA,$pinStatusD,$pinModeD;
 
@@ -71,7 +98,7 @@ function decodeStatus($code)
 	  $aw = $par[$ix]; 
           $qq = $par[$ix+1];
 	  if($pinValueA[$par[$ix]]> 0)$pinStatusA[$par[$ix]] = YELLOW;
-	  echo("$tempA Analog $ii $aw $qq<br>");
+	  //echo("$tempA Analog $ii $aw $qq<br>");
 	}
     }
   $tempD = $par[4]; // Number of Digital Values
@@ -88,42 +115,68 @@ function decodeStatus($code)
 	}
     }
 }
+//==========================================
 function show($step)
+//==========================================
 {
   global $simulation;
   echo("$simulation[$step]<br>");
 }
 
+//==========================================
 function init($steps)
+//==========================================
 {
   for($ii=0;$ii<=$steps;$ii++)$simulation[$ii] = "";
 }
 
-function showSimulation($target)
+//==========================================
+function showStep($target)
+//==========================================
 {
-  global $curStep;
-  global $simulation;
+  global $curStep,$simulation,$curSimLen;
+
 
   for($ii=$target;$ii>0;$ii--)
     {
-      echo("<a href=\"index.php?ac=step&x=$ii\">$ii $simulation[$ii]</a><br>");
+      if($ii==$target)
+	echo("now> $simulation[$ii]<br>");
+      else
+	echo("<a href=\"index.php?ac=step&x=$ii\">$simulation[$ii]</a><br>");
     }
 }
 
-function showAnyFile($target)
+//==========================================
+function showSimulation($target)
+//==========================================
 {
-  global $curStep;
+  global $curStep,$simulation,$curSimLen;
+
+
+  for($ii=1;$ii<=$curSimLen;$ii++)
+    {
+      if($ii==$target)
+	echo("now> $simulation[$ii]<br>");
+      else
+	echo("<a href=\"index.php?ac=step&x=$ii\">$simulation[$ii]</a><br>");
+    }
+}
+
+//==========================================
+function showAnyFile($target)
+//==========================================
+{
   global $content;
 
   for($ii=1;$ii<=$target;$ii++)
     {
-      //echo("<a href=\"index.php\">$ii $content[$ii]</a><br>");
       echo("$content[$ii]<br>");
     }
 }
 
-
+//==========================================
 function showSerial($target)
+//==========================================
 {
   global $curStep;
   global $simulation;
@@ -134,11 +187,11 @@ function showSerial($target)
     }
 }
 
-
-
+//==========================================
 function readSimulation($file)
+//==========================================
 {
-  global $simulation,$servuino;
+  global $simulation,$servuino,$curSimLen;
 
   $file = $servuino.$file;
   $step = 0;
@@ -149,13 +202,17 @@ function readSimulation($file)
 	{
 	  $row = fgets($in);
 	  $row = trim($row);
-	  $row = safeText($row);
+	  //$row = safeText($row);
+	  //echo("$row<br>");
 	  if($row[0]=='+')
 	    {
 	      $step++;
+              $row[0] = ' ';
 	      $simulation[$step] = $row;
+	      //echo("$row<br>");
 	    }
 	}
+      $curSimLen = $step;
       fclose($in);
     }
   else
@@ -163,7 +220,9 @@ function readSimulation($file)
   return($step);
 }
 
+//==========================================
 function readStatus()
+//==========================================
 {
   global $status,$servuino;
 
@@ -189,7 +248,9 @@ function readStatus()
   return($step);
 }
 
+//==========================================
 function readAnyFile($file)
+//==========================================
 {
   global $content,$servuino;
 
@@ -213,7 +274,9 @@ function readAnyFile($file)
   return($step);
 }
 
-function formSelectFile($name,$fname,$file)
+//==========================================
+function formSelectFile($name,$fname,$file,$sel)
+//==========================================
 {
   $in = fopen($file,"r");
   if($in)
@@ -223,7 +286,12 @@ function formSelectFile($name,$fname,$file)
 	{
 	  $row = fgets($in);
 	  $row = trim($row);
-	  echo("<option value=\"$row\">$row</option>");
+	  $row = safeText($row);
+	  if($row)
+	    {
+	      $selected = "";if($sel == $row)$selected = 'selected';
+	      echo("<option value=\"$row\" $selected>$row</option>");
+	    }
 	}
       echo("</select>");
       fclose($in);
@@ -232,7 +300,38 @@ function formSelectFile($name,$fname,$file)
     echo("Fail to open $file <br>");
 }
 
+//==========================================
+function readSketchInfo()
+//==========================================
+{
+  global $curSketchName;
+  $in = fopen('servuino/sketch.pde',"r");
+  if($in)
+    {
+      while (!feof($in))
+	{
+	  $row = fgets($in);
+	  $row = trim($row);
+	  if(strstr($row,"SKETCH_NAME"))
+	    {
+	      //echo("$row");
+	      if($pp = strstr($row,":"))
+		{
+		  sscanf($pp,"%s%s",$junk,$curSketchName);
+		  //echo("[$curSketchName]");
+		}
+	    }
+	}
+      echo("</select>");
+      fclose($in);
+    }
+  else
+    echo("Fail to open $file <br>");
+}
+
+//==========================================
 function safeText($text)
+//==========================================
 {
   $text = str_replace("#", "No.", $text); 
   $text = str_replace("$", "Dollar", $text); 
@@ -245,9 +344,10 @@ function safeText($text)
   $text = str_replace(">", "T", $text); 
   return($text);
 }
-//=======================================
+
+//==========================================
 function getExtension($str)
-//======================================= 
+//==========================================
 {
   $i = strrpos($str,".");
   if (!$i) { return ""; }
@@ -255,9 +355,10 @@ function getExtension($str)
   $ext = substr($str,$i+1,$l);
   return $ext;
 }
-//==============================
+
+//==========================================
 function openDatabase($db,$user,$secret)
-//==============================
+//==========================================
 {
   if(DEBUG > 8)necho("[".DEBUG."]openDatabase($db,$user,$secret)<br>");
   if($db)
@@ -284,16 +385,18 @@ function openDatabase($db,$user,$secret)
       return(0);
     }
 }
-//==============================
+
+//==========================================
 function closeDatabase($link)
-//==============================
+//==========================================
 {
   if(DEBUG > 0)necho("[".DEBUG."]closeDatabase($link)<br>");
   mysql_close($link);
 }
-//=======================================
+
+//==========================================
 function showFile($title,$file)
-//=======================================
+//==========================================
 {
   //echo("===== $title ======<br>");
   $in = fopen($file,"r");
@@ -311,9 +414,10 @@ function showFile($title,$file)
     echo("Fail to open $file<br>");
   return;
 }
-//=======================================
+
+//==========================================
 function uploadFile()
-//=======================================
+//==========================================
 {
 
   define ("MAX_SIZE","300");
@@ -363,5 +467,5 @@ function uploadFile()
     }
   return($newname);
 }
-
+// End of File
 ?>
