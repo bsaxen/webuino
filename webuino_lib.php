@@ -69,8 +69,11 @@ function decodeStatus($code)
       if($temp[$ii]=='-')$pinModeD[$ii] = BLACK;
       if($temp[$ii]=='O')$pinModeD[$ii] = YELLOW;
       if($temp[$ii]=='I')$pinModeD[$ii] = WHITE;
-      if($temp[$ii]=='R')$pinModeD[$ii] = RED;
-      if($temp[$ii]=='T')$pinModeD[$ii] = GREEN;
+      if($temp[$ii]=='X')$pinModeD[$ii] = RED;
+      if($temp[$ii]=='Y')$pinModeD[$ii] = GREEN;
+      if($temp[$ii]=='C')$pinModeD[$ii] = BLUE;
+      if($temp[$ii]=='R')$pinModeD[$ii] = FUCHSIA;
+      if($temp[$ii]=='F')$pinModeD[$ii] = AQUA;
     }
 
   // Status Digital Pin
@@ -238,7 +241,7 @@ function readSimulation($file)
 	{
 	  $row = fgets($in);
 	  $row = trim($row);
-	  $row = safeText($row);
+	  //$row = safeText($row);
 	  //echo("$row<br>");
 	  if($row[0]=='+')
 	    {
@@ -270,7 +273,7 @@ function readSerial($file)
       while (!feof($in))
 	{
 	  $row = fgets($in);
-	  //$row = trim($row);
+	  $row = trim($row);
 	  sscanf($row,"%d %s %s",$step,$line,$value);
 	  $serialL[$step] = $line;
 	  $left  = strpos($row,"[");
@@ -305,7 +308,7 @@ function readStatus()
 	  $step++;
 	  $row = fgets($in);
 	  $row = trim($row);
-	  $row = safeText($row);
+	  //$row = safeText($row);
 	  $status[$step] = $row;
 	}
       fclose($in);
@@ -316,12 +319,12 @@ function readStatus()
 }
 
 //==========================================
-function readAnyFile($file)
+function readAnyFile($serv,$file)
 //==========================================
 {
   global $content,$servuino;
 
-  $file = $servuino.$file;
+  if($serv == 1)$file = $servuino.$file;
   $step = 0;
   $in = fopen($file,"r");
   if($in)
@@ -353,7 +356,7 @@ function formSelectFile($name,$fname,$file,$sel)
 	{
 	  $row = fgets($in);
 	  $row = trim($row);
-	  $row = safeText($row);
+	  //$row = safeText($row);
 	  if($row)
 	    {
 	      $selected = "";if($sel == $row)$selected = 'selected';
@@ -404,11 +407,11 @@ function safeText($text)
   $text = str_replace("$", "Dollar", $text); 
   $text = str_replace("%", "Percent", $text); 
   $text = str_replace("^", "", $text); 
-  $text = str_replace("&", "and", $text); 
+  //$text = str_replace("&", "and", $text); 
   //$text = str_replace("*", "", $text); 
-  $text = str_replace("?", "", $text); 
+  //$text = str_replace("?", "", $text); 
   $text = str_replace("<", "R", $text); 
-  $text = str_replace(">", "T", $text); 
+  //$text = str_replace(">", "T", $text); 
   $text = str_replace(" ", "&nbsp;", $text); 
   return($text);
 }

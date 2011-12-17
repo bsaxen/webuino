@@ -1,5 +1,4 @@
 <?
-$menu = 'logging';
 $ready = "";
 
 $curSimLen = $_SESSION['cur_sim_len'];
@@ -11,7 +10,7 @@ $curMenu   = $_SESSION['cur_menu'];
 $curFile   = $_SESSION['cur_file'];
 $curSketchName = $_SESSION['cur_sketch_name'];
 
-if(!$curMenu)$curMenu = 'logging';
+if(!$curMenu)$curMenu = 'logA';
 
 init($curSimLen);
 readSketchInfo();
@@ -20,7 +19,7 @@ readSerial('data.serial');
 readStatus();
 
 
-$logLen = readAnyFile($curLog);
+$logLen = readAnyFile(1,$curLog);
 
 // GET ==============================================
 $input  = array_keys($_GET); 
@@ -96,7 +95,7 @@ if($action == 'log')
     if($source == 'status') $curLog = 'data.status';
     if($source == 'serial') $curLog = 'data.serial';
     $_SESSION['cur_log'] = $curLog;
-    $logLen = readAnyFile($curLog);
+    $logLen = readAnyFile(1,$curLog);
   }
 
 
@@ -228,11 +227,14 @@ $resetX = 149;
 $uploadY = 434;
 $uploadX = 212;
 
-$TXledY = 229;
-$TXledX = 92;
+$TXledY = 230;
+$TXledX = 103;
 
-$RXledY = 229;
+$RXledY = 230;
 $RXledX = 106;
+
+$led13Y = 230;
+$led13X =  72;
 
 $onOffY = 427;
 $onOffX = 91;
@@ -316,6 +318,16 @@ function draw(){
     ctx.drawImage(imageObj, 0, 0,500,300);
 
     <?
+      $black  = "ctx.fillStyle = \"#000000\";";
+      $yellow = "ctx.fillStyle = \"#FFFF00\";";
+      $white  = "ctx.fillStyle = \"#FFFFFF\";";
+      $red    = "ctx.fillStyle = \"#FF0000\";";
+      $green  = "ctx.fillStyle = \"#00FF00\";";
+      $blue   = "ctx.fillStyle = \"#0000FF\";";
+      $fuchsia= "ctx.fillStyle = \"#FF00FF\";";
+      $aqua   = "ctx.fillStyle = \"#00FFFF\";";
+      
+
       // On OFF led
       print("ctx.fillStyle = \"#FFFF00\";");
       print("ctx.beginPath();");
@@ -324,45 +336,72 @@ function draw(){
       print("ctx.closePath();");
       print("ctx.fill();");
 
+      // TX led when Serial Output
+      if(strlen($serial[$curStep]))
+	{
+	  print("ctx.fillStyle = \"#FFFF00\";");
+	  print("ctx.beginPath();");
+	  print("ctx.rect($TXledY-4, $TXledX-12,8, 5);");
+	  //print("ctx.arc($onOffY, $onOffX, 4, 0, Math.PI*2, true);");
+	  print("ctx.closePath();");
+	  print("ctx.fill();");
+	}
+
+      // Digital Pins Mode
       for($ii=0; $ii<14; $ii++)
 	{
-	  if($pinModeD[$ii]==0)print("ctx.fillStyle = \"#000000\";");// black
-	  if($pinModeD[$ii]==1)print("ctx.fillStyle = \"#FFFF00\";");// yellow
-	  if($pinModeD[$ii]==2)print("ctx.fillStyle = \"#FFFFFF\";");// white
-	  if($pinModeD[$ii]==3)print("ctx.fillStyle = \"#FF0000\";");// red
-	  if($pinModeD[$ii]==4)print("ctx.fillStyle = \"#00FF00\";");// green
+	  if($pinModeD[$ii]==0)print($black);
+	  if($pinModeD[$ii]==1)print($yellow);
+	  if($pinModeD[$ii]==2)print($white);
+	  if($pinModeD[$ii]==3)print($red);
+	  if($pinModeD[$ii]==4)print($green);
+	  if($pinModeD[$ii]==5)print($blue);
+	  if($pinModeD[$ii]==6)print($fuchsia);
+	  if($pinModeD[$ii]==7)print($aqua);
 	  print("ctx.beginPath();");
 	  //print("ctx.arc($digY[$ii], $digX[$ii], 5, 0, Math.PI*2, true);");
 	  print("ctx.rect($digY[$ii]-4, $digX[$ii]-12,8, 5);");
 	  print("ctx.closePath();");
 	  print("ctx.fill();");
 	}
+
+      // Digital Pins Status
       for($ii=0; $ii<14; $ii++)
 	{
-	  if($pinStatusD[$ii]==0)print("ctx.fillStyle = \"#000000\";");// black
-	  if($pinStatusD[$ii]==1)print("ctx.fillStyle = \"#FFFF00\";");// yellow
-	  if($pinStatusD[$ii]==2)print("ctx.fillStyle = \"#FFFFFF\";");// white
-	  if($pinStatusD[$ii]==3)print("ctx.fillStyle = \"#FF0000\";");// red
-	  if($pinStatusD[$ii]==4)print("ctx.fillStyle = \"#00FF00\";");// green
+	  if($pinStatusD[$ii]==0)print($black);
+	  if($pinStatusD[$ii]==1)print($yellow);
+	  if($pinStatusD[$ii]==2)print($white);
+	  if($pinStatusD[$ii]==3)print($red);
+	  if($pinStatusD[$ii]==4)print($green);
+	  if($pinStatusD[$ii]==5)print($blue);
+	  if($pinStatusD[$ii]==6)print($fuchsia);
+	  if($pinStatusD[$ii]==7)print($aqua);
 	  print("ctx.beginPath();");
 	  print("ctx.arc($digY[$ii], $digX[$ii], 5, 0, Math.PI*2, true);");
-	  //print("ctx.rect($digY[$ii]-4, $digX[$ii]-12,8, 5);");
+	  if($ii == 13 && $pinStatusD[13]>0)
+	    print("ctx.rect($led13Y-4, $led13X-12,8, 5);");
 	  print("ctx.closePath();");
 	  print("ctx.fill();");
 	}
+
+      // Analog Pins Status
       for($ii=0; $ii<6; $ii++)
 	{
-	  if($pinStatusA[$ii]==0)print("ctx.fillStyle = \"#000000\";");// black
-	  if($pinStatusA[$ii]==1)print("ctx.fillStyle = \"#FFFF00\";");// yellow
-	  if($pinStatusA[$ii]==2)print("ctx.fillStyle = \"#FFFFFF\";");// white
-	  if($pinStatusA[$ii]==3)print("ctx.fillStyle = \"#FF0000\";");// red
-	  if($pinStatusA[$ii]==4)print("ctx.fillStyle = \"#00FF00\";");// green
+	  if($pinStatusA[$ii]==0)print($black);
+	  if($pinStatusA[$ii]==1)print($yellow);
+	  if($pinStatusA[$ii]==2)print($white);
+	  if($pinStatusA[$ii]==3)print($red);
+	  if($pinStatusA[$ii]==4)print($green);
+	  if($pinStatusA[$ii]==5)print($blue);
+	  if($pinStatusA[$ii]==6)print($fuchsia);
+	  if($pinStatusA[$ii]==7)print($aqua);
 	  print("ctx.beginPath();");
 	  print("ctx.arc($anaY[$ii], $anaX[$ii], 5, 0, Math.PI*2, true);");
 	  print("ctx.closePath();");
 	  print("ctx.fill();");
 	}
 
+      // Write Sketch Name on IC
       print("ctx.font = \"15pt Calibri\";");
       print("ctx.fillStyle = \"#FFFFFF\";");
       print("ctx.fillText(\"$curSketchName\",$sketchNameY,$sketchNameX);");
@@ -381,19 +420,28 @@ function draw(){
 echo("<body onload=\"draw();\" link=\"black\" alink=\"black\" vlink=\"black\">\n");
 echo("<div id=\"main\" style=\" background:white; float:left; width:100%;\">");
 echo("  <div id=\"left\" style=\" background:white; float:left; width:100%; height: 40px;\">");
-echo("    <div style=\"text-align:right;font-size:20px; background:white; float:left; width:100%;\">");
-echo("         <a href=index.php?ac=step&x=1>Reset</a>\n");
+echo("    <div style=\"text-align:center;font-size:20px; background:white; float:left; width:48%;\">");
+echo("         <a href=index.php?ac=step&x=1>");
+echo("         <img border=\"0\" src=\"reset.gif\" alt=\"Reset\" width=\"50\" height=\"32\"</a>\n");
 $temp = $curStep - 1;
-echo("         <a href=index.php?ac=step&x=$temp>Backward</a>\n");
+echo("         <a href=index.php?ac=step&x=$temp>");
+echo("         <img border=\"0\" src=\"backward.gif\" alt=\"Backward\" width=\"50\" height=\"32\"</a>\n");
 $temp = $curStep + 1;
-echo("         <a href=index.php?ac=step&x=$temp>Forward</a>\n");
-echo("      <a href=index.php?ac=menu&x=logA> LogA </a>\n");
-echo("      <a href=index.php?ac=menu&x=logB> LogB </a>\n");
-echo("      <a href=index.php?ac=menu&x=config> Library </a>\n");
-echo("      <a href=index.php?ac=menu&x=file> Data </a>\n");
+echo("         <a href=index.php?ac=step&x=$temp>");
+echo("         <img border=\"0\" src=\"forward.gif\" alt=\"Forward\" width=\"50\" height=\"32\"</a>\n");
+echo("      <a href=index.php?ac=menu&x=logA>\n");
+echo("         <img border=\"0\" src=\"logA.gif\" alt=\"LogA\" width=\"50\" height=\"32\"</a>\n");
+echo("      <a href=index.php?ac=menu&x=logB>\n");
+echo("         <img border=\"0\" src=\"logB.gif\" alt=\"LogB\" width=\"50\" height=\"32\"</a>\n");
+echo("      <a href=index.php?ac=menu&x=config>");
+echo("         <img border=\"0\" src=\"library.gif\" alt=\"Library\" width=\"50\" height=\"32\"</a>\n");
+echo("      <a href=index.php?ac=menu&x=file>");
+echo("         <img border=\"0\" src=\"data.gif\" alt=\"Data\" width=\"50\" height=\"32\"</a>\n");
+echo("      <a href=index.php?ac=menu&x=help>");
+echo("         <img border=\"0\" src=\"help.gif\" alt=\"Help\" width=\"50\" height=\"32\"</a>\n");
 echo("    </div>");
-echo("    <div style=\"text-align:center;font-size:15px; background:white; float:left; width:100%;\">");
-echo("      Loaded Sketch: $curSketch Now: $curStep   Simulation Length: $curSimLen steps");
+echo("    <div style=\"text-align:center;font-size:17px; background:white; float:left; width:48%;\">");
+echo("      Sketch: $curSketch <br>Current Step: $curStep ($curSimLen)");
 echo("    </div>");
 
 echo("  </div>");
@@ -404,11 +452,20 @@ echo("    </div>");
 
 echo("    <div id=\"below\" style=\" background:white; float:left; width:100%;\">");
     // Serial window
-    echo("<div id=\"serWin\"t style=\"font-family: Courier,monospace;float:left; border : solid 3px #C0C0C0; background : #E3F6CE; color : #000000; padding : 4px; width : 97%; height:250px; overflow : auto; \">\n");
-    showSerial($curStep);
-    echo("</div>\n"); 
+echo("<div id=\"serWin\"t style=\"font-family: Courier,monospace;float:left; border : solid 2px #FF0000; background :#BDBDBD; color:#FF0000; padding : 4px; width : 97%; height:250px; overflow : auto; \">\n");
+showSerial($curStep);
+echo("</div>\n"); 
 
-echo("    </div>");
+
+// // Arduino Board isMap---------------------------
+// echo("    <div id=\"below\" style=\" background:white; float:left; width:100%;\">");
+
+// echo("<a href=\"index.php\"><img src=\"arduino_uno.jpg\" height=\"$hBoard\" width=\"$wBoard\" style=\"border: none;\" alt=\"Shapes\" ismap=\"ismap\"></a>\n");
+// echo("</div>\n"); 
+
+
+// //-----------------------------------------------
+ echo("    </div>");
 echo("  </div>");
 
 //================================================================
@@ -470,8 +527,30 @@ else if($curMenu == 'logB')
 	echo("</form></tr>");
     	if($ready)echo("<tr><td>$ready</td></tr>");
 	echo("</table><hr>");
+
+	echo("Analog Pin Settings at step: $curStep<br>");
+	echo("<table><tr>");
+	echo("<form name=\"f_set_scenario\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">\n ");
+	echo("<input type=\"hidden\" name=\"action\" value=\"set_scenario\">\n");
+	for($ii=0;$ii<6;$ii++)
+	  {
+	    echo("<td>Pin $ii<input type=\"text\" name=\"pin_$ii\" value=\"$pinValueA[$ii]\" size=\"3\"></td>");
+	  }
+	echo("<td><input type =\"submit\" name=\"submit_scenario\" value=\"".T_LOAD."\"></td>\n");
+	echo("</tr></form>");
+	echo("</table><hr>");
     echo("</div>\n");
    }
+//================================================================
+ else if ($curMenu == 'help')
+//================================================================
+   {
+    echo("<div id=command style=\" padding: 5px; background:white; float:left; width:100%;\">\n");
+    $len = readAnyFile(0,'help.txt');
+    showAnyFile($len);
+    echo("</div>\n");
+   }
+
 //================================================================
  else if ($curMenu == 'file')
 //================================================================
@@ -505,11 +584,10 @@ else if($curMenu == 'logB')
 	if($curFile == 'sketch.pde')echo("<input type =\"submit\" name=\"submit_select\" value=\"".T_EDIT."\">\n");
 	if($curFile == 'data.scen')echo("<input type =\"submit\" name=\"submit_select\" value=\"".T_EDIT."\">\n");
 	echo("</form></td>");
-	
-	//if($curFile == 'sketch.pde')echo("<td><a href=index.php?ac=edit_file>".T_EDIT."</a></td></tr>");
 	echo("</table>");
+
 	echo("</div><div id=\"simList\" style=\"float:left; border : solid 1px #000000; background : #A9BCF5; color : #000000; padding : 4px; width : 98%; height:514px; overflow : auto; \">\n");
-	$len = readAnyFile($curFile);
+	$len = readAnyFile(1,$curFile);
 	showAnyFile($len);
 	echo("</div>\n");
       }
@@ -522,12 +600,13 @@ else if($curMenu == 'logB')
 	$data = fread($fh, filesize($tempFile)) or die("Could not read file $tempFile!");
 	// close file
 	fclose($fh);
-	echo("<br><br><form name=\"f_edit_file\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">\n ");
+	echo("<form name=\"f_edit_file\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">\n ");
 	echo("<input type=\"hidden\" name=\"action\" value=\"edit_file\">\n");
 	echo("<input type=\"hidden\" name=\"file_name\" value=\"$tempFile\">\n");
+	echo("<table><tr><td>");
 	if($curFile == 'sketch.pde')echo("<input type =\"submit\" name=\"submit_edit\" value=\"".T_LOAD."\">\n");
 	if($curFile == 'data.scen')echo("<input type =\"submit\" name=\"submit_edit\" value=\"".T_RUN."\">\n");
-	echo("<textarea name=\"file_data\" cols=64 rows=33>$data</textarea>");  
+	echo("</td></tr><tr><td><textarea name=\"file_data\" cols=64 rows=34>$data</textarea></td></tr></table>");  
 	echo("</form><br>");
 
       }
@@ -545,6 +624,7 @@ echo("</div>\n"); // Right end
 //================================================================
 
 echo("<div id=error style=\" background:yellow; float:left; width:100%;\">\n");
+echo("[Webuino Version 2011-12-17] Any errors will be shown here<br>");
 $file = $servuino.'g++.error';
 showAnyFile($file);
 $file = $servuino.'exec.error';
