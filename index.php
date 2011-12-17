@@ -9,6 +9,10 @@ define('T_LOOP_F','Next Loop');
 define('T_LOOP_B','Prev Loop');
 define('T_STEP_F','Next Step');
 define('T_STEP_B','Prev Step');
+define('T_EDIT','Edit');
+define('T_SAVE','Save');
+define('T_LOAD','Load');
+define('T_RUN', 'Run');
 
 define('BLACK', '0');
 define('YELLOW','1');
