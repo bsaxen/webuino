@@ -14,11 +14,14 @@ define('T_SAVE','Save');
 define('T_LOAD','Load');
 define('T_RUN', 'Run');
 
-define('BLACK', '0');
-define('YELLOW','1');
-define('WHITE', '2');
-define('RED',   '3');
-define('GREEN', '4');
+define('BLACK',  '0');
+define('YELLOW', '1');
+define('WHITE',  '2');
+define('RED',    '3');
+define('GREEN',  '4');
+define('BLUE',   '5');
+define('FUCHSIA','6');
+define('AQUA' ,  '7');
 
 
 
