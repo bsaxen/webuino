@@ -5,6 +5,8 @@ $servuino = 'servuino/';
 $simulation = array();
 $content    = array();
 $status     = array();
+$serial     = array();
+$serialL    = array();
 
 $pinValueA  = array();
 $pinValueD  = array();
@@ -127,7 +129,12 @@ function show($step)
 function init($steps)
 //==========================================
 {
-  for($ii=0;$ii<=$steps;$ii++)$simulation[$ii] = "";
+  for($ii=0;$ii<=$steps;$ii++)
+    {
+      $simulation[$ii] = "";
+      $serial[$ii] = "";
+      $serialL[$ii] = "";
+    }
 }
 
 //==========================================
@@ -137,13 +144,55 @@ function showStep($target)
   global $curStep,$simulation,$curSimLen;
 
 
-  for($ii=$target;$ii>0;$ii--)
+  for($ii=$target+1;$ii>0;$ii--)
     {
-      if($ii==$target)
+      if($ii==$target+1)
+       echo("next> $simulation[$ii]<br>");
+      else if($ii==$target)
 	echo("now> $simulation[$ii]<br>");
       else
 	echo("<a href=\"index.php?ac=step&x=$ii\">$simulation[$ii]</a><br>");
     }
+}
+
+//==========================================
+function showSerial($target)
+//==========================================
+{
+  global $curStep,$serial,$serialL;
+
+  $stemp = array();
+
+  $jj = 1;
+  //for($ii=$target;$ii>0;$ii--)
+  for($ii=1;$ii<=$target;$ii++)
+    {
+      $temp = $serial[$ii];
+      if($serialL[$ii] == 'NL')
+	{
+	  $stemp[$jj] = $stemp[$jj]."<a href=\"index.php?ac=step&x=$ii\">$temp</a><br>";
+	  $jj++;
+	  $flag = 0;
+	  //echo("<a href=\"index.php?ac=step&x=$ii\">$temp</a><br>");
+	}
+      if($serialL[$ii] == 'SL')
+	{
+	  $stemp[$jj] = $stemp[$jj]."<a href=\"index.php?ac=step&x=$ii\">$temp</a>";
+	  $flag = 1;
+	  //echo("<a href=\"index.php?ac=step&x=$ii\">$temp</a>");
+	}
+    }
+
+
+  //for($ii=1;$ii<=$jj;$ii++)
+ 
+   for($ii=$jj;$ii>0;$ii--)
+    {
+      $temp = $stemp[$ii];
+      echo("$temp");
+      if($flag==1 && $ii == $jj)echo("<br>");
+    }
+
 }
 
 //==========================================
@@ -175,19 +224,6 @@ function showAnyFile($target)
 }
 
 //==========================================
-function showSerial($target)
-//==========================================
-{
-  global $curStep;
-  global $simulation;
-
-  for($ii=0;$ii<=$target;$ii++)
-    {
-      echo("<a href=\"index.php\">$serial[$ii]</a><br>");
-    }
-}
-
-//==========================================
 function readSimulation($file)
 //==========================================
 {
@@ -202,7 +238,7 @@ function readSimulation($file)
 	{
 	  $row = fgets($in);
 	  $row = trim($row);
-	  //$row = safeText($row);
+	  $row = safeText($row);
 	  //echo("$row<br>");
 	  if($row[0]=='+')
 	    {
@@ -213,6 +249,37 @@ function readSimulation($file)
 	    }
 	}
       $curSimLen = $step;
+      fclose($in);
+    }
+  else
+    echo("Fail to open $file<br>");
+  return($step);
+}
+
+//==========================================
+function readSerial($file)
+//==========================================
+{
+  global $serial,$servuino,$serialL;
+
+  $file = $servuino.$file;
+  $step = 0;
+  $in = fopen($file,"r");
+  if($in)
+    {
+      while (!feof($in))
+	{
+	  $row = fgets($in);
+	  //$row = trim($row);
+	  sscanf($row,"%d %s %s",$step,$line,$value);
+	  $serialL[$step] = $line;
+	  $left  = strpos($row,"[");
+	  $right = strpos($row,"]");
+	  if($right && $left){$left++;$value = substr($row,$left,$right-$left);}
+	  $value = safeText($value);
+	  //echo("$step $line $value<br>");
+	  $serial[$step] = $value;
+	}
       fclose($in);
     }
   else
@@ -338,10 +405,11 @@ function safeText($text)
   $text = str_replace("%", "Percent", $text); 
   $text = str_replace("^", "", $text); 
   $text = str_replace("&", "and", $text); 
-  $text = str_replace("*", "", $text); 
+  //$text = str_replace("*", "", $text); 
   $text = str_replace("?", "", $text); 
   $text = str_replace("<", "R", $text); 
   $text = str_replace(">", "T", $text); 
+  $text = str_replace(" ", "&nbsp;", $text); 
   return($text);
 }
 

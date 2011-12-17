@@ -16,6 +16,7 @@ if(!$curMenu)$curMenu = 'logging';
 init($curSimLen);
 readSketchInfo();
 readSimulation('data.custom');
+readSerial('data.serial');
 readStatus();
 
 
@@ -30,10 +31,31 @@ $action    = $_GET['ac'];
 
 if($action == 'load')
   {
-    $file = $upload.$curSketch;
-    copySketch($file);
-    compileSketch();
-    execSketch($curSimLen,0);
+    $alt = $_GET['x'];
+    if($alt == 'CGE')
+      {
+	$file = $upload.$curSketch;
+	copySketch($file);// C
+	compileSketch(); // G
+	execSketch($curSimLen,0); // E
+      }
+    if($alt == 'GE')
+      {
+	compileSketch(); // G
+	execSketch($curSimLen,0); // E
+      }
+    if($alt == 'E')
+      {
+	execSketch($curSimLen,0); // E
+      }
+
+    $curStep = 0;
+    init($curSimLen);
+    readSketchInfo();
+    readSimulation('data.custom');
+    readSerial('data.serial');
+    readStatus();
+    $ready = "Sketch loaded!";
   }
 
 if($action == 'menu')
@@ -46,13 +68,16 @@ if($action == 'menu')
 if($action == 'run' && $curSimLen > 0)
   {
     execSketch($curSimLen,0);
-    //$file = $servuino.'data.custom';
-    //readSimSi($file);
   }
 
 if($action == 'step')
   {
     $curStep = $_GET['x'];
+  }
+
+if($action == 'edit_file')
+  {
+    $curEditFlag = 1;
   }
 
 if($action == 'reset')
@@ -69,6 +94,7 @@ if($action == 'log')
     if($source == 'arduino')$curLog = 'data.arduino';
     if($source == 'scen')   $curLog = 'data.scen';
     if($source == 'status') $curLog = 'data.status';
+    if($source == 'serial') $curLog = 'data.serial';
     $_SESSION['cur_log'] = $curLog;
     $logLen = readAnyFile($curLog);
   }
@@ -82,6 +108,45 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     if($action == 'select_file' )
       {
 	$curFile = $_POST['file'];
+	$what = $_POST['submit_select'];
+	if($what == T_EDIT) $curEditFlag = 1;
+      }
+
+    if($action == 'edit_file')
+      {
+	$tempFile = $_POST['file_name'];
+	$data = $_POST['file_data'];
+	$what = $_POST['submit_edit'];
+
+	$fp = fopen($tempFile, 'w')or die("Could not open file $tempFile (write)!");;
+	fwrite($fp,$data) or die("Could not write to file $tempFile !");
+	fclose($fp);
+
+	if($what == T_LOAD)
+	  {
+	    compileSketch();
+	    execSketch($curSimLen,0);
+	    $curStep = 0;
+	    init($curSimLen);
+	    readSketchInfo();
+	    readSimulation('data.custom');
+	    readStatus();
+	    readSerial('data.serial');
+	    $ready = "Sketch loaded!";
+	  }
+	if($what == T_RUN)
+	  {
+	    execSketch($curSimLen,1);
+	    $curStep = 0;
+	    init($curSimLen);
+	    readSketchInfo();
+	    readSimulation('data.custom');
+	    readStatus();
+	    readSerial('data.serial');
+	    $ready = "Sketch Executed!";
+	  }
+
+
       }
     if($action == 'upload_sketch' )
       {
@@ -100,6 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 	readSketchInfo();
 	readSimulation('data.custom');
 	readStatus();
+	readSerial('data.serial');
         $ready = "Sketch loaded!";
       }
 
@@ -312,119 +378,171 @@ function draw(){
 </head>
 <?
   //==================================================================
-print("<body onload=\"draw();\" link=\"black\" alink=\"black\" vlink=\"black\">\n");
-?>
-<div id="main" style=" background:white; float:left; width:100%;">
-  <div id="left" style=" background:white; float:left; width:100%; height: 40px;">
-  <?
- //echo("<a href=index.php?ac=load>Load</a>\n");
- //echo("<a href=index.php?ac=run>Run</a>\n");
-echo("<div style=\"text-align:right;font-size:20px; background:white; float:left; width:100%;\">");
-echo("<a href=index.php?ac=menu&x=logging> Log </a>\n");
-echo("<a href=index.php?ac=menu&x=config> Load </a>\n");
-echo("<a href=index.php?ac=menu&x=file> Files </a>\n");
-echo("</div>");
-echo("<div style=\"text-align:center;font-size:15px; background:white; float:left; width:100%;\">");
-echo("Loaded Sketch: $curSketch Now: $curStep   Simulation Length: $curSimLen steps");
-echo("</div>");
-?>
-</div>
-<div id="left" style=" background:white; float:left; width:50%">
-  <div id="above" style=" background:white; float:left; width:100%;">
-  <? print("<canvas id=\"tutorial\" width=\"$wBoard\" height=\"$hBoard\"></canvas>\n"); ?>
-</div>
- 
-<div id="below" style=" background:white; float:left; width:100%;">
-  <?     print("<a href=\"index.php\"><img src=\"arduino_uno.jpg\" height=\"$hBoard\" width=\"$wBoard\" style=\"border: none;\" alt=\"Shapes\" ismap=\"ismap\"></a>\n"); ?>
-</div>
+echo("<body onload=\"draw();\" link=\"black\" alink=\"black\" vlink=\"black\">\n");
+echo("<div id=\"main\" style=\" background:white; float:left; width:100%;\">");
+echo("  <div id=\"left\" style=\" background:white; float:left; width:100%; height: 40px;\">");
+echo("    <div style=\"text-align:right;font-size:20px; background:white; float:left; width:100%;\">");
+echo("         <a href=index.php?ac=step&x=1>Reset</a>\n");
+$temp = $curStep - 1;
+echo("         <a href=index.php?ac=step&x=$temp>Backward</a>\n");
+$temp = $curStep + 1;
+echo("         <a href=index.php?ac=step&x=$temp>Forward</a>\n");
+echo("      <a href=index.php?ac=menu&x=logA> LogA </a>\n");
+echo("      <a href=index.php?ac=menu&x=logB> LogB </a>\n");
+echo("      <a href=index.php?ac=menu&x=config> Library </a>\n");
+echo("      <a href=index.php?ac=menu&x=file> Data </a>\n");
+echo("    </div>");
+echo("    <div style=\"text-align:center;font-size:15px; background:white; float:left; width:100%;\">");
+echo("      Loaded Sketch: $curSketch Now: $curStep   Simulation Length: $curSimLen steps");
+echo("    </div>");
 
-<?
-  //================================================================
+echo("  </div>");
+echo("  <div id=\"left\" style=\" background:white; float:left; width:50%\">");
+echo("    <div id=\"above\" style=\" background:white; float:left; width:100%;\">");
+echo("      <canvas id=\"tutorial\" width=\"$wBoard\" height=\"$hBoard\"></canvas>\n");
+echo("    </div>");
 
-echo("</div><div id=\"right\"  style=\"background-color:white; float:left; width:50%;\">\n");
-if($curMenu == 'logging')
+echo("    <div id=\"below\" style=\" background:white; float:left; width:100%;\">");
+    // Serial window
+    echo("<div id=\"serWin\"t style=\"font-family: Courier,monospace;float:left; border : solid 3px #C0C0C0; background : #E3F6CE; color : #000000; padding : 4px; width : 97%; height:250px; overflow : auto; \">\n");
+    showSerial($curStep);
+    echo("</div>\n"); 
+
+echo("    </div>");
+echo("  </div>");
+
+//================================================================
+echo("<div id=\"right\"  style=\"background-color:white; float:left; width:50%;\">\n");
+//================================================================
+if($curMenu == 'logA')
   {
     // Command start
-    echo("<div id=command style=\" padding: 5px; background:white; float:left; width:100%;\">\n");
-
+    echo("<div id=loga style=\" padding: 1px; background:white; float:left; width:100%;\">\n");
 
     // Log window
-
-    echo("</div><div id=\"simList\" style=\"float:left; border : solid 1px #000000; background : #ffffff; color : #000000; padding : 4px; width : 48%; height:550px; overflow : auto; \">\n");
+    echo("</div><div id=\"simList\" style=\"float:left; border : solid 1px #000000; background : #FFFFFF; color : #000000; padding : 4px; width : 48%; height:550px; overflow : auto; \">\n");
     showStep($curStep);
     echo("</div>\n");
 
-    // Serial Output window
-
-    echo("<div id=\"serLis\"t style=\"float:right; border : solid 1px #000000; background : #ffffff; color : #000000; padding : 4px; width : 48%; height:550px; overflow : auto; \">\n");
+    // Simulation Output window
+    echo("<div id=\"serLis\"t style=\"float:right; border : solid 1px #000000; background : #FFFFFF; color : #000000; padding : 4px; width : 48%; height:550px; overflow : auto; \">\n");
     showSimulation($curStep);
     echo("</div>\n"); 
-
-
- 
-
+    echo("</div>\n"); 
   }
-//========================================================================
+else if($curMenu == 'logB')
+  {
+    // Command start
+    echo("<div id=logb style=\" padding: 1px; background:white; float:left; width:100%;\">\n");
+
+    // Log window
+    echo("</div><div id=\"logWin\" style=\"float:left; border : solid 1px #C0C0C0; background : #FFFFFF; color : #000000; padding : 4px; width : 98%; height:293px; overflow : auto; \">\n");
+    showStep($curStep);
+    echo("</div>");
+
+    // Simulation Output window
+    echo("<div id=\"simWin\"t style=\"float:left; border : solid 1px #C0C0C0; background : #FFFFFF; color : #000000; padding : 4px; width : 98%; height:250px; overflow : auto; \">\n");
+    showSimulation($curStep);
+    echo("</div>\n"); 
+    echo("</div>\n"); 
+  }
+//================================================================
  else if ($curMenu == 'config')
+//================================================================
    {
     // Command start
     echo("<div id=command style=\" padding: 5px; background:white; float:left; width:100%;\">\n");
 
-
-	echo("<br><br><form name=\"upload_sketch\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">\n ");
+	echo("<hr><form name=\"upload_sketch\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">\n ");
 	echo("<input type=\"hidden\" name=\"action\" value=\"upload_sketch\">\n");
 	echo("<input type=\"file\" name=\"import_file\" value=\"\">\n");
 	echo("<input type =\"submit\" name=\"submit_file\" value=\"".T_UPLOAD_SKETCH."\">\n");
-	echo("</form><br><br>");
-     
-
+	echo("</form><br<br>");
+	echo("<hr>");
+     	echo("<table border=\"0\"><tr><td>");
 	echo("<form name=\"configuration\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">\n ");
 	echo("<input type=\"hidden\" name=\"action\" value=\"set_configuration\">\n");
-	echo("Simulation Length <input type=\"text\" name=\"sim_len\" value=\"$curSimLen\" size=\"5\"><br>\n");
+	echo("Simulation Length <input type=\"text\" name=\"sim_len\" value=\"$curSimLen\" size=\"5\"></td>\n");
 	system("ls upload > list.txt");
+	echo("<td>");
 	formSelectFile("Sketch Library","sketch","list.txt",$curSketch);
-	echo("<br><input type =\"submit\" name=\"submit_file\" value=\"".T_SELECT."\"><br>\n");
-	echo("</form>\n");
-	if($ready)echo("$ready");
-    
-    echo("</div>\n"); // Command end
+	echo("<input type =\"submit\" name=\"submit_file\" value=\"".T_LOAD."\"></td>\n");
+	echo("</form></tr>");
+    	if($ready)echo("<tr><td>$ready</td></tr>");
+	echo("</table><hr>");
+    echo("</div>\n");
    }
-
+//================================================================
  else if ($curMenu == 'file')
+//================================================================
    {
     echo("<div id=command style=\" padding: 5px; background:white; float:left; width:100%;\">\n");
 
-    echo("<form name=\"f_sel_win\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">\n ");
-    echo("<input type=\"hidden\" name=\"action\" value=\"select_file\">\n");
-    echo("<select name=\"file\">");
-    
-    $selected = "";$temp = 'data.custom';if($curFile == $temp)$selected = 'selected';
-    echo("<option value=\"$temp\"   $selected>Custom Log</option>");
-    $selected = "";$temp = 'data.arduino';if($curFile == $temp)$selected = 'selected';
-    echo("<option value=\"$temp\"  $selected>Arduino Log</option>");
-    $selected = "";$temp = 'data.status';if($curFile == $temp)$selected = 'selected';
-    echo("<option value=\"$temp\"   $selected>Status Log</option>");
-    $selected = "";$temp = 'data.code';if($curFile == $temp)$selected = 'selected';
-    echo("<option value=\"$temp\"   $selected>Code Log</option>");
-    $selected = "";$temp = 'data.error';if($curFile == $temp)$selected = 'selected';
-    echo("<option value=\"$temp\"   $selected>Error Log</option>");
-    $selected = "";$temp = 'sketch.pde';if($curFile == $temp)$selected = 'selected';
-    echo("<option value=\"$temp\"   $selected>Sketch</option>");
-    $selected = "";$temp = 'data.scen';if($curFile == $temp)$selected = 'selected';
-    echo("<option value=\"$temp\"   $selected>Scenario</option>");
-    echo("</select>");
-    echo("<input type =\"submit\" name=\"submit_file\" value=\"".T_SELECT."\">\n");
-    echo("</form>");
+    if($curEditFlag == 0)
+      {
+	echo("<table><tr><td>");
+	echo("<form name=\"f_sel_win\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">\n ");
+	echo("<input type=\"hidden\" name=\"action\" value=\"select_file\">\n");
+	echo("<select name=\"file\">");
+	$selected = "";$temp = 'data.custom';if($curFile == $temp)$selected = 'selected';
+	echo("<option value=\"$temp\"   $selected>Custom Log</option>");
+	$selected = "";$temp = 'data.arduino';if($curFile == $temp)$selected = 'selected';
+	echo("<option value=\"$temp\"  $selected>Arduino Log</option>");
+	$selected = "";$temp = 'data.status';if($curFile == $temp)$selected = 'selected';
+	echo("<option value=\"$temp\"   $selected>Status Log</option>");
+	$selected = "";$temp = 'data.serial';if($curFile == $temp)$selected = 'selected';
+	echo("<option value=\"$temp\"   $selected>Serial Log</option>");
+	$selected = "";$temp = 'data.code';if($curFile == $temp)$selected = 'selected';
+	echo("<option value=\"$temp\"   $selected>Code Log</option>");
+	$selected = "";$temp = 'data.error';if($curFile == $temp)$selected = 'selected';
+	echo("<option value=\"$temp\"   $selected>Error Log</option>");
+	$selected = "";$temp = 'sketch.pde';if($curFile == $temp)$selected = 'selected';
+	echo("<option value=\"$temp\"   $selected>Sketch</option>");
+	$selected = "";$temp = 'data.scen';if($curFile == $temp)$selected = 'selected';
+	echo("<option value=\"$temp\"   $selected>Scenario</option>");
+	echo("</select>");
+	echo("<input type =\"submit\" name=\"submit_select\" value=\"".T_SELECT."\">\n");
+	if($curFile == 'sketch.pde')echo("<input type =\"submit\" name=\"submit_select\" value=\"".T_EDIT."\">\n");
+	if($curFile == 'data.scen')echo("<input type =\"submit\" name=\"submit_select\" value=\"".T_EDIT."\">\n");
+	echo("</form></td>");
+	
+	//if($curFile == 'sketch.pde')echo("<td><a href=index.php?ac=edit_file>".T_EDIT."</a></td></tr>");
+	echo("</table>");
+	echo("</div><div id=\"simList\" style=\"float:left; border : solid 1px #000000; background : #A9BCF5; color : #000000; padding : 4px; width : 98%; height:514px; overflow : auto; \">\n");
+	$len = readAnyFile($curFile);
+	showAnyFile($len);
+	echo("</div>\n");
+      }
+    else if ($curEditFlag == 1)
+      {
+	// open file
+	$tempFile = $servuino.$curFile;
+	$fh = fopen($tempFile, "r") or die("Could not open file $tempFile!");
+	// read file contents
+	$data = fread($fh, filesize($tempFile)) or die("Could not read file $tempFile!");
+	// close file
+	fclose($fh);
+	echo("<br><br><form name=\"f_edit_file\" action=\"index.php\" method=\"post\" enctype=\"multipart/form-data\">\n ");
+	echo("<input type=\"hidden\" name=\"action\" value=\"edit_file\">\n");
+	echo("<input type=\"hidden\" name=\"file_name\" value=\"$tempFile\">\n");
+	if($curFile == 'sketch.pde')echo("<input type =\"submit\" name=\"submit_edit\" value=\"".T_LOAD."\">\n");
+	if($curFile == 'data.scen')echo("<input type =\"submit\" name=\"submit_edit\" value=\"".T_RUN."\">\n");
+	echo("<textarea name=\"file_data\" cols=64 rows=33>$data</textarea>");  
+	echo("</form><br>");
 
-    echo("</div><div id=\"simList\" style=\"float:left; border : solid 1px #000000; background : #ffffff; color : #000000; padding : 4px; width : 98%; height:550px; overflow : auto; \">\n");
-    $len = readAnyFile($curFile);
-    showAnyFile($len);
+      }
+    else
+      echo("Nothing to show1");
+
+    if($ready)echo("$ready");      
     echo("</div>\n");
-
-    echo("</div>\n"); // Command end
    }
+ else
+   echo("Nothing to show2");
 
+//================================================================
 echo("</div>\n"); // Right end
+//================================================================
 
 echo("<div id=error style=\" background:yellow; float:left; width:100%;\">\n");
 $file = $servuino.'g++.error';
