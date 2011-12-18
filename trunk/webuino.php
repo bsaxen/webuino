@@ -10,7 +10,18 @@ $curMenu   = $_SESSION['cur_menu'];
 $curFile   = $_SESSION['cur_file'];
 $curSketchName = $_SESSION['cur_sketch_name'];
 
+// echo("1simlen=$curSimLen<br>");
+// echo("1sketch=$curSketch<br>");
+// echo("1step=$curStep<br>");
+// echo("1loop=$curLoop<br>");
+// echo("1log=$curLog<br>");
+// echo("1menu=$curMenu<br>");
+// echo("1file=$curFile<br>");
+// echo("1name=$curSketchName<br>");
+
+
 if(!$curMenu)$curMenu = 'logA';
+if(!$curSketch)$curSketch = 'default.c';
 
 init($curSimLen);
 readSketchInfo();
@@ -26,7 +37,9 @@ $input  = array_keys($_GET);
 $coords = explode(',', $input[0]); 
 //print("X coordinate : ".$coords[0]."<br> Y Coordinate : ".$coords[1]); 
 
-$action    = $_GET['ac'];
+$action  = $_GET['ac'];
+$alt     = $_GET['x'];
+
 
 if($action == 'load')
   {
@@ -185,6 +198,18 @@ $_SESSION['cur_menu']    = $curMenu;
 $_SESSION['cur_file']    = $curFile; 
 $_SESSION['cur_sketch_name'] = $curSketchName;
 
+
+// echo("2simlen=$curSimLen<br>");
+// echo("2sketch=$curSketch<br>");
+// echo("2step=$curStep<br>");
+// echo("2loop=$curLoop<br>");
+// echo("2log=$curLog<br>");
+// echo("2menu=$curMenu<br>");
+// echo("2file=$curFile<br>");
+// echo("2name=$curSketchName<br>");
+
+
+
 //====================================================================
 // Calulate positions in image
 //====================================================================
@@ -249,65 +274,65 @@ $sens = 5;
 
 // Check what action is pointed at
 //===========================================
-for($ii=0; $ii<14; $ii++)
-  {
-    $xx = $digX[$ii];
-    $yy = $digY[$ii];
-    if($aa > $xx-$sens && $aa < $xx+$sens && $bb > $yy-$sens && $bb < $yy+$sens)
-      $pinModeD[$ii] = 1;
-  }
-for($ii=0; $ii<6; $ii++)
-  {
-    $xx = $anaX[$ii];
-    $yy = $anaY[$ii];
-    if($aa > $xx-$sens && $aa < $xx+$sens && $bb > $yy-$sens && $bb < $yy+$sens)
-      $pinModeA[$ii] = 3;
-  }
+// for($ii=0; $ii<14; $ii++)
+//   {
+//     $xx = $digX[$ii];
+//     $yy = $digY[$ii];
+//     if($aa > $xx-$sens && $aa < $xx+$sens && $bb > $yy-$sens && $bb < $yy+$sens)
+//       $pinModeD[$ii] = 1;
+//   }
+// for($ii=0; $ii<6; $ii++)
+//   {
+//     $xx = $anaX[$ii];
+//     $yy = $anaY[$ii];
+//     if($aa > $xx-$sens && $aa < $xx+$sens && $bb > $yy-$sens && $bb < $yy+$sens)
+//       $pinModeA[$ii] = 3;
+//   }
 
-if($aa > $stepForwardX-$sens && $aa < $stepForwardX+$sens && $bb > $stepForwardY-$sens && $bb < $stepForwardY+$sens)
-  {
-    $curStep++;
-    $_SESSION['cur_step'] = $curStep;
-    $pinModeD[1] = 3;
-  }
-if($aa > $stepBackwardX-$sens && $aa < $stepBackwardX+$sens && $bb > $stepBackwardY-$sens && $bb < $stepBackwardY+$sens)
-  {
-    $curStep--;
-    $_SESSION['cur_step'] = $curStep;
-    $pinModeD[1] = 1;
-  }
+// if($aa > $stepForwardX-$sens && $aa < $stepForwardX+$sens && $bb > $stepForwardY-$sens && $bb < $stepForwardY+$sens)
+//   {
+//     $curStep++;
+//     $_SESSION['cur_step'] = $curStep;
+//     $pinModeD[1] = 3;
+//   }
+// if($aa > $stepBackwardX-$sens && $aa < $stepBackwardX+$sens && $bb > $stepBackwardY-$sens && $bb < $stepBackwardY+$sens)
+//   {
+//     $curStep--;
+//     $_SESSION['cur_step'] = $curStep;
+//     $pinModeD[1] = 1;
+//   }
 
-if($aa > $resetX-$sens && $aa < $resetX+$sens && $bb > $resetY-$sens && $bb < $resetY+$sens)
-  {
-    $curStep = 0;
-    $_SESSION['cur_step'] = $curStep;
-  }
+// if($aa > $resetX-$sens && $aa < $resetX+$sens && $bb > $resetY-$sens && $bb < $resetY+$sens)
+//   {
+//     $curStep = 0;
+//     $_SESSION['cur_step'] = $curStep;
+//   }
 
-$doUpload = 0;
-if($aa > $uploadX-$sens && $aa < $uploadX+$sens && $bb > $uploadY-$sens && $bb < $uploadY+$sens)
-  {
-    $doUpload = 1;
-  }
+// $doUpload = 0;
+// if($aa > $uploadX-$sens && $aa < $uploadX+$sens && $bb > $uploadY-$sens && $bb < $uploadY+$sens)
+//   {
+//     $doUpload = 1;
+//   }
 
-$doConfig = 0;
-if($aa > $configX-$sens && $aa < $configX+$sens && $bb > $configY-$sens && $bb < $configY+$sens)
-  {
-    $doConfig = 1;
-  }
+// $doConfig = 0;
+// if($aa > $configX-$sens && $aa < $configX+$sens && $bb > $configY-$sens && $bb < $configY+$sens)
+//   {
+//     $doConfig = 1;
+//   }
 
 // Decode current status 
 decodeStatus($status[$curStep]);
 //===========================================
 ?>
-<html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Webuino</title>
+
+<style type="text/css">
+a { text-decoration:none }
+</style>
 <title>Canvas tutorial</title>
 <script type="text/javascript">
-
-  function pause(milliseconds) {
-  var dt = new Date();
-  while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
-}
 
 function draw(){
   var canvas = document.getElementById('tutorial');
@@ -422,23 +447,23 @@ echo("<div id=\"main\" style=\" background:white; float:left; width:100%;\">");
 echo("  <div id=\"left\" style=\" background:white; float:left; width:100%; height: 40px;\">");
 echo("    <div style=\"text-align:center;font-size:20px; background:white; float:left; width:48%;\">");
 echo("         <a href=index.php?ac=step&x=1>");
-echo("         <img border=\"0\" src=\"reset.gif\" alt=\"Reset\" width=\"50\" height=\"32\"</a>\n");
+echo("         <img border=\"0\" src=\"reset.gif\" alt=\"Reset\" width=\"50\" height=\"32\"></a>\n");
 $temp = $curStep - 1;
 echo("         <a href=index.php?ac=step&x=$temp>");
-echo("         <img border=\"0\" src=\"backward.gif\" alt=\"Backward\" width=\"50\" height=\"32\"</a>\n");
+echo("         <img border=\"0\" src=\"backward.gif\" alt=\"Backward\" width=\"50\" height=\"32\"></a>\n");
 $temp = $curStep + 1;
 echo("         <a href=index.php?ac=step&x=$temp>");
-echo("         <img border=\"0\" src=\"forward.gif\" alt=\"Forward\" width=\"50\" height=\"32\"</a>\n");
+echo("         <img border=\"0\" src=\"forward.gif\" alt=\"Forward\" width=\"50\" height=\"32\"></a>\n");
 echo("      <a href=index.php?ac=menu&x=logA>\n");
-echo("         <img border=\"0\" src=\"logA.gif\" alt=\"LogA\" width=\"50\" height=\"32\"</a>\n");
+echo("         <img border=\"0\" src=\"logA.gif\" alt=\"LogA\" width=\"50\" height=\"32\"></a>\n");
 echo("      <a href=index.php?ac=menu&x=logB>\n");
-echo("         <img border=\"0\" src=\"logB.gif\" alt=\"LogB\" width=\"50\" height=\"32\"</a>\n");
+echo("         <img border=\"0\" src=\"logB.gif\" alt=\"LogB\" width=\"50\" height=\"32\"></a>\n");
 echo("      <a href=index.php?ac=menu&x=config>");
-echo("         <img border=\"0\" src=\"library.gif\" alt=\"Library\" width=\"50\" height=\"32\"</a>\n");
+echo("         <img border=\"0\" src=\"library.gif\" alt=\"Library\" width=\"50\" height=\"32\"></a>\n");
 echo("      <a href=index.php?ac=menu&x=file>");
-echo("         <img border=\"0\" src=\"data.gif\" alt=\"Data\" width=\"50\" height=\"32\"</a>\n");
+echo("         <img border=\"0\" src=\"data.gif\" alt=\"Data\" width=\"50\" height=\"32\"></a>\n");
 echo("      <a href=index.php?ac=menu&x=help>");
-echo("         <img border=\"0\" src=\"help.gif\" alt=\"Help\" width=\"50\" height=\"32\"</a>\n");
+echo("         <img border=\"0\" src=\"help.gif\" alt=\"Help\" width=\"50\" height=\"32\"></a>\n");
 echo("    </div>");
 echo("    <div style=\"text-align:center;font-size:17px; background:white; float:left; width:48%;\">");
 echo("      Sketch: $curSketch <br>Current Step: $curStep ($curSimLen)");
@@ -500,7 +525,7 @@ else if($curMenu == 'logB')
     // Simulation Output window
     echo("<div id=\"simWin\"t style=\"float:left; border : solid 1px #C0C0C0; background : #FFFFFF; color : #000000; padding : 4px; width : 98%; height:250px; overflow : auto; \">\n");
     showSimulation($curStep);
-    echo("</div>\n"); 
+    echo("  </div>\n"); 
     echo("</div>\n"); 
   }
 //================================================================
@@ -624,7 +649,7 @@ echo("</div>\n"); // Right end
 //================================================================
 
 echo("<div id=error style=\" background:yellow; float:left; width:100%;\">\n");
-echo("[Webuino Version 2011-12-17] Any errors will be shown here<br>");
+echo("[Webuino Version 2011-12-18] Any errors will be shown here<br>");
 $file = $servuino.'g++.error';
 showAnyFile($file);
 $file = $servuino.'exec.error';
