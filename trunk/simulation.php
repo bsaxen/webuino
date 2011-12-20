@@ -38,6 +38,7 @@
 			<a class="nav sub" href="#">Sub-page 1</a><span class="hide"> | </span>
 			<a class="nav sub" href="#">Sub-page 2</a><span class="hide"> | </span>
 			<a class="nav sub" href="#">Sub-page 3</a>
+<? viking_7_current(1); ?>
 			</p>
 			<h1>Included colors</h1>
 			<img src="img/colors.jpg" height="104" width="125" class="thumbnail" alt="Included colors" />
