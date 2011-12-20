@@ -53,7 +53,7 @@
 			<h1>Latest news</h1>
 			<p><strong>July 07, 2008:</strong><br />
 It's been a while. But better late than never: New version, updated with refreshed sample content and simplified code. This is andreas09 v2.2!</p>
-
+                        <? viking_lib_editInfoText_Link(); ?>
 			<h1>Links:</h1>
 			<ul class="linklist">
 				<li><a href="http://simuino.com">Simuino</a></li>
@@ -65,7 +65,8 @@ It's been a while. But better late than never: New version, updated with refresh
 
 		<div id="content">
                     <? viking_4_login_Form(); ?>
-                     <? viking_4_adduser_Form(); ?>
+                    <? viking_4_adduser_Form(); ?>
+                    <? viking_lib_editInfoText_Form(); ?>
 		</div>
 	<div class="clearingdiv">&nbsp;</div>
 	</div>
