@@ -7,13 +7,14 @@
 	<meta name="keywords" content="your,keywords,goes,here" />
 	<meta name="author" content="Your Name" />
 	<link rel="stylesheet" type="text/css" href="andreas09/andreas09.css" title="andreas09" media="screen,projection" />
-	<title>Webuino v0.2</title>
+	<title>Webuino v0.1</title>
+        <? viking_7_script(1); ?>
 </head>
 
-<body>
+<body onload = draw();>
 <div id="container">
 	<div id="sitename">
-		<h1>Webuino v0.2<h1>
+		<h1>Webuino v0.1 ------------> Arduino Simulator</h1>	
 	</div>
 	<div id="mainmenu">
 		<ul>
@@ -24,15 +25,14 @@
 			<li><a href="advanced.php">Advanced</a></li>
 			<li><a href="help.php">Help</a></li>
 			<li><a href="about.php">About</a></li>
-                        <li><? viking_4_login_logout(); ?></li>
 		</ul>
 	</div>
  
 	<div id="wrap">
 		<div id="leftside">
-			<h1>User: <? viking_4_showUserLoggedIn(); ?></h1>
+			<h1>Included layouts</h1>
 			<p>
-			<a class="nav active" href="index.html">3 asasd<span class="hide"> | </span>
+			<a class="nav active" href="index.html">3 columns</a><span class="hide"> | </span>
 			<a class="nav" href="2col.html">2 columns</a><span class="hide"> | </span>
 			<a class="nav" href="#">Samplebutton</a><span class="hide"> | </span>
 			<a class="nav sub" href="#">Sub-page 1</a><span class="hide"> | </span>
@@ -59,20 +59,23 @@ It's been a while. But better late than never: New version, updated with refresh
 				<li><a href="http://simuino.com">Simuino</a></li>
 				<li><a href="http://code.google.com/p/simuino">Project Site</a></li>
 				<li><a href="http://arduino.cc">Arduino Official Site</a></li>
-                                <li><? viking_4_addUser_Link(); ?></li>
 			</ul>
 		</div>
 
-		<div id="content">
-                    <? viking_4_login_Form(); ?>
-                     <? viking_4_adduser_Form(); ?>
+		<div id="content" style="height:800px;">
+                 <div style="float:left; width : 56%; background :white;">
+                    <div id="simcontrol"><?viking_7_menu(1);?></div>
+                    <div style="float:left; width :100%; background :white;"><?viking_7_canvas(1);?></div>
+                    <div style="float:left; width :100%; background :white;"><?viking_7_winSerial(1);?></div>
+                 </div>
+                 <div style="float:right; width : 30%; background :yellow;">
+                    <div style="float:left; width :100%; background :white;"><?viking_7_winLog(1);?></div>
 		</div>
 	<div class="clearingdiv">&nbsp;</div>
 	</div>
 </div>
 
 <div id="footer">
-   <? viking_lib_showError(); viking_lib_showWarning(); ?>
 	<p>&copy; 2012 <a href="#">Benny Saxen</a> | Template design by <a href="http://andreasviklund.com/">Andreas Viklund</a></p>
 </div>
 

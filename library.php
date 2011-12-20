@@ -64,15 +64,13 @@ It's been a while. But better late than never: New version, updated with refresh
 		</div>
 
 		<div id="content">
-                    <? viking_4_login_Form(); ?>
-                     <? viking_4_adduser_Form(); ?>
+                    <? viking_7_library(1); ?>
 		</div>
 	<div class="clearingdiv">&nbsp;</div>
 	</div>
 </div>
 
-<div id="footer">
-   <? viking_lib_showError(); viking_lib_showWarning(); ?>
+<div id="footer">  <? viking_lib_showError(); viking_lib_showWarning(); ?>
 	<p>&copy; 2012 <a href="#">Benny Saxen</a> | Template design by <a href="http://andreasviklund.com/">Andreas Viklund</a></p>
 </div>
 
