@@ -26,6 +26,7 @@
 			<li><a href="index.php?pv=advanced">Advanced</a></li>
 			<li><a href="index.php?pv=help">Help</a></li>
 			<li><a href="index.php?pv=about">About</a></li>
+			<li><a href="index.php?pv=register">Register</a></li>
 			<li><a href="index.php?pv=pv">PV</a></li>
                         <li><? pv(); ?></li>
                         <li><? pv(); ?></li>
