@@ -1,19 +1,12 @@
-/*
-Original design: andreas09 (v2.2 - June 01, 2010) - A free xhtml/css website template by Andreas Viklund.
-For more information, see http://andreasviklund.com/templates/andreas09/
-*/
 
-/* Main tags */
-body {background:#8b8b8b; color:#303030; font:76% Verdana,Tahoma,Arial,sans-serif; margin:0; padding:0; text-align:center;}
+body {background:#ffffff; color:#303030; font:76% Verdana,Tahoma,Arial,sans-serif; margin:0; padding:0; text-align:center;}
 a {color:#505050; font-weight:bold; text-decoration:none;}
 a:hover {color:#808080; text-decoration:underline;}
 p {line-height:1.5em; margin:0 0 15px;}
 
 /* Main container */
-/*ÄOB
-#container {background:#f0f0f0; repeat-x; color:#303030; margin:0; min-width:770px; padding:0; text-align:left; width:100%;}
-*/
-#container {background:#f0f0f0 url(img/bodybg.jpg) repeat-x; color:#303030; margin:0; min-width:770px; padding:0; text-align:left; width:100%;}
+
+#container {background:#94AABA; color:#303030; margin:0; min-width:770px; padding:0; text-align:left; width:100%;}
 
 
 /* Header section */
@@ -23,18 +16,18 @@ p {line-height:1.5em; margin:0 0 15px;}
 #sitename h2 {font-size:1.6em;}
 
 /* Horizontal menu */
-#mainmenu {float:left; margin-bottom:25px;}
+#mainmenu {float:left; margin-bottom:10px;}
 #mainmenu ul {font-size:16px; margin:0; padding:0;}
-#mainmenu li {float:left; height:35px; list-style:none; margin:0; padding:0;}
-#mainmenu a {border-right:1px solid #000000; color:#606060; display:block; font-size:0.7em; padding:11px 10px 10px; text-transform:uppercase;}
+#mainmenu li {float:left; height:20px; list-style:none; margin:0; padding:0;}
+#mainmenu a {border-right:1px solid #000000; color:#606060; display:block; font-size:0.7em; padding:11px 10px 10px; text-transform:uppercase;background:#BDBDBD;}
 #mainmenu a:hover {background:#f0f0f0 url(img/menuhover.jpg) top left repeat-x; color:#505050; text-decoration:none;}
 #mainmenu a.current {background:#f0f0f0 url(img/menuhover.jpg) top left repeat-x; color:#505050; text-decoration:none;}
 
-/* Horizontal menu */
-#simcontrol {float:left; margin-bottom:20px;}
+/* Webuino menu */
+#simcontrol {float:right;margin-bottom:5px; margin-top:5px;}
 #simcontrol ul {font-size:14px; margin:0; padding:0;}
-#simcontrol li {float:left; height:25px; list-style:none; margin:0; padding:0;}
-#simcontrol a {border-right:1px solid #b0b0b0; color:#606060; display:block; font-size:0.7em; padding:11px 10px 10px; text-transform:uppercase;}
+#simcontrol li {float:left; height:20px; list-style:none; margin:0; padding:0;}
+#simcontrol a {border-right:1px solid #b0b0b0; color:#606060; display:block; font-size:0.7em; padding:5px 5px 5px; text-transform:uppercase;}
 #simcontrol a:hover {background:#f0f0f0 url(img/menuhover.jpg) top left repeat-x; color:#505050; text-decoration:none;}
 #simcontrol a.current {background:#f0f0f0 url(img/menuhover.jpg) top left repeat-x; color:#505050; text-decoration:none;}
 
@@ -43,11 +36,11 @@ p {line-height:1.5em; margin:0 0 15px;}
 #wrap {clear:both; font-size:0.9em; padding:0;}
 
 /* Sidebars */
-#leftside,#rightside {margin:0; padding:0 10px 10px; width:165px;}
-#leftside {float:left; margin-right:10px;}
-#rightside {float:right; margin-left:10px;}
+#leftside,#rightside {margin:0; padding:0 5px 5px; width:100%;}
+#leftside {float:right; margin-right:5px;}
+#rightside {float:left; margin-left:5px;}
 #leftside h1,#rightside h1 {color:#505050; font-size:1.6em; font-weight:bold; letter-spacing:-1px; margin:0 0 12px;}
-#leftside h2,#rightside h2 {font-size:1.1em; margin:0 0 20px;}
+#leftside h2,#rightside h2 {font-size:1.1em; margin:0 0 10px;}
 #leftside p,#rightside p {font-size:0.9em; line-height:1.4em; margin:0 0 16px 10px;}
 
 .linklist {list-style:none; margin:0 0 16px 10px; padding:0;}
@@ -67,7 +60,7 @@ p {line-height:1.5em; margin:0 0 15px;}
 #content img,#contentalt img {border:1px solid #b0b0b0; float:left; margin:5px 15px 6px; padding:5px;}
 
 /* Footer */
-#footer {background:#8b8b8b url(img/footerbg.jpg) top left repeat-x; clear:both; color:#d0d0d0; font-size:0.9em; font-weight:bold; margin:0; padding:20px 0; text-align:center; width:100%;}
+#footer {background:#456881; clear:both; color:#d0d0d0; font-size:0.9em; font-weight:bold; margin:0; padding:10px 0; text-align:center; width:100%;}
 #footer a {color:#d0d0d0; font-weight:bold;}
 
 /* Various classes */
