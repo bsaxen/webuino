@@ -24,11 +24,10 @@ function pv()
   if($inc==11)viking_4_login_Form();
   if($inc==12)viking_4_adduser_Form();
 
-  if($inc==11)viking_4_showUserLoggedIn();
+  if($inc==15)viking_4_showUserLoggedIn();
   if($inc==14)viking_4_addUser_Link();
-  if($inc==10)viking_7_error(1);
 
-  
+  //==================================  
   if($func == 'start')
     {
 
@@ -43,7 +42,8 @@ function pv()
       if($inc==13)viking_7_winSerial(1);
       if($inc==8)viking_7_menu(1);
       if($inc==9)viking_7_canvas(1);
-      if($inc==5)viking_7_current(1);
+      if($inc==9)viking_7_current(1);
+      if($inc==10)viking_7_pinValues(1);
     }
   if($func == 'config')
     {
@@ -59,6 +59,10 @@ function pv()
     {
       if($inc==3)viking_4_addUser_Link();
     }
+  if($func == 'register')
+    {
+      if($inc==9)viking_7_applyAccount(1);
+    }
   if($func == 'login')
     {
       if($inc==3)viking_4_addUser_Link();
@@ -68,5 +72,8 @@ function pv()
       echo("pv-$inc");
 
     }
+  //================================== 
+  if($inc==10)viking_7_error(1);
+
 }
 ?>
