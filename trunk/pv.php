@@ -18,7 +18,7 @@ function pv()
 
   $inc++;
 
-  if($inc==1)viking_7_script();
+  if($inc==1)viking_7_script(1);
 
   if($inc==2)viking_4_login_logout();
   if($inc==11)viking_4_login_Form();
@@ -26,7 +26,7 @@ function pv()
 
   if($inc==11)viking_4_showUserLoggedIn();
   if($inc==14)viking_4_addUser_Link();
-  if($inc==10)viking_7_error();
+  if($inc==10)viking_7_error(1);
 
   
   if($func == 'start')
@@ -35,15 +35,15 @@ function pv()
     }
   if($func == 'lib')
     {
-      if($inc==8)viking_7_library();
+      if($inc==8)viking_7_library(1);
     }
   if($func == 'sim')
     {
-      if($inc==6)viking_7_winLog();
-      if($inc==13)viking_7_winSerial();
-      if($inc==8)viking_7_menu();
-      if($inc==9)viking_7_canvas();
-      if($inc==5)viking_7_current();
+      if($inc==6)viking_7_winLog(1);
+      if($inc==13)viking_7_winSerial(1);
+      if($inc==8)viking_7_menu(1);
+      if($inc==9)viking_7_canvas(1);
+      if($inc==5)viking_7_current(1);
     }
   if($func == 'config')
     {
@@ -51,9 +51,9 @@ function pv()
     }
   if($func == 'advanced')
     {
-      if($inc==8)viking_7_data();
-      //if($inc==9)viking_7_editFile();
-      if($inc==9)viking_7_anyFile();
+      if($inc==8)viking_7_data(1);
+      //if($inc==9)viking_7_editFile(1);
+      if($inc==9)viking_7_anyFile(1);
     }
   if($func == 'help')
     {
