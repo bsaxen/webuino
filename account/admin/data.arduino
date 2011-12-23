@@ -124,4 +124,6 @@
 + 121 digitalWrite HIGH 12
 + 122 delay() 500
 + 123 digitalWrite LOW 12
++ 124 digitalWrite HIGH 12
++ 125 delay() 500
 # ENDOFSIM
