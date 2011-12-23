@@ -19,7 +19,7 @@ function pv()
   $inc++;
 
   if($inc==1)viking_7_script(1);
-  if($inc==2)viking_7_mainmenu();
+  if($inc==2)viking_7_mainmenu(1);
   if($inc==3)viking_4_login_logout();
   if($inc==11)viking_4_login_Form();
   if($inc==12)viking_4_adduser_Form();
