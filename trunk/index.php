@@ -19,14 +19,6 @@
 
 	<div id="mainmenu">
 		<ul>
-                        <li><a href="index.php?pv=start">Start</a></li>
-			<li><a href="index.php?pv=lib">Load Simulator</a></li>
-			<li><a href="index.php?pv=sim">Simulation</a></li>
-			<li><a href="index.php?pv=config">Configuration</a></li>
-			<li><a href="index.php?pv=advanced">Sketch_Scenario</a></li>
-			<li><a href="index.php?pv=help">Help</a></li>
-			<li><a href="index.php?pv=about">About</a></li>
-			<li><a href="index.php?pv=register">Register</a></li>
                         <li><? pv(); ?></li>
                         <li><? pv(); ?></li>
                         <li><? pv(); ?></li>
