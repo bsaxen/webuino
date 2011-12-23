@@ -1,0 +1,180 @@
+# Servuino simulation data
+#// BOARD_TYPE UNO
+#// SKETCH_NAME: Heat_Control
+# SCENARIODATA 0 0 0
+# LOOP 0
++ 1 Serial:begin 9600
++ 2 attachInterruptCHANGE 0 1
++ 3 pinMode IN 2
++ 4 pinMode OUT 9
++ 5 pinMode OUT 8
++ 6 pinMode OUT 10
++ 7 pinMode OUT 11
++ 8 pinMode OUT 12
++ 9 pinMode OUT 13
++ 10 pinMode OUT 6
++ 11 pinMode OUT 7
++ 12 digitalWrite HIGH 6
++ 13 digitalWrite LOW 7
+= 13 ------ Start Looping ------
+# LOOP 1
++ 14 Serial:print(char) 'Step Mode:'
++ 15 Serial:println(int) 2
++ 16 analogRead 5 0
++ 17 Serial:print(char) 'SensorOUT:'
++ 18 Serial:println(int) 0
++ 19 analogRead 4 0
++ 20 Serial:print(char) 'SensorIN:'
++ 21 Serial:println(int) 0
++ 22 Serial:print(char) 'Celcius(-):'
++ 23 Serial:println(int) 43
++ 24 Serial:print(char) 'Angle:'
++ 25 Serial:println(int) 79
++ 26 Serial:print(int) 0
++ 27 Serial:print(char) '--->'
++ 28 Serial:println(int) 79
++ 29 Serial:print(char) 'Steps:'
++ 30 Serial:println(int) 43
++ 31 digitalWrite LOW 9
++ 32 digitalWrite HIGH 10
++ 33 digitalWrite LOW 8
++ 34 digitalWrite HIGH 8
++ 35 delayMicroseconds() 1400
++ 36 digitalWrite LOW 8
++ 37 digitalWrite HIGH 8
++ 38 delayMicroseconds() 1400
++ 39 digitalWrite LOW 8
++ 40 digitalWrite HIGH 8
++ 41 delayMicroseconds() 1400
++ 42 digitalWrite LOW 8
++ 43 digitalWrite HIGH 8
++ 44 delayMicroseconds() 1400
++ 45 digitalWrite LOW 8
++ 46 digitalWrite HIGH 8
++ 47 delayMicroseconds() 1400
++ 48 digitalWrite LOW 8
++ 49 digitalWrite HIGH 8
++ 50 delayMicroseconds() 1400
++ 51 digitalWrite LOW 8
++ 52 digitalWrite HIGH 8
++ 53 delayMicroseconds() 1400
++ 54 digitalWrite LOW 8
++ 55 digitalWrite HIGH 8
++ 56 delayMicroseconds() 1400
++ 57 digitalWrite LOW 8
++ 58 digitalWrite HIGH 8
++ 59 delayMicroseconds() 1400
++ 60 digitalWrite LOW 8
++ 61 digitalWrite HIGH 8
++ 62 delayMicroseconds() 1400
++ 63 digitalWrite LOW 8
++ 64 digitalWrite HIGH 8
++ 65 delayMicroseconds() 1400
++ 66 digitalWrite LOW 8
++ 67 digitalWrite HIGH 8
++ 68 delayMicroseconds() 1400
++ 69 digitalWrite LOW 8
++ 70 digitalWrite HIGH 8
++ 71 delayMicroseconds() 1400
++ 72 digitalWrite LOW 8
++ 73 digitalWrite HIGH 8
++ 74 delayMicroseconds() 1400
++ 75 digitalWrite LOW 8
++ 76 digitalWrite HIGH 8
++ 77 delayMicroseconds() 1400
++ 78 digitalWrite LOW 8
++ 79 digitalWrite HIGH 8
++ 80 delayMicroseconds() 1400
++ 81 digitalWrite LOW 8
++ 82 digitalWrite HIGH 8
++ 83 delayMicroseconds() 1400
++ 84 digitalWrite LOW 8
++ 85 digitalWrite HIGH 8
++ 86 delayMicroseconds() 1400
++ 87 digitalWrite LOW 8
++ 88 digitalWrite HIGH 8
++ 89 delayMicroseconds() 1400
++ 90 digitalWrite LOW 8
++ 91 digitalWrite HIGH 8
++ 92 delayMicroseconds() 1400
++ 93 digitalWrite LOW 8
++ 94 digitalWrite HIGH 8
++ 95 delayMicroseconds() 1400
++ 96 digitalWrite LOW 8
++ 97 digitalWrite HIGH 8
++ 98 delayMicroseconds() 1400
++ 99 digitalWrite LOW 8
++ 100 digitalWrite HIGH 8
++ 101 delayMicroseconds() 1400
++ 102 digitalWrite LOW 8
++ 103 digitalWrite HIGH 8
++ 104 delayMicroseconds() 1400
++ 105 digitalWrite LOW 8
++ 106 digitalWrite HIGH 8
++ 107 delayMicroseconds() 1400
++ 108 digitalWrite LOW 8
++ 109 digitalWrite HIGH 8
++ 110 delayMicroseconds() 1400
++ 111 digitalWrite LOW 8
++ 112 digitalWrite HIGH 8
++ 113 delayMicroseconds() 1400
++ 114 digitalWrite LOW 8
++ 115 digitalWrite HIGH 8
++ 116 delayMicroseconds() 1400
++ 117 digitalWrite LOW 8
++ 118 digitalWrite HIGH 8
++ 119 delayMicroseconds() 1400
++ 120 digitalWrite LOW 8
++ 121 digitalWrite HIGH 8
++ 122 delayMicroseconds() 1400
++ 123 digitalWrite LOW 8
++ 124 digitalWrite HIGH 8
++ 125 delayMicroseconds() 1400
++ 126 digitalWrite LOW 8
++ 127 digitalWrite HIGH 8
++ 128 delayMicroseconds() 1400
++ 129 digitalWrite LOW 8
++ 130 digitalWrite HIGH 8
++ 131 delayMicroseconds() 1400
++ 132 digitalWrite LOW 8
++ 133 digitalWrite HIGH 8
++ 134 delayMicroseconds() 1400
++ 135 digitalWrite LOW 8
++ 136 digitalWrite HIGH 8
++ 137 delayMicroseconds() 1400
++ 138 digitalWrite LOW 8
++ 139 digitalWrite HIGH 8
++ 140 delayMicroseconds() 1400
++ 141 digitalWrite LOW 8
++ 142 digitalWrite HIGH 8
++ 143 delayMicroseconds() 1400
++ 144 digitalWrite LOW 8
++ 145 digitalWrite HIGH 8
++ 146 delayMicroseconds() 1400
++ 147 digitalWrite LOW 8
++ 148 digitalWrite HIGH 8
++ 149 delayMicroseconds() 1400
++ 150 digitalWrite LOW 8
++ 151 digitalWrite HIGH 8
++ 152 delayMicroseconds() 1400
++ 153 digitalWrite LOW 8
++ 154 digitalWrite HIGH 8
++ 155 delayMicroseconds() 1400
++ 156 digitalWrite LOW 8
++ 157 digitalWrite HIGH 8
++ 158 delayMicroseconds() 1400
++ 159 digitalWrite LOW 8
++ 160 digitalWrite HIGH 8
++ 161 delayMicroseconds() 1400
++ 162 digitalWrite LOW 8
++ 163 digitalWrite HIGH 8
++ 164 delayMicroseconds() 1400
++ 165 digitalWrite LOW 10
++ 166 delay() 3000
+= 166 ------ loop shift ------
+# LOOP 2
++ 167 Serial:print(char) 'Step Mode:'
++ 168 Serial:println(int) 2
++ 169 analogRead 5 0
++ 170 Serial:print(char) 'SensorOUT:'
+# ENDOFSIM

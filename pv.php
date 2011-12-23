@@ -19,8 +19,8 @@ function pv()
   $inc++;
 
   if($inc==1)viking_7_script(1);
-
-  if($inc==2)viking_4_login_logout();
+  if($inc==2)viking_7_mainmenu();
+  if($inc==3)viking_4_login_logout();
   if($inc==11)viking_4_login_Form();
   if($inc==12)viking_4_adduser_Form();
 
@@ -65,7 +65,7 @@ function pv()
     }
   if($func == 'login')
     {
-      if($inc==3)viking_4_addUser_Link();
+      if($inc==11)viking_4_addUser_Link();
     }
   if($func == 'pv')
     {
@@ -73,7 +73,7 @@ function pv()
 
     }
   //================================== 
-  if($inc==10)viking_7_error(1);
+  if($inc==15){viking_7_error(1); viking_lib_showError();viking_lib_showWarning();}
 
 }
 ?>
