@@ -21,11 +21,11 @@ function pv()
   if($inc==1)viking_7_script(1);
   if($inc==2)viking_7_mainmenu(1);
   if($inc==3)viking_4_login_logout();
-  if($inc==11)viking_4_login_Form();
-  if($inc==12)viking_4_adduser_Form();
+  if($inc==16)viking_4_login_Form();
+  if($inc==16)viking_4_adduser_Form();
 
-  if($inc==15)viking_4_showUserLoggedIn();
-  if($inc==14)viking_4_addUser_Link();
+  if($inc==14)viking_4_showUserLoggedIn();
+  if($inc==15)viking_4_addUser_Link();
 
   //==================================  
   if($func == 'start')
@@ -73,7 +73,7 @@ function pv()
 
     }
   //================================== 
-  if($inc==15){viking_7_error(1); viking_lib_showError();viking_lib_showWarning();}
+  if($inc==17){viking_7_error(1); viking_lib_showError();viking_lib_showWarning();}
 
 }
 ?>

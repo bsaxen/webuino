@@ -12,9 +12,9 @@
 </head>
 
 <body onload = draw();>
-<div id="holder" style="float:left; width : 100%; background :white;">
-	<div id="header" style="float:left; width : 100%; background :#84ACC9;">
-		<h1>Webuino v0.5 Arduino Simulator</h1>	
+<div id="holder" style="float:left; width : 100%;background :white;">
+	<div id="header" style="float:left; width : 100%; height:80px; background :#104967;">    
+         <img src="simuino.jpg" alt="simuino" height=80px width=100%>
 	</div>
 
 	<div id="mainmenu">
@@ -43,8 +43,8 @@
         </div>
 </div>
 
-<div id="footer"><? pv(); ?><br><? pv(); ?>
-    <p>&copy; 2012 <a href="#">Benny Saxen</a></p>
+<div id="footerx">
+    User:<? pv(); ?> &copy; 2012 Benny Saxen<br><? pv(); ?><br><? pv(); ?><br><? pv(); ?>
 </div>
 
 </body>
