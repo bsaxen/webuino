@@ -1,8 +1,8 @@
 //================================================
 //  Example HelloWorld
 //================================================
-// BOARD_TYPE UNO
-// SCENSIMLEN 670
+// BOARD_TYPE: UNO
+// SKETCH_NAME: Test_UNO
 //================================================
 //  Scenario
 //================================================
@@ -30,7 +30,7 @@
 //================================================
 // Simuino log text customization
 //================================================
-// SKETCH_NAME: Test_UNO
+
 
 // PINMODE_OUT: 13  "This is interrupt LED"
 // PINMODE_OUT: 12  "PIN: Led Blink"
