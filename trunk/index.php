@@ -7,44 +7,44 @@
 	<meta name="keywords" content="your,keywords,goes,here" />
 	<meta name="author" content="Your Name" />
 	<link rel="stylesheet" type="text/css" href="index.css" title="webuino" media="screen,projection" />
-	<title>Webuino v0.5</title>
+	<title>Webuino v0.6</title>
         <? pv(); ?>
 </head>
 
 <body onload = draw();>
-<div id="holder" style="float:left; width : 100%;background :white;">
-	<div id="header" style="float:left; width : 100%; height:80px; background :#104967;">    
-         <img src="simuino.jpg" alt="simuino" height=80px width=100%>
+
+<div id="header" style="float:left; width : 100%; height:80px; background :white;">  
+   <div id="logo" style="margin-left:3px;float:left;  background :white; width:65%;">  
+    <img src="simuino.jpg" alt="simuino" height=80px width=100%>
+   </div>
+   <div id="rend" style="margin-left:3px;float:left;  background :white; height:100%; width:25%;">  
+     <? pv(); ?>
+   </div>
+</div>
+<div id="menu" style="float:left; width : 100%; height:28px; background :#bdbdbd;">    
+    <? pv(); ?> <li><? pv(); ?></li>
+</div>
+<div id="container" style="float:left; width:100%; background:white;margin-top:5px;">
+	<div id="left" style="margin-left:10px;float:left;  background :white; width:55px;">
+          <div id="nav-menu">    
+             <? pv(); ?>
+           </div>
+	</div>
+	<div id="middle" style="margin-left:10px;margin-right:10px;float:left;width:47%; background:white;">
+                   <? pv(); ?><? pv(); ?><? pv(); ?>
 	</div>
 
-	<div id="mainmenu">
-		<ul>
-                        <li><? pv(); ?></li>
-                        <li><? pv(); ?></li>
-                        <li><? pv(); ?></li>
-		</ul>
+	<div id="right" style="margin-left:10px;float:left;  background:white; width:40%">
+                   <? pv(); ?>
 	</div>
 
-	<div id="wrap" style="float:left; width : 100%; background :white;">
-		<div id="left" style="margin-right:10px;float:left; width : 22%; background :white;">
-                   <? pv(); ?><? pv(); ?><? pv(); ?>
-		</div>
-
-
-		<div id="middle" style="float:left; width : 50%; background :white;">
-                    <div id="simcontrol"><? pv(); ?></div>
-                    <div style="float:left; width :100%; background :white;"><? pv(); ?></div>
-                    <div style="float:left; width :100%; background :white;"><? pv(); ?></div>
-		</div>
-
-		<div id="right" style="margin-left:10px;float:left; width : 22%; background :white;">
-                   <? pv(); ?><? pv(); ?><? pv(); ?>
-	        </div>
-        </div>
 </div>
 
-<div id="footerx">
-    User:<? pv(); ?> &copy; 2012 Benny Saxen<br><? pv(); ?><br><? pv(); ?><br><? pv(); ?>
+<div id="footer" style="float:left; width : 100%; background :grey;">
+    User:<b><? pv(); ?></b> &copy; 2012 Benny Saxen<br><? pv(); ?><br><? pv(); ?><br><? pv(); ?>
+</div>
+<div id="error" style="float:left; width : 100%; background :white;">
+    <? pv(); ?><br><? pv(); ?>
 </div>
 
 </body>

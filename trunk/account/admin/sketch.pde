@@ -1,8 +1,5 @@
-//================================================
-//  Example HelloWorld
-//================================================
-// BOARD_TYPE UNO
-// SCENSIMLEN 670
+// SKETCH_NAME: HelloWorld_MEGA
+// BOARD_TYPE: MEGA
 //================================================
 //  Scenario
 //================================================
@@ -14,13 +11,6 @@
 // SCENDIGPIN  9    1    0
 // SCENDIGPIN  9   40    1
 // SCENDIGPIN  9  130    0
-// SCENDIGPIN  2    1    0
-// SCENDIGPIN  2  200    1
-// SCENDIGPIN  3    1    0
-// SCENDIGPIN  3  220    1
-// SCENDIGPIN  2  240    0
-// SCENDIGPIN  3  260    0
-
 //
 // SCENANAPIN  4    1    5
 // SCENANAPIN  5    1    8 
@@ -30,13 +20,12 @@
 //================================================
 // Simuino log text customization
 //================================================
-// SKETCH_NAME: Test_UNO
 
-// PINMODE_OUT: 13  "This is interrupt LED"
+// PINMODE_OUT: 11  "PIN: Led Urgent"
 // PINMODE_OUT: 12  "PIN: Led Blink"
 
-// DIGITALWRITE_LOW:  13  "Boom"
-// DIGITALWRITE_HIGH: 13  "Crash"
+// DIGITALWRITE_LOW:  11  "Waiting"
+// DIGITALWRITE_HIGH: 11  "Urgent"
 // DIGITALWRITE_LOW:  12  "Led is off"
 // DIGITALWRITE_HIGH: 12  "Led is on"
 
@@ -51,7 +40,10 @@
 //-------- DIGITAL PIN settings ------------------
 
 // Leds
-int SORRY    = 13;
+int URGENTLED    = 31;
+int BLINKLED     = 32;
+int IN_PIN       = 52;
+int CONTROL      = 53;
  
 //-------- ANALOGUE PIN settings
 int SENSOR1  = 4;
@@ -61,122 +53,118 @@ int SENSOR2  = 5;
 //  Function Declarations
 //================================================
 
-void blinkLed(int pin,int n);
+void blinkLed(int n);
 
 //================================================
-void sorryToBotherYou_1()
+void urgent0()
 //================================================
 {
-      digitalWrite(SORRY, HIGH); 
-      delay(901);
-      digitalWrite(SORRY, LOW); 
+      digitalWrite(URGENTLED, HIGH); 
+      delay(400);
+      digitalWrite(URGENTLED, LOW); 
 }
 //================================================
-void sorryToBotherYou_2()
+void urgent1()
 //================================================
 {
-      digitalWrite(SORRY, HIGH);
-      delay(902);
-      digitalWrite(SORRY, LOW);
+      digitalWrite(URGENTLED, HIGH); 
+      delay(401);
+      digitalWrite(URGENTLED, LOW); 
 }
-
+//================================================
+void urgent2()
+//================================================
+{
+      digitalWrite(URGENTLED, HIGH); 
+      delay(402);
+      digitalWrite(URGENTLED, LOW); 
+}
+//================================================
+void urgent3()
+//================================================
+{
+      digitalWrite(URGENTLED, HIGH); 
+      delay(403);
+      digitalWrite(URGENTLED, LOW); 
+}
+//================================================
+void urgent4()
+//================================================
+{
+      digitalWrite(URGENTLED, HIGH); 
+      delay(404);
+      digitalWrite(URGENTLED, LOW); 
+}
+//================================================
+void urgent5()
+//================================================
+{
+      digitalWrite(URGENTLED, HIGH); 
+      delay(405);
+      digitalWrite(URGENTLED, LOW); 
+}
 //================================================
 void setup()
 //================================================
 {
   Serial.begin(9600); 
-  attachInterrupt(0,sorryToBotherYou_1, CHANGE);
-  attachInterrupt(1,sorryToBotherYou_2, RISING);
-  pinMode(SORRY,OUTPUT);
+  attachInterrupt(0,urgent0, CHANGE);
+  attachInterrupt(1,urgent1, RISING);
+  attachInterrupt(2,urgent2, FALLING);
+  attachInterrupt(3,urgent3, LOW);
+  attachInterrupt(4,urgent4, CHANGE);
+  attachInterrupt(5,urgent5, RISING);
+  pinMode(BLINKLED,OUTPUT);   
+  pinMode(URGENTLED,OUTPUT);   
+  pinMode(IN_PIN,INPUT);
+  pinMode(CONTROL,INPUT);
+  pinMode(15,OUTPUT);
+  pinMode(44,INPUT);
+  pinMode(45,OUTPUT);
+  pinMode(46,OUTPUT);
+  pinMode(47,INPUT);
 }
 	 
-int nloop = 0;
 //================================================ 
 void loop()
 //================================================
 {
   int value1,value2,i;
-  nloop++;
-// Test 1--------------------------------
-  if (nloop == 1)
-  {
-    Serial.println("----- Test 1: Serial output ------");
-    Serial.println("This is a line with cr");
-    Serial.println("Test print:");
-    Serial.print("Hello ");
-    Serial.print("Simuino ");
-    Serial.print(100);
-    Serial.println(200);
-    Serial.println("----- End of Test 1 -----");
-  }
 
-// Test 2--------------------------------
-  if (nloop == 2)
-  {
-    Serial.println("----- Test 2: Blink All Leds  ------");
-    for (i=4;i<13;i++)
-    {
-      pinMode(i,OUTPUT);
-    }
-    for (i=4;i<13;i++)
-    {
-      blinkLed(i,2);
-    }
-    Serial.println("----- End of Test 2 -----");
-  }
+  Serial.println("Hello Simuino!");
+  value1 = analogRead(SENSOR1);
+  value2 = analogRead(SENSOR2);
+  Serial.print("Analog 1 value read: ");
+  Serial.println(value1);
+  Serial.print("Analog 2 value read: ");
+  Serial.println(value2);
+  blinkLed(value1);
+  value1 = digitalRead(IN_PIN);
+  value2 = digitalRead(CONTROL);
+  Serial.print("Digital IN_PIN read: ");
+  Serial.println(value1);
+  Serial.print("Digital CONTROL read: ");
+  Serial.println(value2);
 
-// Test 3 --------------------------------
-  if (nloop == 3)
-  {
-    Serial.println("----- Test 3: Analog Read  ------");
-    value1 = analogRead(SENSOR1);
-    value2 = analogRead(SENSOR2);
-    Serial.print("Analog Value 1: ");
-    Serial.println(value1);
-    Serial.print("Analog Value 2: ");
-    Serial.println(value2);
-    Serial.println("----- End of Test 3 -----");
-  }
+  analogWrite(10,123);
+  analogWrite(11,167);
 
-// Test 4 --------------------------------
-  if (nloop == 4)
-  {
-    pinMode(7,INPUT);
-    pinMode(8,INPUT);
-    Serial.println("----- Test 4: Digital Read  ------");
-    value1 = digitalRead(7);
-    value2 = digitalRead(8);
-    Serial.print("Digital Value 1: ");
-    Serial.println(value1);
-    Serial.print("Digital Value 2: ");
-    Serial.println(value2);
-    pinMode(7,OUTPUT);
-    pinMode(8,OUTPUT);
-    Serial.println("----- End of Test 4 -----");
-  }
- 
-// Test 5 --------------------------------
-  if (nloop == 5)
-  {
-    Serial.println("----- Test 5: Interrupts  ------");
-    blinkLed(12,50);
-    Serial.println("----- End of Test 5 -----");
-  }
-
-  delay(10);
- 
+  analogWrite(3,127);
+  analogWrite(4,147);
+  
+  delay(1000); 
 }
 
 //================================================
-void blinkLed(int pin,int n)
+void blinkLed(int n)
 //================================================
 {
   int i;
-  for(i=1;i<=n;i++)
+  for(i=1;i<=2;i++)
     {
-      digitalWrite(pin, HIGH); 
+      digitalWrite(BLINKLED, HIGH); 
       delay(500);
-      digitalWrite(pin, LOW); 
+      digitalWrite(BLINKLED, LOW); 
     }
 }
 //================================================
