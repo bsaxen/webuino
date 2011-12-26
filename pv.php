@@ -22,7 +22,11 @@ function pv()
   //==================================  
   if($func == 'start')
     {
-      //if($inc==9)viking_7_library(1);
+      if($inc==6)viking_7_start();
+    }
+  if($func == 'about')
+    {
+      if($inc==6)viking_7_about();
     }
   if($func == 'load' && $user && $user != 'guest')
     {
@@ -52,7 +56,7 @@ function pv()
     }
   if($func == 'help')
     {
-      //if($inc==3)viking_4_addUser_Link();
+      if($inc==6)viking_7_help();
     }
   if($func == 'register')
     {
