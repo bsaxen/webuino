@@ -1,5 +1,5 @@
 /*  Servuino is a Arduino Simulator Engine
-    Copyright (C) 2011  Benny Saxen
+    Copyright (C) 2012  Benny Saxen
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,10 +16,14 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <cstring>
+#include <string>
 #include <math.h> 
+using namespace std;
 
+//#include "String.h"
 #include "common.h"
+
 
 char sketch[120];
 
@@ -96,9 +100,9 @@ int g_pinStep    = 0;
 int g_action     = 0;
 
 int g_allowInterrupt = YES;
-int g_interpolation = NO;
-int g_nAnalogPins = 6;
-int g_nDigitalPins = 14;
+int g_interpolation  = NO;
+//int g_nAnalogPins    = 6;
+//int g_nDigitalPins   = 14;
 
 int boardType = UNO;
 int nCodeString = 0;
@@ -113,6 +117,7 @@ int currentPin = 0;
 FILE *s_log,*e_log,*c_log,*a_log,*u_log,*x_log;
 
 #include "code.h"
+//#include "String.c"
 #include "common_lib.c"
 #include "servuino.h"
 #include "servuino_lib.c"

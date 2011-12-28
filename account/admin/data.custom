@@ -2,400 +2,409 @@
 + 1 Setup
 + 2 Serial:begin 9600
 + 3 attachInterruptCHANGE 0 11
-+ 4 PIN:Start 2
-+ 5 PIN: Dir 9
-+ 6 PIN: Step 8
-+ 7 PIN: Sleep 10
-+ 8 PIN: Led Pos Digit 1 11
-+ 9 PIN: Led Pos Digit 2 12
-+ 10 PIN: Led Error 13
-+ 11 PIN: MS1 6
-+ 12 PIN: MS2 7
-+ 13 MS1 High 6
-+ 14 MS2 Low 7
-+ 15 Loop 1
-+ 16 Serial:print(char) 'Step Mode:'
-+ 17 Serial:println(int) 2
-+ 18 read outdoor temp 5 0
-+ 19 Serial:print(char) 'SensorOUT:'
-+ 20 Serial:println(int) 0
-+ 21 read indoor temp 4 0
-+ 22 Serial:print(char) 'SensorIN:'
-+ 23 Serial:println(int) 0
-+ 24 Serial:print(char) 'Celcius(-):'
-+ 25 Serial:println(int) 43
-+ 26 Serial:print(char) 'Angle:'
-+ 27 Serial:println(int) 79
-+ 28 Serial:print(int) 0
-+ 29 Serial:print(char) '--->'
-+ 30 Serial:println(int) 79
-+ 31 Serial:print(char) 'Steps:'
-+ 32 Serial:println(int) 43
-+ 33 Dir low 9
-+ 34 Awake 10
-+ 35 Step low 8
-+ 36 Step high 8
-+ 37 delayMicroseconds() 1400
-+ 38 Step low 8
-+ 39 Step high 8
-+ 40 delayMicroseconds() 1400
-+ 41 Step low 8
-+ 42 Step high 8
-+ 43 delayMicroseconds() 1400
-+ 44 Step low 8
-+ 45 Step high 8
-+ 46 delayMicroseconds() 1400
-+ 47 Step low 8
-+ 48 Step high 8
-+ 49 delayMicroseconds() 1400
-+ 50 Step low 8
-+ 51 Step high 8
-+ 52 delayMicroseconds() 1400
-+ 53 Step low 8
-+ 54 Step high 8
-+ 55 delayMicroseconds() 1400
-+ 56 Step low 8
-+ 57 Step high 8
-+ 58 delayMicroseconds() 1400
-+ 59 Step low 8
-+ 60 Step high 8
-+ 61 delayMicroseconds() 1400
-+ 62 Step low 8
-+ 63 Step high 8
-+ 64 delayMicroseconds() 1400
-+ 65 Step low 8
-+ 66 Step high 8
-+ 67 delayMicroseconds() 1400
-+ 68 Step low 8
-+ 69 Step high 8
-+ 70 delayMicroseconds() 1400
-+ 71 Step low 8
-+ 72 Step high 8
-+ 73 delayMicroseconds() 1400
-+ 74 Step low 8
-+ 75 Step high 8
-+ 76 delayMicroseconds() 1400
-+ 77 Step low 8
-+ 78 Step high 8
-+ 79 delayMicroseconds() 1400
-+ 80 Step low 8
-+ 81 Step high 8
-+ 82 delayMicroseconds() 1400
-+ 83 Step low 8
-+ 84 Step high 8
-+ 85 delayMicroseconds() 1400
-+ 86 Step low 8
-+ 87 Step high 8
-+ 88 delayMicroseconds() 1400
-+ 89 Step low 8
-+ 90 Step high 8
-+ 91 delayMicroseconds() 1400
-+ 92 Step low 8
-+ 93 Step high 8
-+ 94 delayMicroseconds() 1400
-+ 95 Step low 8
-+ 96 Step high 8
-+ 97 delayMicroseconds() 1400
-+ 98 Step low 8
-+ 99 Step high 8
-+ 100 delayMicroseconds() 1400
-+ 101 Step low 8
-+ 102 Step high 8
-+ 103 delayMicroseconds() 1400
-+ 104 Step low 8
-+ 105 Step high 8
-+ 106 delayMicroseconds() 1400
-+ 107 Step low 8
-+ 108 Step high 8
-+ 109 delayMicroseconds() 1400
-+ 110 Step low 8
-+ 111 Step high 8
-+ 112 delayMicroseconds() 1400
-+ 113 Step low 8
-+ 114 Step high 8
-+ 115 delayMicroseconds() 1400
-+ 116 Step low 8
-+ 117 Step high 8
-+ 118 delayMicroseconds() 1400
-+ 119 Step low 8
-+ 120 Step high 8
-+ 121 delayMicroseconds() 1400
-+ 122 Step low 8
-+ 123 Step high 8
-+ 124 delayMicroseconds() 1400
-+ 125 Step low 8
-+ 126 Step high 8
-+ 127 delayMicroseconds() 1400
-+ 128 Step low 8
-+ 129 Step high 8
-+ 130 delayMicroseconds() 1400
-+ 131 Step low 8
-+ 132 Step high 8
-+ 133 delayMicroseconds() 1400
-+ 134 Step low 8
-+ 135 Step high 8
-+ 136 delayMicroseconds() 1400
-+ 137 Step low 8
-+ 138 Step high 8
-+ 139 delayMicroseconds() 1400
-+ 140 Step low 8
-+ 141 Step high 8
-+ 142 delayMicroseconds() 1400
-+ 143 Step low 8
-+ 144 Step high 8
-+ 145 delayMicroseconds() 1400
-+ 146 Step low 8
-+ 147 Step high 8
-+ 148 delayMicroseconds() 1400
-+ 149 Step low 8
-+ 150 Step high 8
-+ 151 delayMicroseconds() 1400
-+ 152 Step low 8
-+ 153 Step high 8
-+ 154 delayMicroseconds() 1400
-+ 155 Step low 8
-+ 156 Step high 8
-+ 157 delayMicroseconds() 1400
-+ 158 Step low 8
-+ 159 Step high 8
-+ 160 delayMicroseconds() 1400
-+ 161 Step low 8
-+ 162 Step high 8
-+ 163 delayMicroseconds() 1400
-+ 164 Step low 8
-+ 165 Step high 8
-+ 166 delayMicroseconds() 1400
-+ 167 Sleep 10
-+ 168 delay() 3000
-+ 169 Loop 2
-+ 170 Serial:print(char) 'Step Mode:'
-+ 171 Serial:println(int) 2
-+ 172 read outdoor temp 5 0
-+ 173 Serial:print(char) 'SensorOUT:'
-+ 174 Serial:println(int) 0
-+ 175 read indoor temp 4 0
-+ 176 Serial:print(char) 'SensorIN:'
-+ 177 Serial:println(int) 0
-+ 178 Serial:print(char) 'Celcius(-):'
-+ 179 Serial:println(int) 43
-+ 180 Serial:print(char) 'Angle:'
-+ 181 Serial:println(int) 79
-+ 182 Serial:print(int) 79
-+ 183 Serial:print(char) '--->'
-+ 184 Serial:println(int) 79
-+ 185 ERROR 13
-+ 186 delay() 500
-+ 187 No Errors 13
++ 4 attachInterruptRISING 1 12
++ 5 This is interrupt LED 13
++ 6 Loop 1
++ 7 Serial:println(char) '----- Test 1: Serial output ------'
++ 8 Serial:println(char) 'This is a line with cr'
++ 9 Serial:println(char) 'Test print:'
++ 10 Serial:print(char) 'Hello '
++ 11 Serial:print(char) 'Simuino '
++ 12 Serial:print(int) 100
++ 13 Serial:println(int) 200
++ 14 Serial:println(char) '----- End of Test 1 -----'
++ 15 delay() 10
++ 16 Loop 2
++ 17 Serial:println(char) '----- Test 2: Blink All Leds  ------'
++ 18 pinMode OUT 4
++ 19 pinMode OUT 5
++ 20 pinMode OUT 6
++ 21 pinMode OUT 7
++ 22 pinMode OUT 8
++ 23 pinMode OUT 9
++ 24 pinMode OUT 10
++ 25 pinMode OUT 11
++ 26 PIN: Led Blink 12
++ 27 digitalWrite HIGH 4
++ 28 delay() 500
++ 29 digitalWrite LOW 4
++ 30 digitalWrite HIGH 4
++ 31 delay() 500
++ 32 digitalWrite LOW 4
++ 33 digitalWrite HIGH 5
++ 34 delay() 500
++ 35 digitalWrite LOW 5
++ 36 digitalWrite HIGH 5
++ 37 delay() 500
++ 38 digitalWrite LOW 5
++ 39 digitalWrite HIGH 6
++ 40 delay() 500
++ 41 digitalWrite LOW 6
++ 42 digitalWrite HIGH 6
++ 43 delay() 500
++ 44 digitalWrite LOW 6
++ 45 digitalWrite HIGH 7
++ 46 delay() 500
++ 47 digitalWrite LOW 7
++ 48 digitalWrite HIGH 7
++ 49 delay() 500
++ 50 digitalWrite LOW 7
++ 51 digitalWrite HIGH 8
++ 52 delay() 500
++ 53 digitalWrite LOW 8
++ 54 digitalWrite HIGH 8
++ 55 delay() 500
++ 56 digitalWrite LOW 8
++ 57 digitalWrite HIGH 9
++ 58 delay() 500
++ 59 digitalWrite LOW 9
++ 60 digitalWrite HIGH 9
++ 61 delay() 500
++ 62 digitalWrite LOW 9
++ 63 digitalWrite HIGH 10
++ 64 delay() 500
++ 65 digitalWrite LOW 10
++ 66 digitalWrite HIGH 10
++ 67 delay() 500
++ 68 digitalWrite LOW 10
++ 69 digitalWrite HIGH 11
++ 70 delay() 500
++ 71 digitalWrite LOW 11
++ 72 digitalWrite HIGH 11
++ 73 delay() 500
++ 74 digitalWrite LOW 11
++ 75 Led is on 12
++ 76 delay() 500
++ 77 Led is off 12
++ 78 Led is on 12
++ 79 delay() 500
++ 80 Led is off 12
++ 81 Serial:println(char) '----- End of Test 2 -----'
++ 82 delay() 10
++ 83 Loop 3
++ 84 Serial:println(char) '----- Test 3: Analog Read  ------'
++ 85 read analog four 4 12
++ 86 read analog five 5 111
++ 87 Serial:print(char) 'Analog Value 1: '
++ 88 Serial:println(int) 12
++ 89 Serial:print(char) 'Analog Value 2: '
++ 90 Serial:println(int) 111
++ 91 Serial:println(char) '----- End of Test 3 -----'
++ 92 delay() 10
++ 93 Loop 4
++ 94 pinMode IN 7
++ 95 pinMode IN 8
++ 96 Serial:println(char) '----- Test 4: Digital Read  ------'
++ 97 digitalRead 7 0
++ 98 digitalRead 8 0
++ 99 Serial:print(char) 'Digital Value 1: '
++ 100 Serial:println(int) 0
++ 101 Serial:print(char) 'Digital Value 2: '
++ 102 Serial:println(int) 0
++ 103 pinMode OUT 7
++ 104 pinMode OUT 8
++ 105 Serial:println(char) '----- End of Test 4 -----'
++ 106 delay() 10
++ 107 Loop 5
++ 108 Serial:println(char) '----- Test 5: Interrupts  ------'
++ 109 Led is on 12
++ 110 delay() 500
++ 111 Led is off 12
++ 112 Led is on 12
++ 113 delay() 500
++ 114 Led is off 12
++ 115 Led is on 12
++ 116 delay() 500
++ 117 Led is off 12
++ 118 Led is on 12
++ 119 delay() 500
++ 120 Led is off 12
++ 121 Led is on 12
++ 122 delay() 500
++ 123 Led is off 12
++ 124 Led is on 12
++ 125 delay() 500
++ 126 Led is off 12
++ 127 Led is on 12
++ 128 delay() 500
++ 129 Led is off 12
++ 130 Led is on 12
++ 131 delay() 500
++ 132 Led is off 12
++ 133 Led is on 12
++ 134 delay() 500
++ 135 Led is off 12
++ 136 Led is on 12
++ 137 delay() 500
++ 138 Led is off 12
++ 139 Led is on 12
++ 140 delay() 500
++ 141 Led is off 12
++ 142 Led is on 12
++ 143 delay() 500
++ 144 Led is off 12
++ 145 Led is on 12
++ 146 delay() 500
++ 147 Led is off 12
++ 148 Led is on 12
++ 149 delay() 500
++ 150 Led is off 12
++ 151 Led is on 12
++ 152 delay() 500
++ 153 Led is off 12
++ 154 Led is on 12
++ 155 delay() 500
++ 156 Led is off 12
++ 157 Led is on 12
++ 158 delay() 500
++ 159 Led is off 12
++ 160 Led is on 12
++ 161 delay() 500
++ 162 Led is off 12
++ 163 Led is on 12
++ 164 delay() 500
++ 165 Led is off 12
++ 166 Led is on 12
++ 167 delay() 500
++ 168 Led is off 12
++ 169 Led is on 12
++ 170 delay() 500
++ 171 Led is off 12
++ 172 Led is on 12
++ 173 delay() 500
++ 174 Led is off 12
++ 175 Led is on 12
++ 176 delay() 500
++ 177 Led is off 12
++ 178 Led is on 12
++ 179 delay() 500
++ 180 Led is off 12
++ 181 Led is on 12
++ 182 delay() 500
++ 183 Led is off 12
++ 184 Led is on 12
++ 185 delay() 500
++ 186 Led is off 12
++ 187 Led is on 12
 + 188 delay() 500
-+ 189 delay() 3000
-+ 190 Loop 3
-+ 191 Serial:print(char) 'Step Mode:'
-+ 192 Serial:println(int) 2
-+ 193 read outdoor temp 5 0
-+ 194 Serial:print(char) 'SensorOUT:'
-+ 195 Serial:println(int) 0
-+ 196 read indoor temp 4 0
-+ 197 Serial:print(char) 'SensorIN:'
-+ 198 Serial:println(int) 0
-+ 199 Serial:print(char) 'Celcius(-):'
-+ 200 Serial:println(int) 43
-+ 201 Serial:print(char) 'Angle:'
-+ 202 Serial:println(int) 79
-+ 203 Serial:print(int) 79
-+ 204 Serial:print(char) '--->'
-+ 205 Serial:println(int) 79
-+ 206 ERROR 13
-+ 207 delay() 500
-+ 208 No Errors 13
++ 189 Led is off 12
++ 190 Led is on 12
++ 191 delay() 500
++ 192 Led is off 12
++ 193 Led is on 12
++ 194 delay() 500
++ 195 Led is off 12
++ 196 Led is on 12
++ 197 delay() 500
++ 198 Led is off 12
++ 199 Led is on 12
++ 200 delay() 500
+= 200 interruptCHANGE 0
+= 200 ------ interrupt in ------
++ 201 Crash 13
++ 202 delay() 901
++ 203 Boom 13
+= 203 ------ interrupt out ------
++ 204 Led is off 12
++ 205 Led is on 12
++ 206 delay() 500
++ 207 Led is off 12
++ 208 Led is on 12
 + 209 delay() 500
-+ 210 delay() 3000
-+ 211 Loop 4
-+ 212 Serial:print(char) 'Step Mode:'
-+ 213 Serial:println(int) 2
-+ 214 read outdoor temp 5 0
-+ 215 Serial:print(char) 'SensorOUT:'
-+ 216 Serial:println(int) 0
-+ 217 read indoor temp 4 0
-+ 218 Serial:print(char) 'SensorIN:'
-+ 219 Serial:println(int) 0
-+ 220 Serial:print(char) 'Celcius(-):'
-+ 221 Serial:println(int) 43
-+ 222 Serial:print(char) 'Angle:'
-+ 223 Serial:println(int) 79
-+ 224 Serial:print(int) 79
-+ 225 Serial:print(char) '--->'
-+ 226 Serial:println(int) 79
-+ 227 ERROR 13
-+ 228 delay() 500
-+ 229 No Errors 13
++ 210 Led is off 12
++ 211 Led is on 12
++ 212 delay() 500
++ 213 Led is off 12
++ 214 Led is on 12
++ 215 delay() 500
++ 216 Led is off 12
++ 217 Led is on 12
++ 218 delay() 500
++ 219 Led is off 12
++ 220 Led is on 12
+= 220 interruptRISING 1
+= 220 ------ interrupt in ------
++ 221 Crash 13
++ 222 delay() 902
++ 223 Boom 13
+= 223 ------ interrupt out ------
++ 224 delay() 500
++ 225 Led is off 12
++ 226 Led is on 12
++ 227 delay() 500
++ 228 Led is off 12
++ 229 Led is on 12
 + 230 delay() 500
-+ 231 delay() 3000
-+ 232 Loop 5
-+ 233 Serial:print(char) 'Step Mode:'
-+ 234 Serial:println(int) 2
-+ 235 read outdoor temp 5 0
-+ 236 Serial:print(char) 'SensorOUT:'
-+ 237 Serial:println(int) 0
-+ 238 read indoor temp 4 0
-+ 239 Serial:print(char) 'SensorIN:'
-+ 240 Serial:println(int) 0
-+ 241 Serial:print(char) 'Celcius(-):'
-+ 242 Serial:println(int) 43
-+ 243 Serial:print(char) 'Angle:'
-+ 244 Serial:println(int) 79
-+ 245 Serial:print(int) 79
-+ 246 Serial:print(char) '--->'
-+ 247 Serial:println(int) 79
-+ 248 ERROR 13
-+ 249 delay() 500
-+ 250 No Errors 13
++ 231 Led is off 12
++ 232 Led is on 12
++ 233 delay() 500
++ 234 Led is off 12
++ 235 Led is on 12
++ 236 delay() 500
++ 237 Led is off 12
++ 238 Led is on 12
++ 239 delay() 500
++ 240 Led is off 12
+= 240 interruptCHANGE 0
+= 240 ------ interrupt in ------
++ 241 Crash 13
++ 242 delay() 901
++ 243 Boom 13
+= 243 ------ interrupt out ------
++ 244 Led is on 12
++ 245 delay() 500
++ 246 Led is off 12
++ 247 Led is on 12
++ 248 delay() 500
++ 249 Led is off 12
++ 250 Led is on 12
 + 251 delay() 500
-+ 252 delay() 3000
-+ 253 Loop 6
-+ 254 Serial:print(char) 'Step Mode:'
-+ 255 Serial:println(int) 2
-+ 256 read outdoor temp 5 0
-+ 257 Serial:print(char) 'SensorOUT:'
-+ 258 Serial:println(int) 0
-+ 259 read indoor temp 4 0
-+ 260 Serial:print(char) 'SensorIN:'
-+ 261 Serial:println(int) 0
-+ 262 Serial:print(char) 'Celcius(-):'
-+ 263 Serial:println(int) 43
-+ 264 Serial:print(char) 'Angle:'
-+ 265 Serial:println(int) 79
-+ 266 Serial:print(int) 79
-+ 267 Serial:print(char) '--->'
-+ 268 Serial:println(int) 79
-+ 269 ERROR 13
-+ 270 delay() 500
-+ 271 No Errors 13
-+ 272 delay() 500
-+ 273 delay() 3000
-+ 274 Loop 7
-+ 275 Serial:print(char) 'Step Mode:'
-+ 276 Serial:println(int) 2
-+ 277 read outdoor temp 5 0
-+ 278 Serial:print(char) 'SensorOUT:'
-+ 279 Serial:println(int) 0
-+ 280 read indoor temp 4 0
-+ 281 Serial:print(char) 'SensorIN:'
-+ 282 Serial:println(int) 0
-+ 283 Serial:print(char) 'Celcius(-):'
-+ 284 Serial:println(int) 43
-+ 285 Serial:print(char) 'Angle:'
-+ 286 Serial:println(int) 79
-+ 287 Serial:print(int) 79
-+ 288 Serial:print(char) '--->'
-+ 289 Serial:println(int) 79
-+ 290 ERROR 13
-+ 291 delay() 500
-+ 292 No Errors 13
-+ 293 delay() 500
-+ 294 delay() 3000
-+ 295 Loop 8
-+ 296 Serial:print(char) 'Step Mode:'
-+ 297 Serial:println(int) 2
-+ 298 read outdoor temp 5 0
-+ 299 Serial:print(char) 'SensorOUT:'
-+ 300 Serial:println(int) 0
-+ 301 read indoor temp 4 0
-+ 302 Serial:print(char) 'SensorIN:'
-+ 303 Serial:println(int) 0
-+ 304 Serial:print(char) 'Celcius(-):'
-+ 305 Serial:println(int) 43
-+ 306 Serial:print(char) 'Angle:'
-+ 307 Serial:println(int) 79
-+ 308 Serial:print(int) 79
-+ 309 Serial:print(char) '--->'
-+ 310 Serial:println(int) 79
-+ 311 ERROR 13
-+ 312 delay() 500
-+ 313 No Errors 13
-+ 314 delay() 500
-+ 315 delay() 3000
-+ 316 Loop 9
-+ 317 Serial:print(char) 'Step Mode:'
-+ 318 Serial:println(int) 2
-+ 319 read outdoor temp 5 0
-+ 320 Serial:print(char) 'SensorOUT:'
-+ 321 Serial:println(int) 0
-+ 322 read indoor temp 4 0
-+ 323 Serial:print(char) 'SensorIN:'
-+ 324 Serial:println(int) 0
-+ 325 Serial:print(char) 'Celcius(-):'
-+ 326 Serial:println(int) 43
-+ 327 Serial:print(char) 'Angle:'
-+ 328 Serial:println(int) 79
-+ 329 Serial:print(int) 79
-+ 330 Serial:print(char) '--->'
-+ 331 Serial:println(int) 79
-+ 332 ERROR 13
-+ 333 delay() 500
-+ 334 No Errors 13
-+ 335 delay() 500
-+ 336 delay() 3000
-+ 337 Loop 10
-+ 338 Serial:print(char) 'Step Mode:'
-+ 339 Serial:println(int) 2
-+ 340 read outdoor temp 5 0
-+ 341 Serial:print(char) 'SensorOUT:'
-+ 342 Serial:println(int) 0
-+ 343 read indoor temp 4 0
-+ 344 Serial:print(char) 'SensorIN:'
-+ 345 Serial:println(int) 0
-+ 346 Serial:print(char) 'Celcius(-):'
-+ 347 Serial:println(int) 43
-+ 348 Serial:print(char) 'Angle:'
-+ 349 Serial:println(int) 79
-+ 350 Serial:print(int) 79
-+ 351 Serial:print(char) '--->'
-+ 352 Serial:println(int) 79
-+ 353 ERROR 13
-+ 354 delay() 500
-+ 355 No Errors 13
-+ 356 delay() 500
-+ 357 delay() 3000
-+ 358 Loop 11
-+ 359 Serial:print(char) 'Step Mode:'
-+ 360 Serial:println(int) 2
-+ 361 read outdoor temp 5 0
-+ 362 Serial:print(char) 'SensorOUT:'
-+ 363 Serial:println(int) 0
-+ 364 read indoor temp 4 0
-+ 365 Serial:print(char) 'SensorIN:'
-+ 366 Serial:println(int) 0
-+ 367 Serial:print(char) 'Celcius(-):'
-+ 368 Serial:println(int) 43
-+ 369 Serial:print(char) 'Angle:'
-+ 370 Serial:println(int) 79
-+ 371 Serial:print(int) 79
-+ 372 Serial:print(char) '--->'
-+ 373 Serial:println(int) 79
-+ 374 ERROR 13
-+ 375 delay() 500
-+ 376 No Errors 13
-+ 377 delay() 500
-+ 378 delay() 3000
-+ 379 Loop 12
-+ 380 Serial:print(char) 'Step Mode:'
-+ 381 Serial:println(int) 2
-+ 382 read outdoor temp 5 0
-+ 383 Serial:print(char) 'SensorOUT:'
-+ 384 Serial:println(int) 0
-+ 385 read indoor temp 4 0
-+ 386 Serial:print(char) 'SensorIN:'
-+ 387 Serial:println(int) 0
-+ 388 Serial:print(char) 'Celcius(-):'
-+ 389 Serial:println(int) 43
-+ 390 Serial:print(char) 'Angle:'
-+ 391 Serial:println(int) 79
-+ 392 Serial:print(int) 79
-+ 393 Serial:print(char) '--->'
-+ 394 Serial:println(int) 79
-+ 395 ERROR 13
-+ 396 delay() 500
-+ 397 No Errors 13
-+ 398 delay() 500
-+ 399 delay() 3000
-+ 400 Loop 13
++ 252 Led is off 12
++ 253 Led is on 12
++ 254 delay() 500
++ 255 Led is off 12
++ 256 Led is on 12
++ 257 delay() 500
++ 258 Led is off 12
++ 259 Led is on 12
++ 260 delay() 500
++ 261 Led is off 12
++ 262 Led is on 12
++ 263 delay() 500
++ 264 Led is off 12
++ 265 Led is on 12
++ 266 delay() 500
++ 267 Led is off 12
++ 268 Serial:println(char) '----- End of Test 5 -----'
++ 269 delay() 10
++ 270 Loop 6
++ 271 delay() 10
++ 272 Loop 7
++ 273 delay() 10
++ 274 Loop 8
++ 275 delay() 10
++ 276 Loop 9
++ 277 delay() 10
++ 278 Loop 10
++ 279 delay() 10
++ 280 Loop 11
++ 281 delay() 10
++ 282 Loop 12
++ 283 delay() 10
++ 284 Loop 13
++ 285 delay() 10
++ 286 Loop 14
++ 287 delay() 10
++ 288 Loop 15
++ 289 delay() 10
++ 290 Loop 16
++ 291 delay() 10
++ 292 Loop 17
++ 293 delay() 10
++ 294 Loop 18
++ 295 delay() 10
++ 296 Loop 19
++ 297 delay() 10
++ 298 Loop 20
++ 299 delay() 10
++ 300 Loop 21
++ 301 delay() 10
++ 302 Loop 22
++ 303 delay() 10
++ 304 Loop 23
++ 305 delay() 10
++ 306 Loop 24
++ 307 delay() 10
++ 308 Loop 25
++ 309 delay() 10
++ 310 Loop 26
++ 311 delay() 10
++ 312 Loop 27
++ 313 delay() 10
++ 314 Loop 28
++ 315 delay() 10
++ 316 Loop 29
++ 317 delay() 10
++ 318 Loop 30
++ 319 delay() 10
++ 320 Loop 31
++ 321 delay() 10
++ 322 Loop 32
++ 323 delay() 10
++ 324 Loop 33
++ 325 delay() 10
++ 326 Loop 34
++ 327 delay() 10
++ 328 Loop 35
++ 329 delay() 10
++ 330 Loop 36
++ 331 delay() 10
++ 332 Loop 37
++ 333 delay() 10
++ 334 Loop 38
++ 335 delay() 10
++ 336 Loop 39
++ 337 delay() 10
++ 338 Loop 40
++ 339 delay() 10
++ 340 Loop 41
++ 341 delay() 10
++ 342 Loop 42
++ 343 delay() 10
++ 344 Loop 43
++ 345 delay() 10
++ 346 Loop 44
++ 347 delay() 10
++ 348 Loop 45
++ 349 delay() 10
++ 350 Loop 46
++ 351 delay() 10
++ 352 Loop 47
++ 353 delay() 10
++ 354 Loop 48
++ 355 delay() 10
++ 356 Loop 49
++ 357 delay() 10
++ 358 Loop 50
++ 359 delay() 10
++ 360 Loop 51
++ 361 delay() 10
++ 362 Loop 52
++ 363 delay() 10
++ 364 Loop 53
++ 365 delay() 10
++ 366 Loop 54
++ 367 delay() 10
++ 368 Loop 55
++ 369 delay() 10
++ 370 Loop 56
++ 371 delay() 10
++ 372 Loop 57
++ 373 delay() 10
++ 374 Loop 58
++ 375 delay() 10
++ 376 Loop 59
++ 377 delay() 10
++ 378 Loop 60
++ 379 delay() 10
++ 380 Loop 61
++ 381 delay() 10
++ 382 Loop 62
++ 383 delay() 10
++ 384 Loop 63
++ 385 delay() 10
++ 386 Loop 64
++ 387 delay() 10
++ 388 Loop 65
++ 389 delay() 10
++ 390 Loop 66
++ 391 delay() 10
++ 392 Loop 67
++ 393 delay() 10
++ 394 Loop 68
++ 395 delay() 10
++ 396 Loop 69
++ 397 delay() 10
++ 398 Loop 70
++ 399 delay() 10
++ 400 Loop 71

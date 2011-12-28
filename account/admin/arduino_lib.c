@@ -1,5 +1,5 @@
 /*  Servuino is a Arduino Simulator Engine
-    Copyright (C) 2011  Benny Saxen
+    Copyright (C) 2012  Benny Saxen
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,98 +27,411 @@
 char  stemp[80];
 
 typedef int byte;
+typedef int word;
 typedef bool boolean;
 
 //------ String Class ---------------------
-class String {
 
- public:
-  //String(char p);
-  String(const char *p);
-  void charAt();
-  void compareTo();
-  void concat();
-  void endsWith();
-  void equals();
-  void equalsIgnoreCase();
-  void getBytes();
-  void indexOf();
-  void lastIndexOf();
-  void length();
-  String replace(char x, char y);
-  String replace(const char *x, const char *y);
-  void setCharAt();
-  void startsWith();
-  void substring();
-  void toCharArray();
-  void toLowerCase();
-  void toUpperCase();
-  void trim();
+//class String: public string { };
 
-};
 
-String::String(const char *p) 
+
+//#include "String.h" // String class definition
+//===============================================
+// conversion (and default) constructor converts char * to String
+String::String( const char *s ) 
+   : slength( ( s != 0 ) ? strlen( s ) : 0 )
 {
-}
-void String::charAt() 
+   cout << "Conversion (and default) constructor: " << s << endl;
+   setString( s ); // call utility function
+} // end String conversion constructor
+//===============================================
+// copy constructor
+String::String( const String &copy ) 
+   : slength( copy.slength )
 {
+   cout << "Copy constructor: " << copy.sPtr << endl;
+   setString( copy.sPtr ); // call utility function
+} // end String copy constructor
+//===============================================
+// Destructor
+String::~String()
+{
+   cout << "Destructor: " << sPtr << endl;
+   delete [] sPtr; // release pointer-based string memory
+} // end ~String destructor
+//===============================================
+// overloaded = operator; avoids self assignment
+const String &String::operator=( const String &right )
+{
+  cout << "-------------------------------------" << endl;
+   cout << "operator= called" << endl;
+
+   if ( &right != this ) // avoid self assignment
+   {         
+      delete [] sPtr; // prevents memory leak
+      slength = right.slength; // new String slength
+      setString( right.sPtr ); // call utility function
+   } // end if
+   else
+      cout << "Attempted assignment of a String to itself" << endl;
+
+   return *this; // enables cascaded assignments
+} // end function operator=
+
+//===============================================
+// overloaded = operator; avoids self assignment
+const String &String::operator=( string right )
+{
+  cout << "-------------------------------------" << endl;
+  char *p;
+
+   cout << "String = string"<< right << endl;
+   //delete [] sPtr; // prevents memory leak
+   slength = right.length(); // new String slength
+   p=(char *)(right.c_str());  
+   setString(p); // call utility function
+   
+   return *this; // enables cascaded assignments
+} // end function operator=
+
+//===============================================
+// overloaded = operator; avoids self assignment
+const String &String::operator=(const char *right )
+{
+  cout << "-------------------------------------" << endl;
+  const char *p;
+
+   cout << "String = char*" << right << endl;
+   //delete [] sPtr; // prevents memory leak
+   slength = strlen(right); // new String slength
+   p = right;  
+   setString(p); // call utility function
+   
+   return *this; // enables cascaded assignments
+} // end function operator=
+
+
+//===============================================
+// concatenate right operand to this object and store in this object
+const String &String::operator+=( const String &right )
+{
+  cout << "-------------------------------------" << endl;
+   size_t newLength = slength + right.slength; // new length
+   char *tempPtr = new char[ newLength + 1 ]; // create memory
+
+   strcpy( tempPtr, sPtr ); // copy sPtr
+   strcpy( tempPtr + slength, right.sPtr ); // copy right.sPtr
+
+   //delete [] sPtr; // reclaim old space
+   sPtr = tempPtr; // assign new array to sPtr
+   slength = newLength; // assign new length to length
+   return *this; // enables cascaded calls
+} // end function operator+=
+
+//===============================================
+// Benny
+String String::operator+( const int number )
+{
+
+  cout << "-------------------------------------" << endl;
+  cout << "String + const int" << number << endl;
+  String temp; 
+  stringstream ss;
+  String right;
+  ss << number;
+  right = ss.str();
+
+  size_t newLength = slength + right.slength; // new length
+  char *tempPtr = new char[ newLength + 1 ]; // create memory
+  
+  strcpy( tempPtr, sPtr ); // copy sPtr
+  strcpy( tempPtr + slength, right.sPtr ); // copy right.sPtr
+  
+  //delete [] sPtr; // reclaim old space
+  temp.sPtr = tempPtr; // assign new array to sPtr
+  temp.slength = newLength; // assign new length to length
+  return temp; // enables cascaded calls
+} // end function operator+=
+
+//===============================================
+// Benny
+String String::operator+( unsigned long number )
+{
+  cout << "-------------------------------------" << endl;
+  cout << "String + unsigned long number" << endl;
+  String temp; 
+  stringstream ss;
+  String right;
+  ss << number;
+  right = ss.str();
+
+  size_t newLength = slength + right.slength; // new length
+  char *tempPtr = new char[ newLength + 1 ]; // create memory
+  
+  strcpy( tempPtr, sPtr ); // copy sPtr
+  strcpy( tempPtr + slength, right.sPtr ); // copy right.sPtr
+  
+  //delete [] sPtr; // reclaim old space
+  temp.sPtr = tempPtr; // assign new array to sPtr
+  temp.slength = newLength; // assign new length to length
+  return temp; // enables cascaded calls
+} // end function operator+=
+
+//===============================================
+// Benny
+String String::operator+( const char one )
+{
+  cout << "-------------------------------------" << endl;
+  cout << "String + char in " << one << endl;
+  
+  String temp; 
+  stringstream ss;
+  String right;
+  ss << one;
+  right = ss.str();
+  size_t newLength = slength + right.slength; // new length
+  char *tempPtr = new char[ newLength + 1 ]; // create memory
+
+  //cout << "slength" << slength << "newlength " << newLength << endl;
+
+  strcpy( tempPtr, sPtr ); // copy sPtr
+  strcpy( tempPtr + slength, right.sPtr ); // copy right.sPtr
+  
+  //delete [] sPtr; // reclaim old space
+  temp.sPtr = tempPtr; // assign new array to sPtr
+  temp.slength = newLength; // assign new length to length
+  //cout << "String + char out" << " sPtr=" << *sPtr << " rightP=" << *temp.sPtr << endl;
+  return temp; // enables cascaded calls
+} // end function operator+=
+
+//===============================================
+// String
+String String::operator+(String right )
+{
+  cout << "-------------------------------------" << endl;
+  cout << "String + String right" << right << endl;
+  String temp; 
+
+  size_t newLength = slength + right.slength; // new length
+  char *tempPtr = new char[ newLength + 1 ]; // create memory
+  
+  strcpy( tempPtr, sPtr ); // copy sPtr
+  strcpy( tempPtr + slength, right.sPtr ); // copy right.sPtr
+  
+  //delete [] sPtr; // reclaim old space
+  temp.sPtr = tempPtr; // assign new array to sPtr
+  temp.slength = newLength; // assign new length to length
+  return temp; // enables cascaded calls
+} // end function operator+=
+
+//===============================================
+// String
+/* String String::operator+(String right ) const */
+/* { */
+/*   cout << "-------------------------------------" << endl; */
+/*   cout << "String + String right" << right << endl; */
+/*   String temp;  */
+
+/*   size_t newLength = slength + right.slength; // new length */
+/*   char *tempPtr = new char[ newLength + 1 ]; // create memory */
+  
+/*   strcpy( tempPtr, sPtr ); // copy sPtr */
+/*   strcpy( tempPtr + slength, right.sPtr ); // copy right.sPtr */
+  
+/*   //delete [] sPtr; // reclaim old space */
+/*   temp.sPtr = tempPtr; // assign new array to sPtr */
+/*   temp.slength = newLength; // assign new length to length */
+/*   return temp; // enables cascaded calls */
+/* } // end function operator+= */
+
+//===============================================
+// is this String empty?
+bool String::operator!() const
+{ 
+   return slength == 0; 
+} // end function operator! 
+//===============================================
+// Is this String equal to right String?
+bool String::operator==( const String &right ) const
+{ 
+   return strcmp( sPtr, right.sPtr ) == 0; 
+} // end function operator==
+//===============================================
+// Is this String less than right String?
+bool String::operator<( const String &right ) const
+{ 
+   return strcmp( sPtr, right.sPtr ) < 0; 
+} // end function operator<
+//===============================================
+// return reference to character in String as a modifiable lvalue
+char &String::operator[]( int subscript )
+{
+   // test for subscript out of range
+   if ( subscript < 0 || subscript >= slength )
+   {
+      cerr << "Error: Subscript " << subscript 
+         << " out of range" << endl;
+      exit( 1 ); // terminate program
+   } // end if
+
+   return sPtr[ subscript ]; // non-const return; modifiable lvalue
+} // end function operator[]
+//===============================================
+// return reference to character in String as rvalue
+char String::operator[]( int subscript ) const
+{
+   // test for subscript out of range
+   if ( subscript < 0 || subscript >= slength )
+   {
+      cerr << "Error: Subscript " << subscript 
+           << " out of range" << endl;
+      exit( 1 ); // terminate program
+   } // end if
+
+   return sPtr[ subscript ]; // returns copy of this element
+} // end function operator[]
+//===============================================
+// return a substring beginning at index and of length subLength
+String String::operator()( int index, int subLength ) const
+{
+   // if index is out of range or substring length < 0, 
+   // return an empty String object
+   if ( index < 0 || index >= slength || subLength < 0 )  
+      return ""; // converted to a String object automatically
+
+   // determine length of substring
+   int len;
+
+   if ( ( subLength == 0 ) || ( index + subLength > slength ) )
+      len = slength - index;
+   else
+      len = subLength;
+
+   // allocate temporary array for substring and 
+   // terminating null character
+   char *tempPtr = new char[ len + 1 ];
+
+   // copy substring into char array and terminate string
+   strncpy( tempPtr, &sPtr[ index ], len );
+   tempPtr[ len ] = '\0';
+
+   // create temporary String object containing the substring
+   String tempString( tempPtr );
+   delete [] tempPtr; // delete temporary array
+   return tempString; // return copy of the temporary String
+} // end function operator()
+
+//===============================================
+// utility function called by constructors and operator=
+void String::setString( const char *string2 )
+{
+   sPtr = new char[ slength + 1 ]; // allocate memory
+
+   if ( string2 != 0 ) // if string2 is not null pointer, copy contents
+      strcpy( sPtr, string2 ); // copy literal to object
+   else // if string2 is a null pointer, make this an empty string
+      sPtr[ 0 ] = '\0'; // empty string
+} // end function setString 
+//===============================================
+// overloaded output operator
+ostream &operator<<( ostream &output, const String &s )
+{
+   output << s.sPtr;
+   return output; // enables cascading
+} // end function operator<<
+//===============================================
+// overloaded input operator
+istream &operator>>( istream &input, String &s )
+{
+   char temp[ 100 ]; // buffer to store input
+   input >> setw( 100 ) >> temp;
+   s = temp; // use String class assignment operator
+   return input; // enables cascading
+} // end function operator>>
+
+
+
+void String::charAt(int pos) 
+{
+  cout << "charAt" << endl;
 }
 void String::compareTo() 
 {
+  cout << "compareTo" << endl;
 }
 void String::concat() 
 {
+  cout << "concat" << endl;
 }
 void String::endsWith() 
 {
+  cout << "endsWith" << endl;
 }
 void String::equals() 
 {
+  cout << "equals" << endl;
 }
 void String::equalsIgnoreCase() 
 {
+  cout << "equalsIgnoreCase" << endl;
 }
 void String::getBytes() 
 {
+  cout << "getBytes" << endl;
 }
 void String::indexOf() 
 {
+  cout << "indexOf" << endl;
 }
 void String::lastIndexOf() 
 {
+  cout << "lastIndexOf" << endl;
 }
-void String::length() 
-{
+//===============================================
+int String::length() const 
+{ 
+   return slength; 
 }
-String String::replace(char x,char y) 
-{
+//===============================================
+String String::replace(string from, string to)
+{ 
+  String temp;
+  cout << "Replace" << endl;
+  return temp;
 }
 String String::replace(const char *x,const char *y) 
 {
+  cout << "Replace" << endl;
 }
 void String::setCharAt() 
 {
+  cout << "setCharAt" << endl;
 }
 void String::startsWith() 
 {
+  cout << "startsWith" << endl;
 }
 void String::substring() 
 {
+  cout << "substring" << endl;
 }
 void String::toCharArray() 
 {
+  cout << "toCharArray" << endl;
 }
 void String::toLowerCase() 
 {
+  cout << "toLowerCase" << endl;
 }
 void String::toUpperCase() 
 {
+  cout << "toUpperCase" << endl;
 }
 void String::trim() 
 {
+  cout << "trim" << endl;
 }
-
-
 
 //=====================================
 // Functions
@@ -489,40 +802,64 @@ long random(long lowerLimit, long upperLimit)
 
 
 //------ Bits and Bytes --------------------
-unsigned char lowByte(unsigned char x)
+unsigned char lowByte(word x)
 {
-  unimplemented("lowByte()");
+  return(x&0xff);
 }
 
-unsigned char highByte(unsigned char x)
+unsigned char highByte(word x)
 {
-  unimplemented("lowByte()");
+  unsigned char y;
+  x = x&0xff00;
+  y = x >> 8;
+  return(y);
 }
 
-unsigned char bitRead(unsigned char x)
+unsigned char bitRead(int x, int n)
 {
-  unimplemented("bitRead()");
+  int bit;
+
+  bit = x >> n;
+  bit = bit&0x0001;
+  return(bit);
 }
 
-unsigned char bitWrite(unsigned char x)
+int  bitSet(int x, int n)
 {
-  unimplemented("bitWrite()");
+  int res,mask;
+
+  mask = 1 << n;
+  res = x | mask;
+
+  return(res);
 }
 
-unsigned char bitSet(unsigned char x)
+int  bitClear(int x, int n)
 {
-  unimplemented("bitSet()");
+  int res,mask;
+
+  mask = 1 << n;
+  res = x & ~mask;
+
+  return(res);
 }
 
-unsigned char bitClear(unsigned char x)
+int bitWrite(int x, int n, int b)
 {
-  unimplemented("bitClear()");
+  int res;
+  if(b==0)res = bitClear(x,n);
+  if(b==1)res = bitSet(x,n);
+  return(res);
 }
 
-unsigned char bit(unsigned char x)
+int bit(int n)
 {
-  unimplemented("bit()");
+  int res;
+  //for(i=0;i<n;i++)res = res*2;
+  res = 1 << n;
+  return(res);
 }
+
 
 //------ External Interrupts ---------------
 
@@ -599,7 +936,7 @@ class serial {
   void begin(int baudRate);
   void end();
   int  available();
-  int  read();
+  char  read();
   int  peek();
   void flush();
   void print(int x);
@@ -607,11 +944,13 @@ class serial {
   void print(const char *p);
   void println(int x);
   void println(const char *p);
+  void println(string p);
   void println(String p);
+  void println();
   void write(char *p);
 };
 
-serial Serial;
+serial Serial,Serial1,Serial2,Serial3;
 
 void serial::begin(int baudRate) 
 {
@@ -645,7 +984,9 @@ int serial::available()  // returns the number of bytes available to read
   return(1);
 }
 
-int serial::read() // the first byte of incoming serial data available (or -1 if no data is available)
+
+
+char serial::read() // the first byte of incoming serial data available (or -1 if no data is available)
 {
   unimplemented("Serial.read()");
   codeLog(F_SERIAL_READ,0,0,0,0,NULL);
@@ -714,13 +1055,39 @@ void serial::println(const char *p)
   interruptNow();
 }
 
-void serial::println(String p) 
+void serial::println(string s) 
 {
   passTime();
+  //string l="Pranav";
+  const char *p;
+  p=s.c_str();
+  codeLog(F_SERIAL_PRINTLN_char,0,0,0,0,p);
+  wLogChar1(0,"Serial:println(string)",p);
+  wLogChar1(1,"Serial:println(string)",p);
+  fprintf(x_log,"%d NL [%s]\n",currentStep,p);
+  interruptNow();
+}
+
+void serial::println(String s) 
+{
+  passTime();
+  const char *p;
+  p= s.sPtr;
+  //p=(char *)(s.c_str());  
   codeLog(F_SERIAL_PRINTLN_String,0,0,0,0,NULL);
-  //wLogChar(0,"Serial:println(char)",p,-1);
-  //wLogChar(1,"Serial:println(char)",p,-1);
-  //fprintf(x_log,"%d NL [%s]\n",currentStep,p);
+  wLogChar2(0,"Serial:println(String)",p,-1);
+  wLogChar2(1,"Serial:println(String)",p,-1);
+  fprintf(x_log,"%d NL [%s]\n",currentStep,p);
+  interruptNow();
+}
+
+void serial::println() 
+{
+  passTime();
+  codeLog(F_SERIAL_PRINTLN_void,0,0,0,0,NULL);
+  wLog0(0,"Serial:println()");
+  wLog0(1,"Serial:println()");
+  fprintf(x_log,"%d NL []\n",currentStep);
   interruptNow();
 }
 
