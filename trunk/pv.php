@@ -17,8 +17,10 @@ function pv()
   if($inc==3)viking_7_mainmenu(1);
   if($inc==4)viking_4_login_logout();
   if($inc==2)viking_4_login_Form();
+
   if($inc==10)viking_4_showUserLoggedIn();
   if($inc==11)viking_7_current(1);
+  if($inc==12)viking_7_loginCounter(1);
 
   //==================================  
   if($func == 'start')
@@ -74,7 +76,8 @@ function pv()
       if($inc==9) viking_4_addUser_Link();
       if($inc==9) viking_4_delUser_Link();
       if($inc==9) viking_4_delUser_Form();
-      if($inc==9)viking_4_adduser_Form();
+      if($inc==9) viking_4_adduser_Form();
+      if($inc==9) viking_7_accessControl(1);
     }
   if($func == 'pv')
     {
