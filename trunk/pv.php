@@ -29,11 +29,11 @@ function pv()
     {
       if($inc==6)viking_7_about();
     }
-  if($func == 'load' && $user && $user != 'guest')
+  if($func == 'load' && $user)
     {
       if($inc==6)viking_7_load(1);
     }
-  if($func == 'board' && $user && $user != 'guest')
+  if($func == 'board' && $user )
     {
       if($inc==5)viking_7_menu(1);
       //if($inc==9)viking_7_winLog(1);
@@ -42,14 +42,14 @@ function pv()
       //if($inc==7)viking_7_isMap(1);
       if($inc==6)viking_7_pinValues(1);
     }
-  if($func == 'sketch' && $user && $user != 'guest')
+  if($func == 'sketch' && $user)
     {
       if($inc==5)viking_7_menu(1);
       if($inc==6)viking_7_data(1);
       if($inc==7)viking_7_anyFile(1);
       if($inc==9)viking_7_winSerLog(1);
     }
-  if($func == 'log' && $user && $user != 'guest')
+  if($func == 'log' && $user )
     {
       if($inc==5)viking_7_menu(1);
       if($inc==6)viking_7_winSerial(1);
