@@ -7,12 +7,13 @@ function pv()
   global $par;
 
   $user = $par['user'];
+  if(!$par['pv'])$par['pv'] = 'start';
   $func = $par['pv'];
   $inc  = $par['inc'];
   $inc++;
   $par['inc'] = $inc;
 
-  if($inc==1)viking_7_script(1);
+  if($inc==1){viking_7_script(1);viking_lib_tinyMCE();}
   if($inc==3)viking_7_mainmenu(1);
   if($inc==4)viking_4_login_logout();
   if($inc==2)viking_4_login_Form();

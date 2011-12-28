@@ -66,7 +66,7 @@ width:3em
 
 
 /* Main containers */
-body {padding:0; margin:0; font:83% tahoma,verdana,sans-serif; background-color:#e4e4e4; color:#333; text-align:center; line-height:1.6em;}
+body {padding:0; margin:0; font:83% tahoma,verdana,sans-serif; background-color:#e4e4e4; color:#333; text-align:center; line-height:1.0em;}
 #wrap {width:1080px; text-align:left; margin:0 auto;}
 /*#menu {text-align:right;margin-top:-40px;}*/
 #content {background:#fff; text-align:left; padding:20px 20px 5px; margin:15px 0 15px 0;}
@@ -81,7 +81,7 @@ h1 a:hover {color:#333; text-decoration:none;}
 h2 {margin:0 0 12px 0; padding:10px 0; color:#2a7a9a; font-size:1.4em; font-weight:700; border-top: 1px solid #ddd; border-bottom:1px solid #ddd;}
 h2 a {font-weight:700;}
 h3 {font-size:1.4em; font-weight:400; margin:0 0 10px 0;}
-p {margin:0 0 15px 0;}
+p {margin:0 0 10px 0;}
 ul {margin:0 0 15px 20px; padding:0;}
 li {margin:0; padding:0 0 0 5px;}
 td {font-family: Arial; font-size: 10pt;}
