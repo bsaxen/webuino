@@ -61,7 +61,11 @@ function pv()
     }
   if($func == 'register')
     {
-      if($inc==6)viking_7_applyAccount(1);
+      if($inc==6)
+	{
+	  viking_7_register(1);
+	  viking_7_applyAccount(1);
+	}
     }
   if($func == 'admin' && $user == 'admin')
     {
