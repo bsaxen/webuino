@@ -34,6 +34,7 @@ function pv()
   if($func == 'load' && $user)
     {
       if($inc==6)viking_7_load(1);
+      if($inc==9)viking_7_anyFile(1);
     }
   if($func == 'board' && $user )
     {
