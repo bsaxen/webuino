@@ -7,7 +7,7 @@
 	<meta name="keywords" content="your,keywords,goes,here" />
 	<meta name="author" content="Your Name" />
 	<link rel="stylesheet" type="text/css" href="index.css" title="webuino" media="screen,projection" />
-	<title>Webuino v0.6</title>
+	<title>Webuino v0.0.2</title>
         <? pv(); ?>
 </head>
 
