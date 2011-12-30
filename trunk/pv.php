@@ -6,10 +6,13 @@ function pv()
 {
   global $par;
 
-  $user = $par['user'];
+  // Set start page
   if(!$par['pv'])$par['pv'] = 'start';
+
+  $user = $par['user'];
   $func = $par['pv'];
   $inc  = $par['inc'];
+
   $inc++;
   $par['inc'] = $inc;
 
@@ -18,9 +21,9 @@ function pv()
   if($inc==4)viking_4_login_logout();
   if($inc==2)viking_4_login_Form();
 
-  if($inc==10)viking_4_showUserLoggedIn();
-  if($inc==11)viking_7_current(1);
-  if($inc==12)viking_7_loginCounter(1);
+  if($inc==11)viking_4_showUserLoggedIn();
+  if($inc==12)viking_7_current(1);
+  if($inc==13)viking_7_loginCounter(1);
 
   //==================================  
   if($func == 'start')
@@ -36,9 +39,9 @@ function pv()
       if($inc==6)viking_7_load(1);
       if($inc==9)viking_7_anyFile(1);
     }
-  if($func == 'onlyEdit' && $user)
+  if($func == 'large' && $user)
     {
-      if($inc==6)viking_7_anyFile(1);
+      if($inc==10)viking_7_anyFile(1);
     }
   if($func == 'board' && $user )
     {

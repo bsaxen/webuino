@@ -7,7 +7,7 @@
 	<meta name="keywords" content="your,keywords,goes,here" />
 	<meta name="author" content="Your Name" />
 	<link rel="stylesheet" type="text/css" href="index.css" title="webuino" media="screen,projection" />
-	<title>Webuino v0.0.2</title>
+	<title>Webuino v0.0.3</title>
         <? pv(); ?>
 </head>
 
@@ -37,7 +37,9 @@
 	<div id="right" style="margin-left:10px;float:left;  background:white; width:40%">
                    <? pv(); ?>
 	</div>
-
+	<div id="below" style="margin-left:10px;margin-right:10px;float:left;  background:white; width:98%">
+                   <? pv(); ?>
+	</div>
 </div>
 
 <div id="footer" style="float:left; width : 100%; background :grey;">
