@@ -1,11 +1,11 @@
 <p style="text-align: center;">&nbsp;<strong>FAQ</strong></p>
 <p style="text-align: left;"><strong>Question:</strong>&nbsp;Where is, if any, errors displayed?</p>
-<p style="text-align: left;"><strong>Answer:</strong>&nbsp;Errors are displayed below the footer of the page, if any. So keep an eye onthis area now and then.</p>
+<p style="text-align: left;"><strong>Answer:</strong>&nbsp;Errors are displayed below the footer of the page, if any. So keep an eye on this area now and then.</p>
 <p style="text-align: left;"><strong>Question:</strong>&nbsp;I keep getting errors, What am I doing wrong?</p>
 <p style="text-align: left;"><strong>Answer:</strong>&nbsp;The following basic Simuino restrictions is worth remembering: The sketch has to be self-contained, i.e. &nbsp;everything used need to be in the file. So, no support for external Arduino libraries (yet). Also, all functions need to be declared before use. Arduino Reference support - please visit www.simuino.com.</p>
 <p style="text-align: left;"><strong>Question:</strong> What is scenario breakpoints ?</p>
 <p style="text-align: left;"><strong>Answer:</strong> When AnalogRead and DigitalRead are called, also when to trigger external interrupts, values needs to be defined for every step in the simulation. By setting breakpoints (spin,sstep,svalue) you tell the Simuino to use value=svalue for pin=spin from step=sstep to next breakpoint for pin=spin.</p>
-<p style="text-align: left;"><strong>Question:</strong> I am editing the sketch but it is not saved</p>
+<p style="text-align: left;"><strong>Question:</strong> I am editing the sketch but it is not saved. What is wrong ?&nbsp;</p>
 <p style="text-align: left;"><strong>Answer:</strong> If you edit the loaded sketch (from menu entry Sketch), you are editing the working copy of the loaded sketch. This will be overwritten when you do the next load. If you need to edit uploaded sketches, do the editing from meny entry Load. Remember to keep a backup of your sketches.</p>
 <p style="text-align: left;"><strong>Question:</strong>&nbsp;I am making changes regarding scenario. How do I save them ?</p>
 <p style="text-align: left;"><strong>Answer:</strong>&nbsp;All settings regarding the scenario breakpoints are saved in workfiles only. In order to save them to your sketch, you need to manually put the scenario data into to your sketch-file. Select scenario breakpoins from menu entry Sketch. Copy the lines you see and paste them into to your sketch.</p>
