@@ -47,6 +47,10 @@ function pv()
     {
       if($inc==10)viking_7_editFile(1);
     }
+  if($func == 'faq')
+    {
+      if($inc==10)viking_7_faq(1);
+    }
   if($func == 'board' && $user )
     {
       if($inc==5)viking_7_menu(1);
