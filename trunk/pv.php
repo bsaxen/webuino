@@ -48,6 +48,10 @@ function pv()
     {
       if($inc==10)viking_7_editFile(1);
     }
+  if($func == 'large_graph' && $user)
+    {
+      if($inc==10)viking_7_graph(1);
+    }
   if($func == 'faq')
     {
       if($inc==10)viking_7_faq(1);
@@ -55,11 +59,17 @@ function pv()
   if($func == 'board' && $user )
     {
       if($inc==5)viking_7_menu(1);
-      //if($inc==9)viking_7_winLog(1);
       if($inc==9)viking_7_winSerLog(1);
       if($inc==6)viking_7_canvas(1); 
       //if($inc==7)viking_7_isMap(1);
       if($inc==6)viking_7_pinValues(1);
+    }
+  if($func == 'advanced' && $user )
+    {
+      if($inc==5)viking_7_menu(1);
+      if($inc==9)viking_7_winSerLog(1);
+      if($inc==6)viking_7_canvas(1); 
+      if($inc==10)viking_7_graph(1);
     }
   if($func == 'sketch' && $user)
     {
@@ -67,6 +77,7 @@ function pv()
       if($inc==6)viking_7_data(1);
       if($inc==7)viking_7_editFile(1);
       if($inc==9)viking_7_winSerLog(1);
+      if($inc==9)viking_7_pinValues(1);
     }
   if($func == 'log' && $user )
     {
