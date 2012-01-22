@@ -34,10 +34,10 @@ function pv()
     {
       if($inc==6)viking_7_about();
     }
-  if($func == 'load' && $user)
+  if($func == 'library' && $user)
     {
       if($inc==10)viking_7_downloadSketch(1);
-      if($inc==6)viking_7_load(1);
+      if($inc==6)viking_7_library(1);
       if($inc==9)viking_7_editSketch(1);
     }
   if($func == 'large_sketch' && $user)
@@ -55,6 +55,12 @@ function pv()
   if($func == 'faq')
     {
       if($inc==10)viking_7_faq(1);
+    }
+  if($func == 'load')
+    {
+      if($inc==7){viking_7_error(1); viking_lib_showError();viking_lib_showWarning();}
+      if($inc==6)viking_7_only_load(1);
+      if($inc==9)viking_7_editSketch(1);
     }
   if($func == 'board' && $user )
     {
@@ -113,7 +119,7 @@ function pv()
 
     }
   //================================== 
-  if($inc==15){viking_7_error(1); viking_lib_showError();viking_lib_showWarning();}
+  //if($inc==15){viking_7_error(1); viking_lib_showError();viking_lib_showWarning();}
 
 }
 ?>
