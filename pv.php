@@ -30,6 +30,10 @@ function pv()
     {
       if($inc==6)viking_7_start();
     }
+  if($func == 'tutorial')
+    {
+      if($inc==6)viking_7_tutorial();
+    }
   if($func == 'about')
     {
       if($inc==6)viking_7_about();

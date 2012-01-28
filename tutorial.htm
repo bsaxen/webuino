@@ -1,3 +1,48 @@
+<div id="tutorial" style="float:left; border : solid 0px #000000; background : #FFFFFF; color : #000000; text-align:left; padding : 4px;">
+<h2>Limitations</h2>
+<li>No include files allowed in the sketch. All code has to be in one file.</li>
+<li>Declare functions before they are called/used</li>
+<li>Avoid strings (declared as String) if possible. Limited support of String class.</li>
+<li>No Arduino libraries supported in this version</li>
+<li>Maximum length of simulation is 2000 steps</li>
+<h2>Simuino Sketch Design</h2>
+Simuino makes use of some specific information given in the sketch:
+<li>Board Type (UNO/MEGA)</li>
+<li>Sketch Name</li>
+<li>Scenario ( input values for analog and digital pins at specifies steps)</li>
+<li>Customized Log Text (Events will be presented using specified text)</li>
+
+<b>Example of Board Type and Sketch Name:</b>
+// BOARD_TYPE: UNO
+// SKETCH_NAME: Test_UNO
+
+<b>Scenario example:</b>
+// SCENDIGPIN  3   10    1
+// SCENDIGPIN  3  260    0
+
+The read value of digital pin 3 will be 1 from step 10 and 0 from step 260.
+
+// SCENANAPIN  5    15   123
+// SCENANAPIN  5   200    67
+
+The read value of analog pin 5 will be 123 from step 15 and 67 from step 200. The above examples have two scenario breakpoints each. The number of breakpoints can be as many as scenario length (steps). The maximum simulation length is 2000 steps.
+
+<b>Example Customized Log Text:</b>
+// PINMODE_IN:   13  "This is interrupt LED"
+// PINMODE_OUT:  12  "PIN: Led Blink"
+
+// DIGITALWRITE_LOW:  13  "Boom"
+// DIGITALWRITE_HIGH: 13  "Crash"
+// DIGITALWRITE_LOW:  12  "Led is off"
+// DIGITALWRITE_HIGH: 12  "Led is on"
+// DIGITALREAD:  9  "Read from nine"
+// DIGITALREAD: 10  "Read from ten"
+// ANALOGREAD: 4  "read analog four"
+
+This will generate log text according to the event.
+
+Below is an example of an Arduino sketch
+
 // BOARD_TYPE: UNO
 // SKETCH_NAME: Test_UNO
 //================================================
@@ -330,3 +375,4 @@ void blinkLed(int pin,int n)
 //================================================
 // End of Sketch
 //================================================
+</div>
