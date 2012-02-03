@@ -18,7 +18,7 @@ function pv()
 
   if($inc==1){viking_7_script(1);viking_lib_tinyMCE();}
   if($inc==3)viking_7_mainmenu(1);
-  if($inc==4)viking_4_login_logout();
+  //if($inc==4)viking_4_login_logout();
   if($inc==2)viking_4_login_Form();
 
   if($inc==11)viking_4_showUserLoggedIn();
@@ -26,6 +26,7 @@ function pv()
   if($inc==13)viking_7_loginCounter(1);
 
   //==================================  
+
   if($func == 'start')
     {
       if($inc==6)viking_7_start();
@@ -38,11 +39,15 @@ function pv()
     {
       if($inc==6)viking_7_about();
     }
-  if($func == 'library' && $user)
+  if($func == 'edit_sketch' && $user)
     {
-      if($inc==10)viking_7_downloadSketch(1);
-      if($inc==6)viking_7_library(1);
+      if($inc==6)viking_7_edit_sketch(1);
       if($inc==9)viking_7_editSketch(1);
+    }
+  if($func == 'edit_scenario' && $user)
+    {
+      if($inc==6)viking_7_edit_scenario(1);
+      if($inc==9)viking_7_editScenario(1);
     }
   if($func == 'large_sketch' && $user)
     {
@@ -60,6 +65,10 @@ function pv()
     {
       if($inc==10)viking_7_faq(1);
     }
+  if($func == 'news')
+    {
+      if($inc==10)viking_7_news(1);
+    }
   if($func == 'load')
     {
       if($inc==7){viking_7_error(1); viking_lib_showError();viking_lib_showWarning();}
@@ -72,14 +81,21 @@ function pv()
       if($inc==9)viking_7_winSerLog(1);
       if($inc==6)viking_7_canvas(1); 
       //if($inc==7)viking_7_isMap(1);
-      if($inc==6)viking_7_pinValues(1);
+      //if($inc==6)viking_7_pinValues(1);
     }
-  if($func == 'advanced' && $user )
+  if($func == 'graph_status' && $user )
     {
-      if($inc==5)viking_7_menu(1);
-      if($inc==9)viking_7_winSerLog(1);
-      if($inc==6)viking_7_canvas(1); 
-      if($inc==10)viking_7_graph(1);
+      //if($inc==5)viking_7_menu(1);
+      //if($inc==9)viking_7_winSerLog(1);
+      //if($inc==6)viking_7_canvas(1); 
+      if($inc==10)viking_7_graph_status(1);
+    }
+  if($func == 'graph_scenario' && $user )
+    {
+      //if($inc==5)viking_7_menu(1);
+      //if($inc==9)viking_7_winSerLog(1);
+      //if($inc==6)viking_7_canvas(1); 
+      if($inc==10)viking_7_graph_scenario(1);
     }
   if($func == 'sketch' && $user)
     {
@@ -88,6 +104,11 @@ function pv()
       if($inc==7)viking_7_editFile(1);
       if($inc==9)viking_7_winSerLog(1);
       if($inc==9)viking_7_pinValues(1);
+    }
+  if($func == 'debug' && $user)
+    {
+      if($inc==6)viking_7_data(1);
+      if($inc==7)viking_7_editFile(1);
     }
   if($func == 'log' && $user )
     {
@@ -98,6 +119,22 @@ function pv()
   if($func == 'help')
     {
       if($inc==6)viking_7_help();
+    }
+  if($func == 'create')
+    {
+      if($inc==6)viking_7_create();
+    }
+  if($func == 'copy')
+    {
+      if($inc==6)viking_7_copy();
+    }
+  if($func == 'delete')
+    {
+      if($inc==6)viking_7_delete();
+    }
+  if($func == 'upload')
+    {
+      if($inc==6)viking_7_upload();
     }
   if($func == 'register')
     {
@@ -116,6 +153,20 @@ function pv()
       if($inc==9) viking_4_delUser_Form();
       if($inc==9) viking_4_adduser_Form();
       if($inc==9) viking_7_accessControl(1);
+    }
+  if($func == 'list_user' && $user == 'admin')
+    {
+      if($inc==6)viking_4_showUserByName();
+    }
+  if($func == 'add_user' && $user == 'admin')
+    {
+      if($inc==6) viking_4_addUser_Link();
+      if($inc==6) viking_4_adduser_Form();
+    }
+  if($func == 'del_user' && $user == 'admin')
+    {
+      if($inc==6) viking_4_delUser_Link();
+      if($inc==6) viking_4_delUser_Form();
     }
   if($func == 'pv')
     {

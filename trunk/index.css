@@ -104,3 +104,56 @@ td {font-family: Arial; font-size: 10pt;}
 .hide {display:none;}
 .clear {clear:both; width:1080px; visibility:hidden;}
 
+
+#dropdown {
+ float: left;
+ margin: 0;
+ padding: 0;
+}
+#dropdown li {
+ /*background: #F7F0E0;*/
+ background: grey;
+ border:0px solid #666;
+ float: left;
+ list-style: none;
+ margin: 0;
+ padding:0 0 0 10px;
+ position: relative;
+ height:2em;
+ width:6em;
+ border: 0.1em solid #dcdce9;
+}
+#dropdown li:hover {
+ /*background: #FF2828;*/
+ background: #194775;
+}
+#dropdown li a {
+ text-decoration:none;
+ background: url(css-nav.gif) #fff bottom left repeat-x;
+ height: 2em;
+ line-height: 2em;
+ float: left;
+ width: 6em;
+ display: block;
+ border: 0.1em solid #dcdce9;
+ color: #0d2474;
+ text-decoration: none;
+ text-align: center;
+}
+#dropdown ul {
+ /*background: #F7F0E0;*/
+ background: blue;
+ display: none;
+ margin: 0;
+ padding: 0;
+ position: absolute;
+ top: 2em;
+ left: -1px;
+ z-index: 500;
+}
+#dropdown ul {
+ position: absolute;
+}
+#dropdown li:hover ul {
+ display: block;
+}
