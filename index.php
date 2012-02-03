@@ -21,8 +21,8 @@
      <? pv(); ?>
    </div>
 </div>
-<div id="menu" style="float:left; width : 100%; height:28px; background :#bdbdbd;">    
-    <? pv(); ?> <li><? pv(); ?></li>
+<div id="benny" style="float:left; width : 100%; height:28px; background :#bdbdbd;">    
+    <? pv(); ?> <? pv(); ?>
 </div>
 <div id="container" style="float:left; width:100%; background:white;margin-top:5px;">
 	<div id="left" style="margin-left:10px;float:left;  background :white; width:55px;">
