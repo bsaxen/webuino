@@ -16,7 +16,11 @@ function pv()
   $inc++;
   $par['inc'] = $inc;
 
-  if($inc==1){viking_7_script(1);viking_lib_tinyMCE();}
+  if($inc==1)
+    {
+      if($func=='board')viking_7_script(1);
+      viking_lib_tinyMCE();
+    }
   if($inc==3)viking_7_mainmenu(1);
   //if($inc==4)viking_4_login_logout();
   if($inc==2)viking_4_login_Form();
@@ -71,7 +75,7 @@ function pv()
     }
   if($func == 'load')
     {
-      if($inc==7){viking_7_error(1); viking_lib_showError();viking_lib_showWarning();}
+      if($inc==7)viking_7_error(1);
       if($inc==6)viking_7_only_load(1);
       if($inc==9)viking_7_editSketch(1);
     }
@@ -85,16 +89,14 @@ function pv()
     }
   if($func == 'graph_status' && $user )
     {
-      //if($inc==5)viking_7_menu(1);
-      //if($inc==9)viking_7_winSerLog(1);
-      //if($inc==6)viking_7_canvas(1); 
+      //if($inc==10)viking_7_menu(1);
+      if($inc==10)viking_7_pinStatus(1);
       if($inc==10)viking_7_graph_status(1);
     }
   if($func == 'graph_scenario' && $user )
     {
       //if($inc==5)viking_7_menu(1);
-      //if($inc==9)viking_7_winSerLog(1);
-      //if($inc==6)viking_7_canvas(1); 
+      if($inc==10)viking_7_pinScenario(1);
       if($inc==10)viking_7_graph_scenario(1);
     }
   if($func == 'sketch' && $user)
@@ -174,7 +176,12 @@ function pv()
 
     }
   //================================== 
-  //if($inc==15){viking_7_error(1); viking_lib_showError();viking_lib_showWarning();}
+  if($inc==15)
+    {
+      //  viking_7_error(1); 
+      viking_lib_showError();
+      viking_lib_showWarning();
+    }
 
 }
 ?>
