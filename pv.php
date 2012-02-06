@@ -18,7 +18,11 @@ function pv()
 
   if($inc==1)
     {
-      if($func=='board')viking_7_script(1);
+      if($func=='board')
+	  viking_7_draw(1);
+	else
+	  viking_7_draw_void(1);
+
       viking_lib_tinyMCE();
     }
   if($inc==3)viking_7_mainmenu(1);
