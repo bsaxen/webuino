@@ -43,7 +43,7 @@
 </div>
 
 <div id="footer" style="float:left; width : 100%; background :grey;">
-    User:<b><? pv(); ?></b> &copy; 2012 Simuino Team<br><? pv(); ?><br><? pv(); ?><br><? pv(); ?>
+    User:<b><? pv(); ?></b> &copy; 2012 Simuino Team<br/><? pv(); ?><br/><? pv(); ?><br/><? pv(); ?>
 </div>
 <div id="error" style="float:left; width : 100%; background :white;">
     <? pv(); ?><br><? pv(); ?>
