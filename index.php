@@ -15,7 +15,7 @@
 
 <div id="header" style="float:left; width : 100%; height:80px; background :white;">  
    <div id="logo" style="margin-left:3px;float:left;  background :white; width:65%;">  
-    <img src="simuino.jpg" alt="simuino" height=80px width=100%>
+    <img src="simuino.jpg" alt="simuino" height="80px" width="100%"/>
    </div>
    <div id="rend" style="margin-left:3px;float:left;  background :white; height:100%; width:25%;">  
      <? pv(); ?>
