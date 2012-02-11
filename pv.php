@@ -91,6 +91,12 @@ function pv()
       //if($inc==7)viking_7_isMap(1);
       //if($inc==6)viking_7_pinValues(1);
     }
+  if($func == 'source' && $user )
+    {
+      if($inc==5)viking_7_menu(1);
+      if($inc==9)viking_7_winSerLog(1);
+      if($inc==6)viking_7_source(1); 
+    }
   if($func == 'graph_status' && $user )
     {
       //if($inc==10)viking_7_menu(1);
