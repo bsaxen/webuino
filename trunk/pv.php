@@ -169,6 +169,7 @@ function pv()
   if($func == 'list_user' && $user == 'admin')
     {
       if($inc==6)viking_4_showUserByName();
+      if($inc==9)viking_4_super_Form();
     }
   if($func == 'add_user' && $user == 'admin')
     {
