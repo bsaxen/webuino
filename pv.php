@@ -77,7 +77,7 @@ function pv()
     {
       if($inc==10)viking_7_news(1);
     }
-  if($func == 'load')
+  if($func == 'load' && $user)
     {
       if($inc==7)viking_7_error(1);
       if($inc==6)viking_7_only_load(1);
