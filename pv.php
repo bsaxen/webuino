@@ -180,6 +180,7 @@ function pv()
     {
       if($inc==6) viking_4_delUser_Link();
       if($inc==6) viking_4_delUser_Form();
+      if($inc==6) viking_7_delAccount();
     }
   if($func == 'pv')
     {
