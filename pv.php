@@ -27,9 +27,9 @@ function pv()
     }
   if($inc==3)viking_7_mainmenu(1);
   //if($inc==4)viking_4_login_logout();
-  if($inc==2)viking_4_login_Form();
+  if($inc==2)viking_4_login_Form(1);
 
-  if($inc==11)viking_4_showUserLoggedIn();
+  if($inc==11)viking_4_showUserLoggedIn(1);
   if($inc==12)viking_7_current(1);
   if($inc==13)viking_7_loginCounter(1);
 
