@@ -1,5 +1,7 @@
 # bash run_init
 svn update
+chmod 777 account
 cd /var/www/webuino/servuino;svn update;
 cd /var/www/webuino/php-viking;svn update;
 chmod -R 777 db
+
