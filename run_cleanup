@@ -1,0 +1,9 @@
+# run from /webuino as sudo
+# bash run_clenaup
+rm *.*
+rm -r account
+rm php-viking/*.*
+rm -r php-viking/db
+rm -r php-viking/import
+rm servuino/*
+

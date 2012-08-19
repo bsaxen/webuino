@@ -1,0 +1,2 @@
+# bash run_init
+chmod -R 777 php-viking/db
