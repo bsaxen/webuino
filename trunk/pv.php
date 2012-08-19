@@ -37,15 +37,15 @@ function pv()
 
   if($func == 'start')
     {
-      if($inc==6)viking_7_start();
+      if($inc==6)viking_7_start(1);
     }
   if($func == 'tutorial')
     {
-      if($inc==6)viking_7_tutorial();
+      if($inc==6)viking_7_tutorial(1);
     }
   if($func == 'about')
     {
-      if($inc==6)viking_7_about();
+      if($inc==6)viking_7_about(1);
     }
   if($func == 'edit_sketch' && $user)
     {
@@ -130,23 +130,23 @@ function pv()
     }
   if($func == 'help')
     {
-      if($inc==6)viking_7_help();
+      if($inc==6)viking_7_help(1);
     }
   if($func == 'create')
     {
-      if($inc==6)viking_7_create();
+      if($inc==6)viking_7_create(1);
     }
   if($func == 'copy')
     {
-      if($inc==6)viking_7_copy();
+      if($inc==6)viking_7_copy(1);
     }
   if($func == 'delete')
     {
-      if($inc==6)viking_7_delete();
+      if($inc==6)viking_7_delete(1);
     }
   if($func == 'upload')
     {
-      if($inc==6)viking_7_upload();
+      if($inc==6)viking_7_upload(1);
     }
   if($func == 'register')
     {
@@ -158,29 +158,29 @@ function pv()
     }
   if($func == 'admin' && $user == 'admin')
     {
-      if($inc==6)viking_4_showUserByName();
+      if($inc==6)viking_4_showUserByName(1);
 
-      if($inc==9) viking_4_addUser_Link();
-      if($inc==9) viking_4_delUser_Link();
-      if($inc==9) viking_4_delUser_Form();
-      if($inc==9) viking_4_adduser_Form();
+      if($inc==9) viking_4_addUser_Link(1);
+      if($inc==9) viking_4_delUser_Link(1);
+      if($inc==9) viking_4_delUser_Form(1);
+      if($inc==9) viking_4_adduser_Form(1);
       if($inc==9) viking_7_accessControl(1);
     }
   if($func == 'list_user' && $user == 'admin')
     {
-      if($inc==6)viking_4_showUserByName();
-      if($inc==9)viking_4_super_Form();
+      if($inc==6)viking_4_showUserByName(1);
+      if($inc==9)viking_4_super_Form(1);
     }
   if($func == 'add_user' && $user == 'admin')
     {
-      if($inc==6) viking_4_addUser_Link();
-      if($inc==6) viking_4_adduser_Form();
+      if($inc==6) viking_4_addUser_Link(1);
+      if($inc==6) viking_4_adduser_Form(1);
     }
   if($func == 'del_user' && $user == 'admin')
     {
-      if($inc==6) viking_4_delUser_Link();
-      if($inc==6) viking_4_delUser_Form();
-      if($inc==6) viking_7_delAccount();
+      if($inc==6) viking_4_delUser_Link(1);
+      if($inc==6) viking_4_delUser_Form(1);
+      if($inc==6) viking_7_delAccount(1);
     }
   if($func == 'pv')
     {
