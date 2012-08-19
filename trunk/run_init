@@ -3,5 +3,6 @@ svn update
 chmod 777 account
 cd /var/www/webuino/servuino;svn update;
 cd /var/www/webuino/php-viking;svn update;
+touch /var/www/webuino/php-viking/db/db.list
 chmod -R 777 db
 
